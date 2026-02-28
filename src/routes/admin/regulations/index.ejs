@@ -1,0 +1,59 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0">Gestão de Regulamentos</h1>
+  <a href="/admin/regulations/create" class="btn btn-primary">
+    <i class="fas fa-plus me-2"></i>Adicionar Regulamento
+  </a>
+</div>
+
+<div class="card-modern">
+  <div class="card-body">
+    <% if (regulations.length === 0) { %>
+      <div class="text-center py-4">
+        <i class="fas fa-gavel fa-3x text-muted mb-3"></i>
+        <h5>Nenhum regulamento encontrado</h5>
+        <p class="text-muted">Adicione o primeiro regulamento para começar.</p>
+        <a href="/admin/regulations/create" class="btn btn-primary">Adicionar Regulamento</a>
+      </div>
+    <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Número</th>
+              <th>Título</th>
+              <th>Data</th>
+              <th>Autor</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% regulations.forEach(regulation => { %>
+              <tr>
+                <td><span class="badge bg-primary"><%= regulation.type %></span></td>
+                <td><strong><%= regulation.documentNumber %></strong></td>
+                <td><%= regulation.title %></td>
+                <td><%= new Date(regulation.publicationDate).toLocaleDateString('pt-PT') %></td>
+                <td><%= regulation.author.name %></td>
+                <td>
+                  <a href="<%= regulation.fileUrl %>" target="_blank" class="btn btn-sm btn-outline-primary me-1">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                  <form method="POST" action="/admin/regulations/<%= regulation.id %>/delete" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tem certeza?')">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('../../partials/admin-footer') %>

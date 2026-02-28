@@ -1,0 +1,478 @@
+<%- include('../partials/admin-header') %>
+
+<!-- CSS ADICIONAL PARA CONTACTOS -->
+
+<style>
+    /* Animação de pulso para badges */
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.05);
+            opacity: 0.8;
+        }
+    }
+    
+    .pulse-animation {
+        animation: pulse 2s infinite;
+    }
+    
+    /* Efeito hover nos cards de estatísticas */
+    .stat-card {
+        transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    /* Ícones de estatísticas - TAMANHO REDUZIDO */
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+    }
+    
+    /* Números de estatísticas - TAMANHO CONSISTENTE */
+    .stat-number {
+        font-size: 1.75rem !important;
+        font-weight: 600 !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    /* Labels de estatísticas */
+    .stat-label {
+        font-size: 0.875rem !important;
+        color: #6c757d !important;
+    }
+    
+    /* Hover nos itens de contacto */
+    .list-group-item-action {
+        transition: all 0.2s ease;
+    }
+    
+    .list-group-item-action:hover {
+        background-color: #f8f9fc !important;
+        transform: translateX(5px);
+    }
+    
+    /* Borda lateral para não lidos */
+    .border-start.border-danger {
+        border-left-width: 5px !important;
+    }
+    
+    /* Texto truncado responsivo */
+    .text-truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Badges com espaçamento */
+    .gap-2 {
+        gap: 0.5rem !important;
+    }
+    
+    /* Shadow hover personalizado */
+    .shadow-hover {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    
+    .shadow-hover:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Responsividade */
+    @media (max-width: 768px) {
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            font-size: 1.1rem;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem !important;
+        }
+    }
+    </style>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">Dashboard</h1>
+            <p class="text-muted mb-0">Bem-vindo, <%= user.name %>!</p>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <%= messages.success[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+    
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <!-- Card Notícias -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stat-card border-0 shadow-hover">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-primary bg-opacity-10 text-primary rounded-3 me-3">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="stat-number h4 mb-1"><%= newsCount %></div>
+                            <div class="stat-label text-muted small">Total de Notícias</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Card Eventos -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stat-card border-0 shadow-hover">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-success bg-opacity-10 text-success rounded-3 me-3">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="stat-number h4 mb-1"><%= eventsCount || 0 %></div>
+                            <div class="stat-label text-muted small">Total de Eventos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Card Utilizadores -->
+        <% if (usersCount !== null) { %>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stat-card border-0 shadow-hover">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-warning bg-opacity-10 text-warning rounded-3 me-3">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="stat-number h4 mb-1"><%= usersCount %></div>
+                            <div class="stat-label text-muted small">Utilizadores</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Card Regulamentos -->
+        <% if (regulationsCount !== null) { %>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stat-card border-0 shadow-hover">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-info bg-opacity-10 text-info rounded-3 me-3">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="stat-number h4 mb-1"><%= regulationsCount %></div>
+                            <div class="stat-label text-muted small">Regulamentos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Card Formulários -->
+        <% if (formsCount !== null) { %>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stat-card border-0 shadow-hover">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-purple bg-opacity-10 text-purple rounded-3 me-3">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="stat-number h4 mb-1"><%= formsCount %></div>
+                            <div class="stat-label text-muted small">Formulários</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Card Contactos Pendentes -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stat-card border-0 shadow-hover">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-danger bg-opacity-10 text-danger rounded-3 me-3">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="stat-number h4 mb-1">
+                                <%= contactStats ? contactStats.pendentes : 0 %>
+                            </div>
+                            <div class="stat-label text-muted small">Contactos Pendentes</div>
+                            <% if (contactStats && contactStats.naoLidos > 0) { %>
+                                <span class="badge bg-danger mt-1 pulse-animation">
+                                    <%= contactStats.naoLidos %> novos
+                                </span>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0">Ações Rápidas</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <a href="/admin/news/create" class="btn btn-outline-primary w-100 h-100 py-3">
+                                <i class="fas fa-plus-circle fa-2x mb-2"></i>
+                                <div>Nova Notícia</div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="/admin/events/create" class="btn btn-outline-success w-100 h-100 py-3">
+                                <i class="fas fa-calendar-plus fa-2x mb-2"></i>
+                                <div>Publicar Evento</div>
+                            </a>
+                        </div>
+                        <% if (user.role === 'admin' || user.role === 'super_admin') { %>
+                        <div class="col-md-3">
+                            <a href="/admin/forms/create" class="btn btn-outline-info w-100 h-100 py-3">
+                                <i class="fas fa-file-alt fa-2x mb-2"></i>
+                                <div>Novo Formulário</div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="/admin/users/create" class="btn btn-outline-danger w-100 h-100 py-3">
+                                <i class="fas fa-user-plus fa-2x mb-2"></i>
+                                <div>Novo Utilizador</div>
+                            </a>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção: Mensagens Recentes (Contactos) -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-envelope text-primary me-2"></i>
+                        Mensagens Recentes
+                    </h5>
+                    <div>
+                        <% if (contactStats && contactStats.naoLidos > 0) { %>
+                            <span class="badge bg-danger me-2 pulse-animation">
+                                <%= contactStats.naoLidos %> não lidos
+                            </span>
+                        <% } %>
+                        <a href="/admin/contacts" class="btn btn-sm btn-outline-primary">Ver Todas</a>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <% if (recentContacts && recentContacts.length > 0) { %>
+                        <div class="list-group list-group-flush">
+                            <% recentContacts.forEach(contact => { %>
+                                <a href="/admin/contacts/<%= contact.id %>" 
+                                   class="list-group-item list-group-item-action <%= !contact.isRead ? 'bg-light border-start border-danger border-4' : '' %>">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <% if (!contact.isRead) { %>
+                                                    <span class="badge bg-danger me-2">Novo</span>
+                                                <% } %>
+                                                <strong class="<%= !contact.isRead ? 'fw-bold' : '' %>">
+                                                    <%= contact.nome %>
+                                                </strong>
+                                            </div>
+                                            
+                                            <p class="mb-1 text-muted small">
+                                                <i class="fas fa-envelope me-1"></i>
+                                                <%= contact.email %>
+                                                <% if (contact.telefone) { %>
+                                                    <span class="ms-2">
+                                                        <i class="fas fa-phone me-1"></i>
+                                                        <%= contact.telefone %>
+                                                    </span>
+                                                <% } %>
+                                            </p>
+                                            
+                                            <p class="mb-2 text-truncate" style="max-width: 600px;">
+                                                <%= contact.mensagem.substring(0, 120) %>...
+                                            </p>
+                                            
+                                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                                <% 
+                                                const assuntos = {
+                                                    'servicos': 'Serviços',
+                                                    'informacao': 'Informação',
+                                                    'reclamacao': 'Reclamação',
+                                                    'sugestao': 'Sugestão',
+                                                    'outro': 'Outro'
+                                                };
+                                                %>
+                                                <span class="badge bg-secondary">
+                                                    <%= assuntos[contact.assunto] %>
+                                                </span>
+                                                
+                                                <% 
+                                                const statusColors = {
+                                                    'novo': 'warning',
+                                                    'em_analise': 'info',
+                                                    'respondido': 'success',
+                                                    'arquivado': 'secondary'
+                                                };
+                                                const statusLabels = {
+                                                    'novo': 'Novo',
+                                                    'em_analise': 'Em Análise',
+                                                    'respondido': 'Respondido',
+                                                    'arquivado': 'Arquivado'
+                                                };
+                                                %>
+                                                <span class="badge bg-<%= statusColors[contact.status] %>">
+                                                    <%= statusLabels[contact.status] %>
+                                                </span>
+                                                
+                                                <small class="text-muted">
+                                                    <i class="far fa-clock me-1"></i>
+                                                    <%= new Date(contact.createdAt).toLocaleString('pt-PT', { 
+                                                        day: '2-digit', 
+                                                        month: '2-digit',
+                                                        year: 'numeric',
+                                                        hour: '2-digit', 
+                                                        minute: '2-digit' 
+                                                    }) %>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="ms-3 text-end">
+                                            <% 
+                                            const statusIcons = {
+                                                'novo': 'fa-bell',
+                                                'em_analise': 'fa-hourglass-half',
+                                                'respondido': 'fa-check-circle',
+                                                'arquivado': 'fa-archive'
+                                            };
+                                            %>
+                                            <i class="fas <%= statusIcons[contact.status] %> text-<%= statusColors[contact.status] %> fa-2x mb-2"></i>
+                                            <br>
+                                            <small class="text-muted">Ver detalhes</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <div class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x mb-3 opacity-25 text-muted"></i>
+                            <p class="mb-0 text-muted">Nenhum contacto recente</p>
+                            <p class="text-muted small">As mensagens recebidas aparecerão aqui</p>
+                        </div>
+                    <% } %>
+                </div>
+                
+                <% if (recentContacts && recentContacts.length > 0) { %>
+                    <div class="card-footer bg-white text-center py-3">
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="/admin/contacts" class="btn btn-sm btn-outline-primary">
+                                Ver todos os contactos <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                            <a href="/admin/contacts?status=novo" class="btn btn-sm btn-outline-warning">
+                                Ver pendentes (<%= contactStats ? contactStats.novos : 0 %>)
+                            </a>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT PARA AUTO-REFRESH -->
+<script>
+// Auto-atualizar contador de contactos não lidos a cada 30 segundos
+if (window.location.pathname === '/admin/dashboard') {
+    setInterval(async function() {
+        try {
+            const response = await fetch('/admin/contacts/api/unread');
+            const data = await response.json();
+            
+            if (data.success && data.count > 0) {
+                // Atualizar badge no card de estatísticas
+                const statNumber = document.querySelector('.stat-card .bg-danger + .flex-grow-1 .stat-number');
+                if (statNumber && statNumber.textContent.trim() !== data.count.toString()) {
+                    // Efeito de highlight quando há mudança
+                    statNumber.style.color = '#dc3545';
+                    setTimeout(() => {
+                        statNumber.style.color = '';
+                    }, 2000);
+                }
+                
+                // Atualizar título da página
+                const originalTitle = document.title.replace(/^\(\d+\)\s*/, '');
+                if (data.count > 0) {
+                    document.title = `(${data.count}) ${originalTitle}`;
+                } else {
+                    document.title = originalTitle;
+                }
+                
+                // Notificação desktop (se permitido)
+                if (Notification.permission === "granted") {
+                    new Notification('IACM - Novos Contactos', {
+                        body: `Você tem ${data.count} contacto(s) não lido(s)`,
+                        icon: '/images/iacmlogopreview.png',
+                        badge: '/images/iacmlogopreview.png',
+                        tag: 'contacts-notification'
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Erro ao verificar contactos:', error);
+        }
+    }, 30000); // 30 segundos
+    
+    // Solicitar permissão para notificações
+    if ("Notification" in window && Notification.permission === "default") {
+        Notification.requestPermission();
+    }
+}
+</script>
+
+<%- include('../partials/admin-footer') %>

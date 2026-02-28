@@ -1,0 +1,118 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 text-dark mb-1">Editar Notícia</h1>
+                    <p class="text-muted mb-0">Atualize os detalhes da notícia</p>
+                </div>
+                <a href="/admin/news" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+            </div>
+
+            <!-- Form -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <!-- ✅ ADICIONAR enctype="multipart/form-data" -->
+                    <form method="POST" action="/admin/news/<%= news.id %>" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-4">
+                                    <label for="title" class="form-label fw-semibold">Título da Notícia *</label>
+                                    <input type="text" class="form-control form-control-lg" id="title" name="title" value="<%= news.title %>" required>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="excerpt" class="form-label fw-semibold">Resumo *</label>
+                                    <textarea class="form-control" id="excerpt" name="excerpt" rows="3" required><%= news.excerpt %></textarea>
+                                    <div class="form-text">Máximo 200 caracteres.</div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="content" class="form-label fw-semibold">Conteúdo *</label>
+                                    <textarea class="form-control" id="content" name="content" rows="12" required><%= news.content %></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card bg-light border-0">
+                                    <div class="card-body">
+                                        <h6 class="card-title mb-3">Configurações</h6>
+                                        
+                                        <!-- ✅ PREVIEW DA IMAGEM ATUAL -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Imagem Atual</label>
+                                            <div class="position-relative">
+                                                <img src="<%= news.featuredImage %>" 
+                                                     alt="<%= news.title %>" 
+                                                     class="img-fluid rounded mb-2"
+                                                     id="currentImagePreview"
+                                                     style="max-height: 200px; width: 100%; object-fit: cover;"
+                                                     onerror="this.src='/images/news-default.jpg'">
+                                            </div>
+                                        </div>
+
+                                        <!-- ✅ INPUT PARA NOVA IMAGEM -->
+                                        <div class="mb-4">
+                                            <label for="featuredImage" class="form-label fw-semibold">Nova Imagem (Opcional)</label>
+                                            <input type="file" 
+                                                   class="form-control" 
+                                                   id="featuredImage" 
+                                                   name="featuredImage" 
+                                                   accept="image/*"
+                                                   onchange="previewNewImage(event)">
+                                            <div class="form-text">Deixe em branco para manter a imagem atual</div>
+                                        </div>
+
+                                        <!-- ✅ PREVIEW DA NOVA IMAGEM -->
+                                        <div id="newImagePreview" class="mb-4" style="display: none;">
+                                            <label class="form-label fw-semibold text-success">Nova Imagem (Preview)</label>
+                                            <img id="newImagePreviewImg" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="isPublished" name="isPublished" <%= news.isPublished ? 'checked' : '' %>>
+                                                <label class="form-check-label fw-semibold" for="isPublished">Publicado</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-primary btn-lg">
+                                                <i class="fas fa-save me-2"></i>Atualizar Notícia
+                                            </button>
+                                            <a href="/admin/news" class="btn btn-outline-secondary">Cancelar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ SCRIPT PARA PREVIEW DA NOVA IMAGEM -->
+<script>
+function previewNewImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('newImagePreview');
+            const img = document.getElementById('newImagePreviewImg');
+            img.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+</script>
+
+<%- include('../../partials/admin-footer') %>

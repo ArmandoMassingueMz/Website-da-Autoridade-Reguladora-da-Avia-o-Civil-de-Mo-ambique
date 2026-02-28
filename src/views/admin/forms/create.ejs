@@ -1,0 +1,403 @@
+<%- include('../../partials/admin-header', {title: 'Novo Formulário', currentPage: 'forms'}) %>
+
+<style>
+.form-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    padding: 2rem;
+}
+
+.form-section h5 {
+    color: #2c3e50;
+    border-bottom: 2px solid #f8f9fa;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.file-upload-area {
+    border: 2px dashed #dee2e6;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: #f8f9fa;
+}
+
+.file-upload-area:hover {
+    border-color: #0d6efd;
+    background: #e9f2ff;
+}
+
+.file-upload-area.drag-over {
+    border-color: #0d6efd;
+    background: #e9f2ff;
+    transform: scale(1.02);
+}
+
+.file-preview {
+    max-width: 100%;
+    max-height: 200px;
+    margin: 1rem 0;
+}
+
+.form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+</style>
+
+<div class="container-fluid py-4">
+    <!-- Cabeçalho -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">
+                <i class="fas fa-plus-circle me-2"></i>Novo Formulário
+            </h1>
+            <p class="text-muted mb-0">Adicione um novo formulário ao sistema</p>
+        </div>
+        <a href="/admin/forms" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Voltar
+        </a>
+    </div>
+
+    <!-- Mensagens Flash -->
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Formulário -->
+    <div class="form-section">
+        <form action="/admin/forms" method="POST" enctype="multipart/form-data" id="formForm">
+            
+            <!-- Seção 1: Informações Básicas -->
+            <h5>
+                <i class="fas fa-info-circle me-2 text-primary"></i>
+                Informações Básicas
+            </h5>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">
+                        Número do Formulário *
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" 
+                           class="form-control" 
+                           name="formNumber" 
+                           required
+                           placeholder="Ex: FORM-001, NOT-2024-01">
+                    <small class="text-muted">Identificador único do formulário</small>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">
+                        Categoria *
+                        <span class="text-danger">*</span>
+                    </label>
+                    <select class="form-select" name="category" required>
+                        <option value="">Selecione uma categoria...</option>
+                        <option value="Notificação">Notificação</option>
+                        <option value="Reporte de Ocorrência">Reporte de Ocorrência</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label class="form-label fw-bold">
+                        Título do Formulário *
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" 
+                           class="form-control" 
+                           name="title" 
+                           required
+                           placeholder="Ex: Formulário de Notificação de Incidente">
+                </div>
+                
+                <div class="col-12 mb-3">
+                    <label class="form-label fw-bold">
+                        Descrição
+                    </label>
+                    <textarea class="form-control" 
+                              name="description" 
+                              rows="3"
+                              placeholder="Descrição breve do formulário (opcional)"></textarea>
+                    <small class="text-muted">Esta descrição será exibida na página pública</small>
+                </div>
+            </div>
+
+            <!-- Seção 2: Detalhes do Documento -->
+            <h5 class="mt-4">
+                <i class="fas fa-file-alt me-2 text-primary"></i>
+                Detalhes do Documento
+            </h5>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">
+                        Idioma
+                    </label>
+                    <select class="form-select" name="language">
+                        <option value="Português" selected>Português</option>
+                        <option value="Inglês">Inglês</option>
+                        <option value="Ambos">Ambos</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">
+                        Versão
+                    </label>
+                    <input type="text" 
+                           class="form-control" 
+                           name="version" 
+                           value="1.0"
+                           placeholder="Ex: 1.0, 2.1">
+                    <small class="text-muted">Versão do formulário</small>
+                </div>
+            </div>
+
+            <!-- Seção 3: Upload do Arquivo -->
+            <h5 class="mt-4">
+                <i class="fas fa-upload me-2 text-primary"></i>
+                Arquivo PDF
+                <span class="text-danger">*</span>
+            </h5>
+            
+            <div class="mb-4">
+                <div id="fileUploadArea" class="file-upload-area">
+                    <i class="fas fa-file-pdf fa-3x text-primary mb-3"></i>
+                    <h5>Arraste e solte seu arquivo PDF aqui</h5>
+                    <p class="text-muted mb-3">ou clique para selecionar</p>
+                    <input type="file" 
+                           class="form-control d-none" 
+                           id="pdfFile" 
+                           name="pdfFile" 
+                           accept=".pdf" 
+                           required>
+                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('pdfFile').click()">
+                        <i class="fas fa-folder-open me-2"></i>Selecionar Arquivo
+                    </button>
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Tamanho máximo: 10MB. Apenas arquivos PDF.
+                        </small>
+                    </div>
+                </div>
+                
+                <div id="filePreview" class="d-none">
+                    <div class="alert alert-success mt-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-check-circle me-2"></i>
+                                <strong id="fileName">Arquivo selecionado</strong>
+                                <div class="text-muted small" id="fileSize">Tamanho: 0 KB</div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearFile()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 4: Configurações -->
+            <h5 class="mt-4">
+                <i class="fas fa-cog me-2 text-primary"></i>
+                Configurações
+            </h5>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" 
+                               type="checkbox" 
+                               role="switch" 
+                               id="isPublished" 
+                               name="isPublished"
+                               checked>
+                        <label class="form-check-label fw-bold" for="isPublished">
+                            Publicar imediatamente
+                        </label>
+                        <small class="text-muted d-block">
+                            Se marcado, o formulário estará disponível publicamente
+                        </small>
+                    </div>
+                    
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" 
+                               type="checkbox" 
+                               role="switch" 
+                               id="isActive" 
+                               name="isActive"
+                               checked>
+                        <label class="form-check-label fw-bold" for="isActive">
+                            Ativar formulário
+                        </label>
+                        <small class="text-muted d-block">
+                            Se desmarcado, o formulário não estará disponível para ninguém
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="d-flex justify-content-between align-items-center mt-5 pt-4 border-top">
+                <div>
+                    <small class="text-muted">
+                        <i class="fas fa-exclamation-triangle me-1"></i>
+                        Campos marcados com <span class="text-danger">*</span> são obrigatórios
+                    </small>
+                </div>
+                <div>
+                    <a href="/admin/forms" class="btn btn-outline-secondary me-2">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Salvar Formulário
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- JavaScript para Upload de Arquivo -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('pdfFile');
+    const uploadArea = document.getElementById('fileUploadArea');
+    const filePreview = document.getElementById('filePreview');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    
+    // Clique na área de upload
+    uploadArea.addEventListener('click', function() {
+        fileInput.click();
+    });
+    
+    // Drag and drop
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, highlight, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, unhighlight, false);
+    });
+    
+    function highlight() {
+        uploadArea.classList.add('drag-over');
+    }
+    
+    function unhighlight() {
+        uploadArea.classList.remove('drag-over');
+    }
+    
+    // Handle drop
+    uploadArea.addEventListener('drop', handleDrop, false);
+    
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files;
+        handleFiles(files);
+    }
+    
+    // Handle file selection
+    fileInput.addEventListener('change', function() {
+        handleFiles(this.files);
+    });
+    
+    function handleFiles(files) {
+        if (files.length > 0) {
+            const file = files[0];
+            
+            // Verificar se é PDF
+            if (file.type !== 'application/pdf') {
+                alert('Por favor, selecione apenas arquivos PDF.');
+                fileInput.value = '';
+                return;
+            }
+            
+            // Verificar tamanho (10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                alert('O arquivo é muito grande. O tamanho máximo é 10MB.');
+                fileInput.value = '';
+                return;
+            }
+            
+            // Atualizar preview
+            fileName.textContent = file.name;
+            fileSize.textContent = `Tamanho: ${(file.size / 1024).toFixed(2)} KB`;
+            
+            // Mostrar preview e esconder área de upload
+            uploadArea.style.display = 'none';
+            filePreview.classList.remove('d-none');
+        }
+    }
+    
+    // Limpar arquivo
+    window.clearFile = function() {
+        fileInput.value = '';
+        uploadArea.style.display = 'block';
+        filePreview.classList.add('d-none');
+    };
+    
+    // Validação do formulário
+    const form = document.getElementById('formForm');
+    form.addEventListener('submit', function(e) {
+        // Verificar se arquivo foi selecionado
+        if (!fileInput.files.length) {
+            e.preventDefault();
+            alert('Por favor, selecione um arquivo PDF.');
+            return false;
+        }
+        
+        // Verificar número do formulário (formato básico)
+        const formNumber = document.querySelector('input[name="formNumber"]').value.trim();
+        if (!formNumber) {
+            e.preventDefault();
+            alert('Por favor, insira o número do formulário.');
+            return false;
+        }
+        
+        // Verificar título
+        const title = document.querySelector('input[name="title"]').value.trim();
+        if (!title) {
+            e.preventDefault();
+            alert('Por favor, insira o título do formulário.');
+            return false;
+        }
+        
+        // Verificar categoria
+        const category = document.querySelector('select[name="category"]').value;
+        if (!category) {
+            e.preventDefault();
+            alert('Por favor, selecione uma categoria.');
+            return false;
+        }
+        
+        return true;
+    });
+});
+</script>
+
+<%- include('../../partials/admin-footer') %>

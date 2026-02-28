@@ -1,0 +1,805 @@
+<!-- src/views/pages/areas-sectores.ejs -->
+<%- include('../partials/header') %>
+
+<!-- ================================================== -->
+<!-- HERO SECTION ÁREAS/SECTORES -->
+<!-- ================================================== -->
+<section class="page-hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="hero-title">Áreas/Sectores</h1>
+                <p class="hero-subtitle">Serviços especializados para diferentes áreas da aviação civil em Moçambique.</p>
+                <div class="hero-buttons">
+                    <a href="#todos-servicos" class="btn btn-hero me-3">
+                        <i class="fas fa-list me-2"></i>Ver Áreas/Sectores
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center" data-aos="fade-left" data-aos-delay="200">
+                <div class="hero-image">
+                    <img src="/images/iacmlogopreview1.png" alt="Áreas/Sectores IACM" class="img-fluid floating">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================== -->
+<!-- CONTEÚDO ÁREAS/SECTORES - CARD ÚNICO -->
+<!-- ================================================== -->
+<section id="todos-servicos" class="services-section py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-12">
+                <h2 class="section-title" data-aos="fade-up">Áreas e Sectores Especializados</h2>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <!-- CARD ÚNICO COM IMAGEM DE FUNDO -->
+            <div class="col-lg-10" data-aos="zoom-in" data-aos-delay="200">
+                <div class="single-service-card card-modern h-100">
+                    <!-- Imagem de Fundo -->
+                    <div class="card-background-image" style="background-image: url('/images/areas.png');"></div>
+                    <div class="card-overlay-light"></div>
+                    
+                    <!-- Conteúdo do Card -->
+                    <div class="card-content-wrapper">
+                       
+                        
+                        <!-- Grade de Links (3 por linha) -->
+                        <div class="services-links-grid">
+                            <% const otherServiceLinks = [
+                                { 
+                                    name: 'Passageiros', 
+                                    icon: 'fas fa-users',
+                                    tag: 'Atendimento'
+                                },
+                                { 
+                                    name: 'Direção de Segurança de Voo', 
+                                    icon: 'fas fa-shield-alt',
+                                    tag: 'Segurança'
+                                },
+                                { 
+                                    name: 'Pessoal aeronáutico', 
+                                    icon: 'fas fa-user-tie',
+                                    tag: 'Certificação'
+                                },
+                                { 
+                                    name: 'Direção de Facilitação', 
+                                    icon: 'fas fa-passport',
+                                    tag: 'Processos'
+                                },
+                                { 
+                                    name: 'Direção de Infraestruturas Aeronáuticas e Navegação Aérea', 
+                                    icon: 'fas fa-road',
+                                    tag: 'Infraestrutura'
+                                },
+                                { 
+                                    name: 'Direção de Regulação Econômica', 
+                                    icon: 'fas fa-chart-line',
+                                    tag: 'Economia'
+                                }
+                            ]; %>
+                            
+                            <% otherServiceLinks.forEach((link, index) => { 
+                                const servicesOfType = otherServices.filter(s => s.serviceName === link.name && s.isActive);
+                                const hasServices = servicesOfType.length > 0;
+                            %>
+                                <div class="service-link-item" data-aos="fade-up" data-aos-delay="<%= 100 + (index * 50) %>">
+                                    <% if (hasServices) { 
+                                        if (link.name === 'Direção de Regulação Econômica') { %>
+                                            <button type="button" 
+                                                    class="service-link-btn"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#economicRegulationServicesModal">
+                                                <div class="service-link-icon">
+                                                    <i class="<%= link.icon %>"></i>
+                                                </div>
+                                                <div class="service-link-content">
+                                                    <h5><%= link.name %></h5>
+                                                    <p class="service-link-desc">Serviços especializados em regulação econômica</p>
+                                                    <span class="service-link-tag"><%= link.tag %></span>
+                                                </div>
+                                            </button>
+                                        <% } else { %>
+                                            <button type="button" 
+                                                    class="service-link-btn"
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#otherServiceModal<%= servicesOfType[0].id %>">
+                                                <div class="service-link-icon">
+                                                    <i class="<%= link.icon %>"></i>
+                                                </div>
+                                                <div class="service-link-content">
+                                                    <h5><%= link.name %></h5>
+                                                    <p class="service-link-desc">Serviços especializados nesta área</p>
+                                                    <span class="service-link-tag"><%= link.tag %></span>
+                                                </div>
+                                            </button>
+                                        <% } %>
+                                    <% } else { %>
+                                        <button type="button" 
+                                                class="service-link-btn disabled"
+                                                disabled
+                                                title="Serviço em atualização">
+                                            <div class="service-link-icon disabled">
+                                                <i class="<%= link.icon %>"></i>
+                                            </div>
+                                            <div class="service-link-content">
+                                                <h5><%= link.name %></h5>
+                                                <p class="service-link-desc">Serviço em atualização</p>
+                                                <span class="service-link-tag"><%= link.tag %></span>
+                                            </div>
+                                        </button>
+                                    <% } %>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================== -->
+<!-- MODAIS DAS ÁREAS/SECTORES -->
+<!-- ================================================== -->
+<%- include('../partials/modals-areas-sectores') %>
+
+<style>
+    /* Card Único com Imagem de Fundo */
+    .single-service-card {
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        min-height: 600px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    }
+    
+    .card-background-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.95; /* Aumentado de 0.15 para 0.35 */
+        z-index: 1;
+    }
+    
+    .card-overlay-light {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.75); /* Reduzido de 0.85 para 0.75 */
+        z-index: 2;
+    }
+    
+    .card-content-wrapper {
+        position: relative;
+        z-index: 3;
+        padding: 3rem;
+        height: 100%;
+    }
+    
+    /* Cabeçalho do Card - Ícone removido */
+    .card-main-title {
+        font-size: 2.2rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        position: relative;
+        padding-bottom: 0.75rem;
+    }
+    
+    .card-main-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #0056b3, #004494);
+        border-radius: 2px;
+    }
+    
+    .card-main-description {
+        font-size: 1.1rem;
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        line-height: 1.6;
+    }
+    
+    /* Grade de Links (3 por linha) */
+    .services-links-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .service-link-item {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .service-link-btn {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: left;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .service-link-btn:not(.disabled):hover {
+        transform: translateY(-5px);
+        border-color: #0056b3;
+        box-shadow: 0 10px 25px rgba(0, 86, 179, 0.15);
+        background: linear-gradient(135deg, #0056b3 0%, #004494 100%);
+    }
+    
+    .service-link-btn:not(.disabled):hover .service-link-icon {
+        color: white;
+        background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .service-link-btn:not(.disabled):hover h5 {
+        color: white;
+    }
+    
+    .service-link-btn:not(.disabled):hover .service-link-desc {
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .service-link-btn:not(.disabled):hover .service-link-tag {
+        background: rgba(255, 255, 255, 0.9);
+        color: #0056b3;
+    }
+    
+    .service-link-btn.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background: #f8f9fa;
+    }
+    
+    /* Ícone do Link */
+    .service-link-icon {
+        font-size: 2rem;
+        color: #0056b3;
+        background: rgba(0, 86, 179, 0.1);
+        padding: 1rem;
+        border-radius: 12px;
+        min-width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+    
+    .service-link-icon.disabled {
+        color: #6c757d;
+        background: #e9ecef;
+    }
+    
+    /* Conteúdo do Link */
+    .service-link-content {
+        flex-grow: 1;
+        text-align: left;
+    }
+    
+    .service-link-content h5 {
+        font-size: 1.1rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        line-height: 1.3;
+        transition: all 0.3s ease;
+    }
+    
+    .service-link-desc {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+        transition: all 0.3s ease;
+    }
+    
+    /* Tag */
+    .service-link-tag {
+        display: inline-block;
+        background: #0056b3;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    /* Responsividade */
+    @media (max-width: 992px) {
+        .services-links-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+        
+        .card-content-wrapper {
+            padding: 2rem;
+        }
+        
+        .service-link-btn {
+            padding: 1.25rem;
+        }
+        
+        .service-link-icon {
+            font-size: 1.75rem;
+            min-width: 60px;
+            height: 60px;
+            padding: 0.75rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .single-service-card {
+            min-height: auto;
+        }
+        
+        .services-links-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .card-content-wrapper {
+            padding: 1.5rem;
+        }
+        
+        .card-main-title {
+            font-size: 1.8rem;
+        }
+        
+        .card-main-description {
+            font-size: 1rem;
+        }
+    }
+    
+    /* Header fixo */
+    .navbar {
+        background-color: #ffffff !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+        padding: 10px 0 !important;
+        height: 80px !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 1030 !important;
+    }
+    
+    .page-hero-section {
+        padding-top: 100px !important;
+    }
+    
+    @media (max-width: 768px) {
+        .navbar {
+            height: 70px !important;
+        }
+        
+        .page-hero-section {
+            padding-top: 90px !important;
+        }
+    }
+    
+    /* Subtítulo da seção */
+    .section-subtitle {
+        color: #666;
+        font-size: 1.1rem;
+        margin-bottom: 3rem;
+    }
+</style>
+
+<!-- ================================================== -->
+<!-- CORREÇÃO: MODAL BACKDROP TRAVANDO A PÁGINA        -->
+<!-- Adicionar no final da página, antes do </body>    -->
+<!-- ================================================== -->
+
+<script>
+    // =============================================
+    // CORREÇÃO DE MODAIS ANINHADOS
+    // =============================================
+    
+    // Função para limpar todos os backdrops
+    function cleanupModalBackdrops() {
+        // Remover todos os backdrops do DOM
+        document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+            backdrop.remove();
+        });
+        
+        // Remover classes modal-open do body
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    }
+    
+    // Função para garantir que apenas um backdrop exista
+    function ensureSingleBackdrop() {
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        if (backdrops.length > 1) {
+            // Manter apenas o último backdrop (o mais recente)
+            backdrops.forEach((backdrop, index) => {
+                if (index < backdrops.length - 1) {
+                    backdrop.remove();
+                }
+            });
+        }
+    }
+    
+    // =============================================
+    // EVENT LISTENERS PARA TODOS OS MODAIS
+    // =============================================
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔧 Iniciando correção de modais...');
+        
+        // IDs de todos os modais relevantes
+        const modalIds = [
+            'economicRegulationServicesModal',
+            'economicRegulationsModal',
+            'otherServiceModal',
+            'regulamentosModal',
+            'lawsModal',
+            'accidentsModal',
+            'cooperationsModal',
+            'formsModal'
+        ];
+        
+        // Adicionar event listeners para cada modal
+        modalIds.forEach(modalId => {
+            const modalElement = document.getElementById(modalId);
+            
+            if (modalElement) {
+                console.log(`✅ Configurando modal: ${modalId}`);
+                
+                // Quando o modal é mostrado
+                modalElement.addEventListener('shown.bs.modal', function() {
+                    console.log(`📖 Modal aberto: ${modalId}`);
+                    ensureSingleBackdrop();
+                });
+                
+                // Quando o modal é fechado (IMPORTANTE)
+                modalElement.addEventListener('hidden.bs.modal', function() {
+                    console.log(`📕 Modal fechado: ${modalId}`);
+                    
+                    // Aguardar um pouco para o Bootstrap processar
+                    setTimeout(() => {
+                        const openModals = document.querySelectorAll('.modal.show');
+                        
+                        if (openModals.length === 0) {
+                            // Nenhum modal aberto - limpar tudo
+                            console.log('🧹 Limpando todos os backdrops...');
+                            cleanupModalBackdrops();
+                        } else {
+                            // Ainda há modais abertos - garantir apenas um backdrop
+                            console.log(`ℹ️ ${openModals.length} modal(is) ainda aberto(s)`);
+                            ensureSingleBackdrop();
+                        }
+                    }, 100);
+                });
+                
+                // Quando o botão X é clicado
+                const closeButtons = modalElement.querySelectorAll('[data-bs-dismiss="modal"]');
+                closeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        console.log(`❌ Botão X clicado no modal: ${modalId}`);
+                        
+                        // Forçar fechamento limpo
+                        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                        if (modalInstance) {
+                            modalInstance.hide();
+                        }
+                    });
+                });
+            }
+        });
+        
+        // =============================================
+        // CORREÇÃO PARA MODAIS DINÂMICOS (otherServiceModal)
+        // =============================================
+        
+        // Observar quando novos modais são adicionados ao DOM
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1 && node.classList && node.classList.contains('modal')) {
+                        const modalId = node.id;
+                        if (modalId && modalId.startsWith('otherServiceModal')) {
+                            console.log(`✅ Modal dinâmico detectado: ${modalId}`);
+                            
+                            // Adicionar event listeners
+                            node.addEventListener('hidden.bs.modal', function() {
+                                console.log(`📕 Modal dinâmico fechado: ${modalId}`);
+                                setTimeout(() => {
+                                    const openModals = document.querySelectorAll('.modal.show');
+                                    if (openModals.length === 0) {
+                                        cleanupModalBackdrops();
+                                    } else {
+                                        ensureSingleBackdrop();
+                                    }
+                                }, 100);
+                            });
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Observar o body inteiro
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+        
+        // =============================================
+        // LISTENER GLOBAL PARA TECLA ESC
+        // =============================================
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                console.log('⌨️ ESC pressionado');
+                
+                // Verificar se há modal aberto
+                const openModal = document.querySelector('.modal.show');
+                if (openModal) {
+                    const modalInstance = bootstrap.Modal.getInstance(openModal);
+                    if (modalInstance) {
+                        modalInstance.hide();
+                    }
+                    
+                    // Limpar após fechar
+                    setTimeout(() => {
+                        const stillOpen = document.querySelectorAll('.modal.show');
+                        if (stillOpen.length === 0) {
+                            cleanupModalBackdrops();
+                        }
+                    }, 200);
+                }
+            }
+        });
+        
+        // =============================================
+        // LISTENER PARA CLIQUE FORA DO MODAL
+        // =============================================
+        
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                console.log('🖱️ Clique fora do modal detectado');
+                
+                const modalInstance = bootstrap.Modal.getInstance(e.target);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+                
+                setTimeout(() => {
+                    const openModals = document.querySelectorAll('.modal.show');
+                    if (openModals.length === 0) {
+                        cleanupModalBackdrops();
+                    } else {
+                        ensureSingleBackdrop();
+                    }
+                }, 100);
+            }
+        });
+        
+        console.log('✅ Correção de modais ativada!');
+    });
+    
+    // =============================================
+    // FUNÇÃO DE EMERGÊNCIA - CHAMAR SE TRAVAR
+    // =============================================
+    
+    // Esta função pode ser chamada do console do navegador se a página travar
+    window.forceCloseAllModals = function() {
+        console.log('🚨 FORÇANDO FECHAMENTO DE TODOS OS MODALS');
+        
+        // Fechar todos os modais
+        document.querySelectorAll('.modal').forEach(modal => {
+            const instance = bootstrap.Modal.getInstance(modal);
+            if (instance) {
+                instance.hide();
+            }
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+        });
+        
+        // Limpar tudo
+        cleanupModalBackdrops();
+        
+        console.log('✅ Todos os modais foram fechados');
+    };
+    
+    // =============================================
+    // CORREÇÃO ESPECÍFICA PARA openEconomicTabFromService
+    // =============================================
+    
+    // Substituir a função openEconomicTabFromService existente
+    window.openEconomicTabFromService = function(category) {
+        console.log('\n╔════════════════════════════════════════╗');
+        console.log('║   ABRINDO REGULAÇÃO ECONÔMICA         ║');
+        console.log('╚════════════════════════════════════════╝');
+        console.log('📂 Categoria:', category);
+        
+        // Fechar modal de serviços econômicos
+        const servicesModal = document.getElementById('economicRegulationServicesModal');
+        const servicesInstance = bootstrap.Modal.getInstance(servicesModal);
+        
+        if (servicesInstance) {
+            console.log('🔒 Fechando modal de serviços...');
+            servicesInstance.hide();
+        }
+        
+        // Aguardar fechamento completo
+        setTimeout(() => {
+            // Limpar backdrops antes de abrir novo modal
+            cleanupModalBackdrops();
+            
+            console.log('🔓 Abrindo modal de regulação econômica...');
+            
+            // Abrir modal de regulação econômica
+            const economicModal = document.getElementById('economicRegulationsModal');
+            if (economicModal) {
+                const economicInstance = new bootstrap.Modal(economicModal);
+                economicInstance.show();
+                
+                // Aguardar modal abrir e clicar na aba
+                setTimeout(() => {
+                    const tabButtons = document.querySelectorAll('#economicRegulationsTabs .nav-link');
+                    console.log(`🔍 Procurando aba para: "${category}"`);
+                    
+                    let found = false;
+                    tabButtons.forEach(button => {
+                        const tabType = button.getAttribute('data-type');
+                        if (tabType === category) {
+                            console.log('✅ Aba encontrada! Ativando...');
+                            button.click();
+                            found = true;
+                        }
+                    });
+                    
+                    if (!found) {
+                        console.warn('⚠️ Aba não encontrada, abrindo primeira disponível');
+                        if (tabButtons.length > 0) {
+                            tabButtons[0].click();
+                        }
+                    }
+                    
+                    console.log('════════════════════════════════════════\n');
+                }, 500);
+            } else {
+                console.error('❌ Modal economicRegulationsModal não encontrado!');
+            }
+        }, 400);
+    };
+    
+    // =============================================
+    // CORREÇÃO PARA goBackToEconomicServicesModal
+    // =============================================
+    
+    window.goBackToEconomicServicesModal = function() {
+        console.log('⬅️ Voltando para modal de serviços econômicos...');
+        
+        // Fechar modal atual
+        const economicModal = document.getElementById('economicRegulationsModal');
+        const economicInstance = bootstrap.Modal.getInstance(economicModal);
+        
+        if (economicInstance) {
+            economicInstance.hide();
+        }
+        
+        // Aguardar e limpar
+        setTimeout(() => {
+            cleanupModalBackdrops();
+            
+            // Abrir modal de serviços
+            const servicesModal = document.getElementById('economicRegulationServicesModal');
+            if (servicesModal) {
+                const servicesInstance = new bootstrap.Modal(servicesModal);
+                servicesInstance.show();
+            }
+        }, 400);
+    };
+    
+    // =============================================
+    // CORREÇÃO PARA goBackToAccidentsModal
+    // =============================================
+    
+    window.goBackToAccidentsModal = function() {
+        console.log('⬅️ Voltando para modal de acidentes...');
+        
+        // Fechar modal de formulários
+        const formsModal = document.getElementById('formsModal');
+        const formsInstance = bootstrap.Modal.getInstance(formsModal);
+        
+        if (formsInstance) {
+            formsInstance.hide();
+        }
+        
+        // Aguardar e limpar
+        setTimeout(() => {
+            cleanupModalBackdrops();
+            
+            // Abrir modal de acidentes
+            const accidentsModal = document.getElementById('accidentsModal');
+            if (accidentsModal) {
+                const accidentsInstance = new bootstrap.Modal(accidentsModal);
+                accidentsInstance.show();
+            }
+        }, 400);
+    };
+    
+    console.log('✅ Script de correção de modais carregado!');
+    console.log('💡 Se a página travar, execute no console: forceCloseAllModals()');
+    </script>
+    
+    <!-- ================================================== -->
+    <!-- ESTILO ADICIONAL PARA GARANTIR LIMPEZA            -->
+    <!-- ================================================== -->
+    
+    <style>
+    /* Garantir que não sobre nenhum backdrop fantasma */
+    body.modal-cleanup {
+        overflow: auto !important;
+        padding-right: 0 !important;
+    }
+    
+    /* Garantir que backdrop não fique permanente */
+    .modal-backdrop {
+        transition: opacity 0.15s linear;
+    }
+    
+    .modal-backdrop.fade {
+        opacity: 0;
+    }
+    
+    .modal-backdrop.show {
+        opacity: 0.5;
+    }
+    
+    /* Prevenir scroll quando modal está aberto */
+    body.modal-open {
+        overflow: hidden;
+    }
+    
+    /* Garantir que modal seja clicável */
+    .modal {
+        z-index: 1050;
+    }
+    
+    .modal-backdrop {
+        z-index: 1040;
+    }
+    
+    /* Melhorar transição de fechamento */
+    .modal.fade .modal-dialog {
+        transition: transform 0.3s ease-out;
+    }
+    </style>
+    

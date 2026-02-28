@@ -1,0 +1,166 @@
+<header class="portal-header"></header>
+<!-- No header.ejs ou layout principal -->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <!-- Logo IACM -->
+            <a class="navbar-brand d-flex align-items-center" href="/portal-passageiro">
+                <img src="/images/iacmlogopreview.png" alt="IACM Logo" class="portal-logo me-2">
+                <div class="brand-info">
+                   
+                    <small class="text-muted d-none d-md-block">Portal do Passageiro</small>
+                </div>
+            </a>
+
+            <!-- Toggle Mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#portalNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menu -->
+            <div class="collapse navbar-collapse" id="portalNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'home' ? 'active' : '' %>" href="/portal-passageiro">
+                            <i class="fas fa-home"></i>
+                            <span>Início</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle <%= currentPage === 'direitos' ? 'active' : '' %>" 
+                           href="#" 
+                           data-bs-toggle="dropdown">
+                            <i class="fas fa-gavel"></i>
+                            <span>Direitos</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/portal-passageiro/direitos">Todos os Direitos</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/atraso">Atraso de Voo</a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/cancelamento">Cancelamento</a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/recusa_embarque">Recusa de Embarque</a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/bagagem">Bagagem</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span>Guias</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/portal-passageiro/antes-viagem">Antes da Viagem</a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/aeroporto">No Aeroporto</a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/durante-voo">Durante o Voo</a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/destino">No Destino</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'faq' ? 'active' : '' %>" href="/portal-passageiro/faq">
+                            <i class="fas fa-question-circle"></i>
+                            <span>FAQ</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'simulador' ? 'active' : '' %>" href="/portal-passageiro/simulador">
+                            <i class="fas fa-calculator"></i>
+                            <span>Simulador</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'glossario' ? 'active' : '' %>" href="/portal-passageiro/glossario">
+                            <i class="fas fa-book"></i>
+                            <span>Glossário</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Botões de Ação -->
+                <div class="d-flex gap-2">
+                    <a href="/portal-passageiro/reclamacoes" class="btn btn-primary">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span class="d-none d-lg-inline">Reclamar</span>
+                    </a>
+                    
+                    <a href="/" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span class="d-none d-lg-inline">IACM</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    .portal-header {
+        margin-bottom: 80px;
+    }
+    
+    .portal-logo {
+        height: 50px;
+        width: auto;
+    }
+    
+    .brand-info .brand-text {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #0056b3;
+        line-height: 1;
+    }
+    
+    .brand-info small {
+        font-size: 0.7rem;
+        line-height: 1;
+    }
+    
+    .portal-header .nav-link {
+        padding: 0.5rem 1rem;
+        transition: all 0.3s;
+        border-radius: 8px;
+        margin: 0 0.2rem;
+    }
+    
+    .portal-header .nav-link i {
+        margin-right: 0.3rem;
+    }
+    
+    .portal-header .nav-link:hover,
+    .portal-header .nav-link.active {
+        background-color: #f8f9fa;
+        color: #0056b3;
+    }
+    
+    .portal-header .dropdown-menu {
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        margin-top: 0.5rem;
+    }
+    
+    .portal-header .dropdown-item {
+        padding: 0.7rem 1.2rem;
+        transition: all 0.3s;
+    }
+    
+    .portal-header .dropdown-item:hover {
+        background-color: #0056b3;
+        color: white;
+        padding-left: 1.5rem;
+    }
+    
+    @media (max-width: 991px) {
+        .portal-header .navbar-nav {
+            margin-top: 1rem;
+        }
+        
+        .portal-header .nav-link {
+            margin: 0.2rem 0;
+        }
+    }
+</style>
+<!-- No header.ejs ou layout principal -->

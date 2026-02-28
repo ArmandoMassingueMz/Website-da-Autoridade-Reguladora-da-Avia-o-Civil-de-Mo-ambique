@@ -1,0 +1,105 @@
+<div class="row mb-4"></div>
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>
+                <i class="fas fa-map-marked-alt"></i>
+                Gerenciar Guias de Viagem
+            </h2>
+            <a href="/portal-passageiro/admin/guides/create" class="btn btn-info">
+                <i class="fas fa-plus"></i> Novo Guia
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="table-card">
+    <% if (guides && guides.length > 0) { %>
+        <div class="table-responsive">
+            <table class="table table-hover data-table">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Fase</th>
+                        <th>Ordem</th>
+                        <th>Status</th>
+                        <th>Autor</th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% guides.forEach(guide => { %>
+                        <tr>
+                            <td><strong>#<%= guide.id %></strong></td>
+                            <td>
+                                <i class="<%= guide.icon %> text-info me-2"></i>
+                                <%= guide.title %>
+                            </td>
+                            <td>
+                                <% 
+                                let phaseBadge = 'secondary';
+                                let phaseText = guide.phase;
+                                if (guide.phase === 'antes_viagem') {
+                                    phaseBadge = 'info';
+                                    phaseText = 'Antes da Viagem';
+                                } else if (guide.phase === 'aeroporto') {
+                                    phaseBadge = 'success';
+                                    phaseText = 'Aeroporto';
+                                } else if (guide.phase === 'durante_voo') {
+                                    phaseBadge = 'warning';
+                                    phaseText = 'Durante o Voo';
+                                } else if (guide.phase === 'destino') {
+                                    phaseBadge = 'danger';
+                                    phaseText = 'Destino';
+                                }
+                                %>
+                                <span class="badge bg-<%= phaseBadge %>">
+                                    <%= phaseText %>
+                                </span>
+                            </td>
+                            <td><%= guide.display_order %></td>
+                            <td>
+                                <% if (guide.is_published) { %>
+                                    <span class="badge bg-success">Publicado</span>
+                                <% } else { %>
+                                    <span class="badge bg-warning">Rascunho</span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <small><%= guide.author ? guide.author.name : 'N/A' %></small>
+                            </td>
+                            <td>
+                                <small><%= new Date(guide.createdAt).toLocaleDateString('pt-PT') %></small>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="/portal-passageiro/admin/guides/<%= guide.id %>/edit" 
+                                       class="btn btn-outline-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="POST" 
+                                          action="/portal-passageiro/admin/guides/<%= guide.id %>/delete"
+                                          class="d-inline"
+                                          onsubmit="return confirmDelete('Tem certeza que deseja deletar este guia?')">
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="text-center py-5">
+            <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+            <h4 class="text-muted">Nenhum guia cadastrado</h4>
+            <a href="/portal-passageiro/admin/guides/create" class="btn btn-info mt-3">
+                <i class="fas fa-plus"></i> Criar Primeiro Guia
+            </a>
+        </div>
+    <% } %>
+</div>

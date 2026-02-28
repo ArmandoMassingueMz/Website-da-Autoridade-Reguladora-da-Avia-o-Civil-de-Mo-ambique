@@ -1,0 +1,178 @@
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">Gestão de Notícias</h1>
+            <p class="text-muted mb-0">Crie e gerencie as notícias do site</p>
+        </div>
+        <div class="btn-group">
+            <a href="/admin" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Dashboard
+            </a>
+            <a href="/admin/news/create" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Nova Notícia
+            </a>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <%= messages.success[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+    
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Stats -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= news.length %></div>
+                            <div class="small">Total de Notícias</div>
+                        </div>
+                        <i class="fas fa-newspaper fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-success text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= news.filter(n => n.isPublished).length %></div>
+                            <div class="small">Publicadas</div>
+                        </div>
+                        <i class="fas fa-eye fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= news.filter(n => !n.isPublished).length %></div>
+                            <div class="small">Rascunhos</div>
+                        </div>
+                        <i class="fas fa-pencil-alt fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-info text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= news.filter(n => new Date(n.createdAt) > new Date(Date.now() - 7*24*60*60*1000)).length %></div>
+                            <div class="small">Esta Semana</div>
+                        </div>
+                        <i class="fas fa-calendar-week fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Table -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h5 class="card-title mb-0">Todas as Notícias</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="border-0">Notícia</th>
+                            <th class="border-0">Autor</th>
+                            <th class="border-0">Data</th>
+                            <th class="border-0">Status</th>
+                            <th class="border-0 text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (news.length > 0) { %>
+                            <% news.forEach(item => { %>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <!-- CORRIGIDO: featuredImage -->
+                                            <img src="<%= item.featuredImage || '/images/news-default.jpg' %>" alt="<%= item.title %>" class="rounded me-3" style="width: 80px; height: 60px; object-fit: cover;">
+                                            <div>
+                                                <strong class="text-dark d-block"><%= item.title %></strong>
+                                                <% if (item.excerpt) { %>
+                                                    <small class="text-muted"><%= item.excerpt.substring(0, 80) %>...</small>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fas fa-user me-1"></i><%= item.author ? item.author.name : 'Autor Desconhecido' %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted d-block"><%= new Date(item.createdAt).toLocaleDateString('pt-PT') %></small>
+                                        <small class="text-muted"><%= new Date(item.createdAt).toLocaleTimeString('pt-PT') %></small>
+                                    </td>
+                                    <td>
+                                        <% if (item.isPublished) { %>
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check me-1"></i>Publicado
+                                            </span>
+                                        <% } else { %>
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-pencil-alt me-1"></i>Rascunho
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="/admin/news/<%= item.id %>/edit" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="/admin/news/<%= item.id %>/delete" method="POST" class="d-inline">
+                                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Tem certeza que deseja excluir esta notícia?')" data-bs-toggle="tooltip" title="Excluir">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-5">
+                                    <i class="fas fa-newspaper fa-4x mb-3 opacity-25"></i>
+                                    <h5 class="text-muted">Nenhuma notícia encontrada</h5>
+                                    <p class="text-muted mb-4">Comece criando a sua primeira notícia</p>
+                                    <a href="/admin/news/create" class="btn btn-primary">
+                                        <i class="fas fa-plus me-2"></i>Criar Primeira Notícia
+                                    </a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/admin-footer') %>

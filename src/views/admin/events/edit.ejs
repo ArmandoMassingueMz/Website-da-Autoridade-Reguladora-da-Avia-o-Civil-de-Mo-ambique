@@ -1,0 +1,202 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">Editar Evento</h1>
+            <p class="text-muted mb-0">Atualize as informações do evento</p>
+        </div>
+        <a href="/admin/events" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Voltar
+        </a>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Form -->
+    <div class="row">
+        <div class="col-lg-8">
+            <form action="/admin/events/<%= event.id %>/edit" method="POST" enctype="multipart/form-data">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Informações do Evento</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Título -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título do Evento *</label>
+                            <input type="text" class="form-control" id="title" name="title" value="<%= event.title %>" required>
+                        </div>
+
+                        <!-- Descrição -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descrição *</label>
+                            <textarea class="form-control" id="description" name="description" rows="6" required><%= event.description %></textarea>
+                            <small class="text-muted">Descreva os detalhes do evento</small>
+                        </div>
+
+                        <!-- Datas -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="startDate" class="form-label">Data de Início *</label>
+                                <input type="datetime-local" class="form-control" id="startDate" name="startDate" 
+                                       value="<%= new Date(event.startDate).toISOString().slice(0, 16) %>" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="endDate" class="form-label">Data de Término *</label>
+                                <input type="datetime-local" class="form-control" id="endDate" name="endDate" 
+                                       value="<%= new Date(event.endDate).toISOString().slice(0, 16) %>" required>
+                            </div>
+                        </div>
+
+                        <!-- Imagem Atual -->
+                        <% if (event.featuredImage) { %>
+                            <div class="mb-3">
+                                <label class="form-label">Imagem Atual:</label>
+                                <div>
+                                    <img src="<%= event.featuredImage %>" alt="<%= event.title %>" class="img-fluid rounded" style="max-height: 300px;">
+                                </div>
+                            </div>
+                        <% } %>
+
+                        <!-- Nova Imagem -->
+                        <div class="mb-3">
+                            <label for="featuredImage" class="form-label">
+                                <%= event.featuredImage ? 'Alterar Imagem' : 'Adicionar Imagem' %>
+                            </label>
+                            <input type="file" class="form-control" id="featuredImage" name="featuredImage" accept="image/*">
+                            <small class="text-muted">Formatos aceitos: JPG, PNG, GIF (máx. 5MB)</small>
+                        </div>
+
+                        <!-- Preview da Nova Imagem -->
+                        <div id="imagePreview" class="mb-3" style="display: none;">
+                            <label class="form-label">Preview da Nova Imagem:</label>
+                            <img id="preview" src="" alt="Preview" class="img-fluid rounded" style="max-height: 300px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar de Publicação -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Publicação</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Status -->
+                        <div class="mb-3">
+                            <label for="isPublished" class="form-label">Status</label>
+                            <select class="form-select" id="isPublished" name="isPublished">
+                                <option value="true" <%= event.isPublished ? 'selected' : '' %>>Publicado</option>
+                                <option value="false" <%= !event.isPublished ? 'selected' : '' %>>Rascunho</option>
+                            </select>
+                        </div>
+
+                        <!-- Info Status Atual -->
+                        <div class="alert alert-info small mb-3">
+                            <strong>Status Atual:</strong><br>
+                            <% if (event.isPublished && event.isActive) { %>
+                                <span class="badge bg-success">Publicado e Ativo</span>
+                            <% } else if (!event.isActive) { %>
+                                <span class="badge bg-secondary">Expirado</span>
+                            <% } else { %>
+                                <span class="badge bg-warning">Rascunho</span>
+                            <% } %>
+                        </div>
+
+                        <!-- Botões -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Salvar Alterações
+                            </button>
+                            <a href="/admin/events" class="btn btn-outline-secondary">
+                                Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Info Sidebar -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm bg-light mb-3">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">
+                        <i class="fas fa-info-circle me-2"></i>Informações do Evento
+                    </h6>
+                    <ul class="list-unstyled mb-0 small">
+                        <li class="mb-2">
+                            <strong>Criado em:</strong><br>
+                            <%= new Date(event.createdAt).toLocaleString('pt-PT') %>
+                        </li>
+                        <li class="mb-2">
+                            <strong>Última atualização:</strong><br>
+                            <%= new Date(event.updatedAt).toLocaleString('pt-PT') %>
+                        </li>
+                        <li class="mb-2">
+                            <strong>ID:</strong> <%= event.id %>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm bg-light">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">
+                        <i class="fas fa-lightbulb me-2"></i>Dicas
+                    </h6>
+                    <ul class="list-unstyled mb-0 small">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Eventos são desativados automaticamente após 7 dias do término
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Mesmo desativados, os eventos permanecem no histórico
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Use imagens de alta qualidade para melhor visualização
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para Preview da Imagem -->
+<script>
+document.getElementById('featuredImage').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('preview').src = e.target.result;
+            document.getElementById('imagePreview').style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// Validação de datas
+document.getElementById('endDate').addEventListener('change', function() {
+    const startDate = new Date(document.getElementById('startDate').value);
+    const endDate = new Date(this.value);
+    
+    if (endDate <= startDate) {
+        alert('A data de término deve ser posterior à data de início');
+        this.value = '';
+    }
+});
+</script>
+
+<%- include('../../partials/admin-footer') %>

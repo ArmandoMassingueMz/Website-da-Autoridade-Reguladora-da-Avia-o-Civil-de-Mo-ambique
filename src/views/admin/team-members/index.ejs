@@ -1,0 +1,169 @@
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">
+                <i class="fas fa-users-cog me-2 text-primary"></i>
+                Gestão de Equipe de Liderança
+            </h1>
+            <p class="text-muted mb-0">Gerencie os membros da equipe que aparecem na página "Sobre"</p>
+        </div>
+        <a href="/admin/team-members/create" class="btn btn-primary">
+            <i class="fas fa-plus-circle me-2"></i>Adicionar Membro
+        </a>
+    </div>
+
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show">
+            <i class="fas fa-check-circle me-2"></i><%= messages.success[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show">
+            <i class="fas fa-exclamation-circle me-2"></i><%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <% if (teamMembers && teamMembers.length > 0) { %>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width:80px;">Foto</th>
+                                <th>Nome</th>
+                                <th>Cargo</th>
+                                <th>Contacto</th>
+                                <th class="text-center" style="width:100px;">Ordem</th>
+                                <th class="text-center" style="width:100px;">Status</th>
+                                <th class="text-center" style="width:200px;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% teamMembers.forEach(member => { %>
+                            <tr>
+                                <td>
+                                    <img src="<%= member.photo %>" alt="<%= member.name %>"
+                                         class="rounded-circle" style="width:50px;height:50px;object-fit:cover;"
+                                         onerror="this.src='/images/team-default.jpg'">
+                                </td>
+                                <td>
+                                    <div class="fw-bold"><%= member.name %></div>
+                                    <% if (member.author) { %><small class="text-muted">Por: <%= member.author.name %></small><% } %>
+                                </td>
+                                <td><span class="badge bg-primary"><%= member.position %></span></td>
+                                <td>
+                                    <% if (member.email) { %><div class="small"><i class="fas fa-envelope me-1"></i><%= member.email %></div><% } %>
+                                    <% if (member.phone) { %><div class="small"><i class="fas fa-phone me-1"></i><%= member.phone %></div><% } %>
+                                    <% if (!member.email && !member.phone) { %><span class="text-muted small">Sem contacto</span><% } %>
+                                </td>
+                                <td class="text-center"><span class="badge bg-secondary"><%= member.displayOrder %></span></td>
+                                <td class="text-center">
+                                    <div class="form-check form-switch d-flex justify-content-center">
+                                        <input class="form-check-input" type="checkbox"
+                                               <%= member.isActive ? 'checked' : '' %>
+                                               onchange="toggleStatus(<%= member.id %>)" style="cursor:pointer;">
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="/admin/team-members/<%= member.id %>/edit" class="btn btn-outline-primary"><i class="fas fa-edit"></i></a>
+                                        <button type="button" class="btn btn-outline-danger"
+                                                onclick="confirmDelete(<%= member.id %>, '<%= member.name %>')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <div class="text-center py-5">
+                    <i class="fas fa-users fa-4x text-muted mb-3 opacity-25"></i>
+                    <h4 class="text-muted">Nenhum membro cadastrado</h4>
+                    <p class="text-muted mb-4">Adicione membros da equipe de liderança para exibir na página "Sobre"</p>
+                    <a href="/admin/team-members/create" class="btn btn-primary">
+                        <i class="fas fa-plus-circle me-2"></i>Adicionar Primeiro Membro
+                    </a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <% if (teamMembers && teamMembers.length > 0) { %>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h2 class="text-primary"><%= teamMembers.length %></h2>
+                    <p class="text-muted mb-0">Total de Membros</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h2 class="text-success"><%= teamMembers.filter(m => m.isActive).length %></h2>
+                    <p class="text-muted mb-0">Membros Ativos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h2 class="text-warning"><%= teamMembers.filter(m => !m.isActive).length %></h2>
+                    <p class="text-muted mb-0">Membros Inativos</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar Exclusão</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir <strong id="memberName"></strong>?</p>
+                <p class="text-danger mb-0"><i class="fas fa-exclamation-circle me-1"></i>Esta ação não pode ser desfeita!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash me-1"></i>Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmDelete(id, name) {
+    document.getElementById('memberName').textContent = name;
+    document.getElementById('deleteForm').action = `/admin/team-members/${id}/delete`;
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+async function toggleStatus(id) {
+    try {
+        const r = await fetch(`/admin/team-members/${id}/toggle`, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+        const data = await r.json();
+        if (data.success) {
+            const a = document.createElement('div');
+            a.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3';
+            a.style.zIndex = '9999';
+            a.innerHTML = `<i class="fas fa-check-circle me-2"></i>${data.message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+            document.body.appendChild(a);
+            setTimeout(() => a.remove(), 3000);
+        } else { location.reload(); }
+    } catch { location.reload(); }
+}
+</script>

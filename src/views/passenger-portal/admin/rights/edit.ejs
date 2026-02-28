@@ -1,0 +1,231 @@
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>
+                <i class="fas fa-edit"></i>
+                Editar Direito #<%= right.id %>
+            </h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/portal-passageiro/admin/dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/portal-passageiro/admin/rights">Direitos</a></li>
+                    <li class="breadcrumb-item active">Editar</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card border-0 shadow">
+                <div class="card-body p-4">
+                    <form method="POST" 
+                          action="/portal-passageiro/admin/rights/<%= right.id %>/edit"
+                          enctype="multipart/form-data"
+                          id="rightForm">
+                        
+                        <div class="row">
+                            <div class="col-md-8">
+                                <!-- CATEGORIA -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Categoria <span class="text-danger">*</span>
+                                    </label>
+                                    <select name="category" class="form-select form-select-lg" required>
+                                        <option value="atraso" <%= right.category === 'atraso' ? 'selected' : '' %>>Atraso de Voo</option>
+                                        <option value="cancelamento" <%= right.category === 'cancelamento' ? 'selected' : '' %>>Cancelamento</option>
+                                        <option value="recusa_embarque" <%= right.category === 'recusa_embarque' ? 'selected' : '' %>>Recusa de Embarque</option>
+                                        <option value="bagagem" <%= right.category === 'bagagem' ? 'selected' : '' %>>Bagagem</option>
+                                        <option value="deficiencia" <%= right.category === 'deficiencia' ? 'selected' : '' %>>Passageiros com Deficiência</option>
+                                        <option value="reembolso" <%= right.category === 'reembolso' ? 'selected' : '' %>>Reembolso</option>
+                                        <option value="geral" <%= right.category === 'geral' ? 'selected' : '' %>>Geral</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- TÍTULO -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Título <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           name="title" 
+                                           class="form-control form-control-lg"
+                                           required
+                                           value="<%= right.title %>">
+                                </div>
+                                
+                                <!-- DESCRIÇÃO RESUMIDA -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Descrição Resumida <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea name="description" 
+                                              class="form-control"
+                                              rows="3"
+                                              required
+                                              maxlength="200"><%= right.description %></textarea>
+                                </div>
+                                
+                                <!-- CONTEÚDO COM EDITOR QUILL -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Conteúdo Detalhado
+                                    </label>
+                                    <div id="editor" style="min-height: 300px; background: white;"></div>
+                                    <input type="hidden" name="content" id="content">
+                                </div>
+                                
+                                <!-- COMPENSAÇÃO E BASE LEGAL -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">
+                                            Informação de Compensação
+                                        </label>
+                                        <textarea name="compensation_info" 
+                                                  class="form-control"
+                                                  rows="3"><%= right.compensation_info || '' %></textarea>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">
+                                            Base Legal
+                                        </label>
+                                        <textarea name="legal_basis" 
+                                                  class="form-control"
+                                                  rows="3"><%= right.legal_basis || '' %></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="fw-bold mb-3">Configurações</h6>
+                                        
+                                        <!-- DOCUMENTO ATUAL -->
+                                        <% if (right.attachment_url) { %>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Documento Atual</label>
+                                            <div class="alert alert-info p-2">
+                                                <small>
+                                                    <i class="fas fa-file-pdf"></i>
+                                                    <a href="<%= right.attachment_url %>" target="_blank">
+                                                        Ver anexo
+                                                    </a>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                        
+                                        <!-- UPLOAD -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">
+                                                <%= right.attachment_url ? 'Substituir' : 'Adicionar' %> Documento
+                                            </label>
+                                            <input type="file" 
+                                                   name="attachment" 
+                                                   class="form-control"
+                                                   accept=".pdf,.doc,.docx">
+                                            <small class="text-muted">PDF ou Word</small>
+                                        </div>
+                                        
+                                        <!-- ORDEM -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">
+                                                Ordem
+                                            </label>
+                                            <input type="number" 
+                                                   name="display_order" 
+                                                   class="form-control"
+                                                   value="<%= right.display_order %>"
+                                                   min="0">
+                                        </div>
+                                        
+                                        <!-- STATUS -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">
+                                                Status
+                                            </label>
+                                            <select name="is_published" class="form-select">
+                                                <option value="false" <%= !right.is_published ? 'selected' : '' %>>Rascunho</option>
+                                                <option value="true" <%= right.is_published ? 'selected' : '' %>>Publicado</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- BOTÕES -->
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save"></i> Atualizar
+                                            </button>
+                                            <a href="/portal-passageiro/admin/rights" class="btn btn-outline-secondary">
+                                                Cancelar
+                                            </a>
+                                            <button type="button" class="btn btn-outline-danger" onclick="confirmDelete()">
+                                                <i class="fas fa-trash"></i> Excluir
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="mt-3 pt-3 border-top">
+                                            <small class="text-muted">
+                                                <strong>Criado:</strong><br>
+                                                <%= new Date(right.createdAt).toLocaleString('pt-PT') %>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </form>
+                    
+                    <!-- FORM DELETE -->
+                    <form id="deleteForm" 
+                          method="POST" 
+                          action="/portal-passageiro/admin/rights/<%= right.id %>/delete"
+                          style="display: none;">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quill.js -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script>
+// Inicializar Quill
+var quill = new Quill('#editor', {
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            ['bold', 'italic', 'underline'],
+            [{'list': 'ordered'}, {'list': 'bullet'}],
+            [{'header': [1, 2, 3, false]}],
+            ['link'],
+            ['clean']
+        ]
+    }
+});
+
+// Carregar conteúdo existente
+var existingContent = `<%- right.content || '' %>`;
+quill.root.innerHTML = existingContent;
+
+// Ao submeter, copiar conteúdo
+document.getElementById('rightForm').addEventListener('submit', function(e) {
+    var html = quill.root.innerHTML;
+    if (html === '<p><br></p>') html = '';
+    document.getElementById('content').value = html;
+});
+
+// Função de delete
+function confirmDelete() {
+    if (confirm('Tem certeza que deseja excluir este direito?')) {
+        document.getElementById('deleteForm').submit();
+    }
+}
+</script>
+
+

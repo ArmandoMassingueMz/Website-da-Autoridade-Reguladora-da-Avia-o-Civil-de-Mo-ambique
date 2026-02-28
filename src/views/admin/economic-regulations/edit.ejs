@@ -1,0 +1,157 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 text-dark mb-1">Editar Documento</h1>
+                    <p class="text-muted mb-0">Regulação Econômica</p>
+                </div>
+                <a href="/admin/economic-regulations" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+            </div>
+
+            <% if (messages.error && messages.error.length > 0) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <%= messages.error[0] %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% } %>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <form method="POST" action="/admin/economic-regulations/<%= economicRegulation.id %>" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="documentNumber" class="form-label">Número do Documento *</label>
+                                <input type="text" class="form-control" id="documentNumber" name="documentNumber" value="<%= economicRegulation.documentNumber %>" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="publicationDate" class="form-label">Data de Publicação *</label>
+                                <input type="date" class="form-control" id="publicationDate" name="publicationDate" value="<%= economicRegulation.publicationDate.toISOString().split('T')[0] %>" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título do Documento *</label>
+                            <input type="text" class="form-control" id="title" name="title" value="<%= economicRegulation.title %>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Tipo *</label>
+                            <select class="form-select" id="type" name="type" required onchange="toggleFields()">
+                                <option value="Empresas" <%= economicRegulation.type === 'Empresas' ? 'selected' : '' %>>Empresas</option>
+                                <option value="Acordos Aéreos" <%= economicRegulation.type === 'Acordos Aéreos' ? 'selected' : '' %>>Acordos Aéreos</option>
+                                <option value="Proteção Ambiental" <%= economicRegulation.type === 'Proteção Ambiental' ? 'selected' : '' %>>Proteção Ambiental</option>
+                                <option value="Estatística" <%= economicRegulation.type === 'Estatística' ? 'selected' : '' %>>Estatística</option>
+                                <option value="Defesa do Passageiro" <%= economicRegulation.type === 'Defesa do Passageiro' ? 'selected' : '' %>>Defesa do Passageiro</option>
+                                <option value="SIAV" <%= economicRegulation.type === 'SIAV' ? 'selected' : '' %>>SIAV</option>
+                            </select>
+                        </div>
+
+                        <!-- ✅ Campos condicionais para ESTATÍSTICA -->
+                        <div id="statisticsFields" style="display: <%= economicRegulation.type === 'Estatística' ? 'block' : 'none' %>;">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="year" class="form-label">Ano</label>
+                                    <input type="number" class="form-control" id="year" name="year" value="<%= economicRegulation.year || '' %>" min="2000" max="2100">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="period" class="form-label">Período</label>
+                                    <input type="text" class="form-control" id="period" name="period" value="<%= economicRegulation.period || '' %>" placeholder="Ex: 1º Trimestre">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ✅ Campos condicionais para ACORDOS AÉREOS -->
+                        <div id="agreementFields" style="display: <%= economicRegulation.type === 'Acordos Aéreos' ? 'block' : 'none' %>;">
+                            <div class="mb-3">
+                                <label for="agreementType" class="form-label">Tipo de Acordo</label>
+                                <select class="form-select" id="agreementType" name="agreementType">
+                                    <option value="">Selecione o tipo</option>
+                                    <option value="Acordo de Transporte Aéreo" <%= economicRegulation.agreementType === 'Acordo de Transporte Aéreo' ? 'selected' : '' %>>Acordo de Transporte Aéreo</option>
+                                    <option value="Acordo Aéreo" <%= economicRegulation.agreementType === 'Acordo Aéreo' ? 'selected' : '' %>>Acordo Aéreo</option>
+                                    <option value="Memorando de Entendimento" <%= economicRegulation.agreementType === 'Memorando de Entendimento' ? 'selected' : '' %>>Memorando de Entendimento</option>
+                                    <option value="Outro" <%= economicRegulation.agreementType === 'Outro' ? 'selected' : '' %>>Outro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- ✅ Campo de descrição -->
+                        <div id="descriptionField" style="display: <%= ['Acordos Aéreos', 'Proteção Ambiental', 'Defesa do Passageiro'].includes(economicRegulation.type) ? 'block' : 'none' %>;">
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Descrição</label>
+                                <textarea class="form-control" id="description" name="description" rows="5"><%= economicRegulation.description || '' %></textarea>
+                            </div>
+                        </div>
+
+                        <!-- ✅ Campo de imagem -->
+                        <div id="imageField" style="display: <%= economicRegulation.type === 'Proteção Ambiental' ? 'block' : 'none' %>;">
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Imagem (opcional)</label>
+                                <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                <% if (economicRegulation.imageUrl) { %>
+                                    <div class="form-text">
+                                        Imagem atual: <a href="<%= economicRegulation.imageUrl %>" target="_blank">Ver imagem</a>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="file" class="form-label">Ficheiro</label>
+                            <input type="file" class="form-control" id="file" name="file">
+                            <div class="form-text">
+                                Ficheiro atual: 
+                                <a href="<%= economicRegulation.fileUrl %>" target="_blank" class="text-decoration-none">
+                                    <i class="fas fa-file-pdf me-1"></i>Ver ficheiro atual
+                                </a>
+                            </div>
+                            <div class="form-text">Deixe em branco para manter o ficheiro atual</div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="/admin/economic-regulations" class="btn btn-secondary me-md-2">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Atualizar Documento
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleFields() {
+    const type = document.getElementById('type').value;
+    
+    // Ocultar todos os campos condicionais
+    document.getElementById('statisticsFields').style.display = 'none';
+    document.getElementById('agreementFields').style.display = 'none';
+    document.getElementById('descriptionField').style.display = 'none';
+    document.getElementById('imageField').style.display = 'none';
+    
+    // Mostrar campos conforme o tipo selecionado
+    if (type === 'Estatística') {
+        document.getElementById('statisticsFields').style.display = 'block';
+    } else if (type === 'Acordos Aéreos') {
+        document.getElementById('agreementFields').style.display = 'block';
+        document.getElementById('descriptionField').style.display = 'block';
+    } else if (type === 'Proteção Ambiental') {
+        document.getElementById('descriptionField').style.display = 'block';
+        document.getElementById('imageField').style.display = 'block';
+    } else if (type === 'Defesa do Passageiro') {
+        document.getElementById('descriptionField').style.display = 'block';
+    }
+}
+
+// Executar ao carregar a página
+document.addEventListener('DOMContentLoaded', toggleFields);
+</script>
+
+<%- include('../../partials/admin-footer') %>

@@ -1,0 +1,197 @@
+<!-- ================================================== -->
+<!-- PÁGINA: NO DESTINO                                 -->
+<!-- ================================================== -->
+
+<!-- BREADCRUMB -->
+<section class="bg-light py-3" style="margin-top: 80px;">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/portal-passageiro">Portal do Passageiro</a>
+          </li>
+          <li class="breadcrumb-item active">No Destino</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+  
+  <!-- HERO COM IMAGEM DE FUNDO -->
+  <section class="page-hero" style="background-image: url('/images/hero_destino.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <h1 class="hero-title">
+            <i class="fas fa-map-marker-alt me-2"></i>No Destino
+          </h1>
+          <p class="hero-subtitle">
+            Procedimentos ao chegar ao seu destino, desembarque e orientações locais.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- GUIAS -->
+  <section class="py-5">
+    <div class="container">
+      <% if (guides && guides.length > 0) { %>
+        <div class="row g-4">
+          <% guides.forEach(guide => { %>
+            <div class="col-md-6">
+              <div class="card-modern h-100 border-0 shadow-sm hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-start mb-3">
+                    <div class="flex-shrink-0">
+                      <i class="<%= guide.icon %> fa-3x text-danger"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <h4 class="card-title fw-bold"><%= guide.title %></h4>
+                    </div>
+                  </div>
+                  <div class="content">
+                    <%- guide.content %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="text-center py-5">
+          <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+          <h3 class="text-muted">Nenhum guia disponível ainda</h3>
+        </div>
+      <% } %>
+    </div>
+  </section>
+  
+  <!-- NAVEGAÇÃO -->
+  <section class="py-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <a href="/portal-passageiro/durante-voo" class="btn btn-outline-secondary w-100">
+            <i class="fas fa-arrow-left"></i> Anterior: Durante o Voo
+          </a>
+        </div>
+        <div class="col-md-6 mb-3">
+          <a href="/portal-passageiro" class="btn btn-danger w-100">
+            Voltar ao Início <i class="fas fa-home"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ESTILOS ESPECÍFICOS PARA ESTA PÁGINA -->
+  <style>
+    /* ================================================== */
+    /* HERO COM IMAGEM (metade da página)                 */
+    /* ================================================== */
+    .page-hero {
+      height: 50vh;
+      min-height: 400px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      margin-top: 0;
+    }
+  
+    .page-hero .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(0, 45, 135, 0.85) 0%,
+        rgba(0, 86, 179, 0.75) 40%,
+        rgba(0, 86, 179, 0.5) 70%,
+        transparent 100%
+      );
+      z-index: 1;
+    }
+  
+    .page-hero .container {
+      position: relative;
+      z-index: 2;
+    }
+  
+    .page-hero .hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 15px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+  
+    .page-hero .hero-title i {
+      color: #D4AF37;
+      text-shadow: 0 0 12px rgba(212, 175, 55, 0.7);
+    }
+  
+    .page-hero .hero-subtitle {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.95);
+      line-height: 1.5;
+      max-width: 600px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    }
+  
+    /* ================================================== */
+    /* CARDS MODERNOS                                     */
+    /* ================================================== */
+    .card-modern {
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: white;
+    }
+  
+    .card-modern.hover-lift:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1) !important;
+    }
+  
+    /* ================================================== */
+    /* BOTÕES                                             */
+    /* ================================================== */
+    .btn-danger {
+      background: linear-gradient(135deg, #dc3545 0%, #b02a37 100%);
+      border: none;
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+  
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(220, 53, 69, 0.25);
+    }
+  
+    /* ================================================== */
+    /* RESPONSIVIDADE                                     */
+    /* ================================================== */
+    @media (max-width: 768px) {
+      .page-hero {
+        min-height: 350px;
+      }
+  
+      .page-hero .hero-title {
+        font-size: 2rem;
+      }
+  
+      .page-hero .hero-subtitle {
+        font-size: 1rem;
+      }
+    }
+  </style>
+  

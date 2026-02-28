@@ -1,0 +1,300 @@
+<%- include('../partials/header') %>
+
+<!-- Event Detail -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/eventos">Eventos</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><%= event.title %></li>
+                    </ol>
+                </nav>
+
+                <!-- Event Card -->
+                <article class="event-detail-card">
+                    <!-- Featured Image -->
+                    <% if (event.featuredImage) { %>
+                        <div class="event-detail-image-wrapper mb-4">
+                            <img src="<%= event.featuredImage %>" 
+                                 alt="<%= event.title %>" 
+                                 class="event-detail-image">
+                            <div class="event-detail-badge">
+                                <i class="fas fa-calendar-check me-2"></i>EVENTO
+                            </div>
+                        </div>
+                    <% } %>
+
+                    <!-- Event Header -->
+                    <div class="event-detail-header mb-4">
+                        <h1 class="event-detail-title mb-3"><%= event.title %></h1>
+                        
+                        <!-- Event Meta -->
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-user text-primary me-2"></i>
+                                <span>Publicado por <strong><%= event.author.name %></strong></span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-clock text-primary me-2"></i>
+                                <span><%= new Date(event.createdAt).toLocaleDateString('pt-PT', { 
+                                    day: '2-digit', 
+                                    month: 'long', 
+                                    year: 'numeric' 
+                                }) %></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Dates -->
+                    <div class="event-dates-detail mb-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="date-card date-start">
+                                    <div class="date-icon">
+                                        <i class="fas fa-play-circle"></i>
+                                    </div>
+                                    <div class="date-info">
+                                        <small class="text-muted d-block mb-1">Data de Início</small>
+                                        <strong class="date-text">
+                                            <%= new Date(event.startDate).toLocaleDateString('pt-PT', { 
+                                                day: '2-digit', 
+                                                month: 'long', 
+                                                year: 'numeric' 
+                                            }) %>
+                                        </strong>
+                                        <div class="time-text">
+                                            <i class="fas fa-clock me-1"></i>
+                                            <%= new Date(event.startDate).toLocaleTimeString('pt-PT', { 
+                                                hour: '2-digit', 
+                                                minute: '2-digit' 
+                                            }) %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="date-card date-end">
+                                    <div class="date-icon">
+                                        <i class="fas fa-stop-circle"></i>
+                                    </div>
+                                    <div class="date-info">
+                                        <small class="text-muted d-block mb-1">Data de Término</small>
+                                        <strong class="date-text">
+                                            <%= new Date(event.endDate).toLocaleDateString('pt-PT', { 
+                                                day: '2-digit', 
+                                                month: 'long', 
+                                                year: 'numeric' 
+                                            }) %>
+                                        </strong>
+                                        <div class="time-text">
+                                            <i class="fas fa-clock me-1"></i>
+                                            <%= new Date(event.endDate).toLocaleTimeString('pt-PT', { 
+                                                hour: '2-digit', 
+                                                minute: '2-digit' 
+                                            }) %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Description -->
+                    <div class="event-detail-content">
+                        <h3 class="mb-3">Sobre o Evento</h3>
+                        <div class="event-description">
+                            <%= event.description %>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="event-actions mt-5">
+                        <a href="/eventos" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left me-2"></i>Voltar aos Eventos
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CSS Adicional -->
+<style>
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+}
+
+.breadcrumb-item a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+.event-detail-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.event-detail-image-wrapper {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.event-detail-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.event-detail-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(40, 167, 69, 0.95);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+.event-detail-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    line-height: 1.2;
+}
+
+.event-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-top: 2px solid #e9ecef;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.event-dates-detail {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.date-card {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    height: 100%;
+}
+
+.date-start .date-icon {
+    background: #d4edda;
+    color: #28a745;
+}
+
+.date-end .date-icon {
+    background: #f8d7da;
+    color: #dc3545;
+}
+
+.date-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.date-info {
+    flex: 1;
+}
+
+.date-text {
+    font-size: 1.1rem;
+    color: #1a1a1a;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.time-text {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.event-detail-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 3px solid #0066cc;
+}
+
+.event-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+    white-space: pre-wrap;
+}
+
+.event-actions {
+    padding-top: 2rem;
+    border-top: 2px solid #e9ecef;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .event-detail-card {
+        padding: 1.5rem;
+    }
+    
+    .event-detail-title {
+        font-size: 1.8rem;
+    }
+    
+    .event-meta {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .date-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .date-icon {
+        margin-right: 0;
+        margin-bottom: 0.75rem;
+    }
+}
+</style>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,152 @@
+<div class="row mb-4"></div>
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>
+                <i class="fas fa-exclamation-triangle"></i>
+                Gerenciar Reclamações
+            </h2>
+        </div>
+    </div>
+</div>
+
+<!-- FILTROS -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+        <form method="GET" action="/portal-passageiro/admin/complaints">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Status</label>
+                    <select name="status" class="form-select">
+                        <option value="">Todos</option>
+                        <option value="pendente" <%= selectedStatus === 'pendente' ? 'selected' : '' %>>Pendente</option>
+                        <option value="em_analise" <%= selectedStatus === 'em_analise' ? 'selected' : '' %>>Em Análise</option>
+                        <option value="respondida" <%= selectedStatus === 'respondida' ? 'selected' : '' %>>Respondida</option>
+                        <option value="resolvida" <%= selectedStatus === 'resolvida' ? 'selected' : '' %>>Resolvida</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Prioridade</label>
+                    <select name="priority" class="form-select">
+                        <option value="">Todas</option>
+                        <option value="baixa" <%= selectedPriority === 'baixa' ? 'selected' : '' %>>Baixa</option>
+                        <option value="media" <%= selectedPriority === 'media' ? 'selected' : '' %>>Média</option>
+                        <option value="alta" <%= selectedPriority === 'alta' ? 'selected' : '' %>>Alta</option>
+                        <option value="urgente" <%= selectedPriority === 'urgente' ? 'selected' : '' %>>Urgente</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- TABELA -->
+<div class="table-card">
+    <% if (complaints && complaints.length > 0) { %>
+        <div class="table-responsive">
+            <table class="table table-hover data-table">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Passageiro</th>
+                        <th>Tipo</th>
+                        <th>Companhia</th>
+                        <th>Data do Voo</th>
+                        <th>Status</th>
+                        <th>Prioridade</th>
+                        <th>Criado em</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% complaints.forEach(complaint => { %>
+                        <tr>
+                            <td><strong>#<%= complaint.id %></strong></td>
+                            <td>
+                                <div>
+                                    <strong><%= complaint.passenger_name %></strong>
+                                    <br>
+                                    <small class="text-muted"><%= complaint.passenger_email %></small>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary">
+                                    <%= complaint.complaint_type %>
+                                </span>
+                            </td>
+                            <td><%= complaint.airline || 'N/A' %></td>
+                            <td>
+                                <% if (complaint.flight_date) { %>
+                                    <small><%= new Date(complaint.flight_date).toLocaleDateString('pt-PT') %></small>
+                                <% } else { %>
+                                    <small class="text-muted">N/A</small>
+                                <% } %>
+                            </td>
+                            <td>
+                                <% 
+                                let statusClass = 'secondary';
+                                if (complaint.status === 'pendente') statusClass = 'warning';
+                                else if (complaint.status === 'em_analise') statusClass = 'info';
+                                else if (complaint.status === 'respondida') statusClass = 'primary';
+                                else if (complaint.status === 'resolvida') statusClass = 'success';
+                                %>
+                                <span class="badge bg-<%= statusClass %>">
+                                    <%= complaint.status.replace('_', ' ') %>
+                                </span>
+                            </td>
+                            <td>
+                                <% 
+                                let priorityClass = 'secondary';
+                                if (complaint.priority === 'urgente') priorityClass = 'danger';
+                                else if (complaint.priority === 'alta') priorityClass = 'warning';
+                                else if (complaint.priority === 'media') priorityClass = 'info';
+                                %>
+                                <span class="badge bg-<%= priorityClass %>">
+                                    <%= complaint.priority %>
+                                </span>
+                            </td>
+                            <td>
+                                <small><%= new Date(complaint.createdAt).toLocaleDateString('pt-PT') %></small>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="/portal-passageiro/admin/complaints/<%= complaint.id %>" 
+                                       class="btn btn-outline-primary"
+                                       title="Ver Detalhes">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <form method="POST" 
+                                          action="/portal-passageiro/admin/complaints/<%= complaint.id %>/delete"
+                                          class="d-inline"
+                                          onsubmit="return confirmDelete('Tem certeza que deseja deletar esta reclamação?')">
+                                        <button type="submit" 
+                                                class="btn btn-outline-danger"
+                                                title="Deletar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="text-center py-5">
+            <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+            <h4 class="text-muted">Nenhuma reclamação encontrada</h4>
+            <% if (selectedStatus || selectedPriority) { %>
+                <a href="/portal-passageiro/admin/complaints" class="btn btn-outline-primary mt-3">
+                    Limpar Filtros
+                </a>
+            <% } %>
+        </div>
+    <% } %>
+</div>

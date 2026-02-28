@@ -1,0 +1,345 @@
+<!-- ================================================== -->
+<!-- PÁGINA: SIMULADOR DE DIREITOS                      -->
+<!-- ================================================== -->
+
+<!-- BREADCRUMB -->
+<section class="bg-light py-3" style="margin-top: 80px;">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/portal-passageiro">Portal do Passageiro</a>
+          </li>
+          <li class="breadcrumb-item active">Simulador de Direitos</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+  
+  <!-- HERO COM IMAGEM DE FUNDO -->
+  <section class="page-hero" style="background-image: url('/images/hero_simulador.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <h1 class="hero-title">
+            <i class="fas fa-calculator me-2"></i>Simulador de Direitos
+          </h1>
+          <p class="hero-subtitle">
+            Descubra se você tem direito a compensação.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- SIMULADOR -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card-modern border-0 shadow-lg">
+            <div class="card-body p-5">
+              <form action="/portal-passageiro/simulador/calcular" method="POST">
+  
+                <!-- PASSO 1: TIPO DE PROBLEMA -->
+                <div class="mb-5">
+                  <h4 class="mb-4">
+                    <span class="badge bg-info me-2">1</span> Qual foi o problema?
+                  </h4>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <input type="radio" class="btn-check" name="tipo" id="tipo1" value="atraso" required>
+                      <label class="btn btn-outline-primary w-100 py-3" for="tipo1">
+                        <i class="fas fa-clock fa-2x d-block mb-2"></i>
+                        <strong>Atraso de Voo</strong>
+                      </label>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="radio" class="btn-check" name="tipo" id="tipo2" value="cancelamento">
+                      <label class="btn btn-outline-danger w-100 py-3" for="tipo2">
+                        <i class="fas fa-times-circle fa-2x d-block mb-2"></i>
+                        <strong>Cancelamento</strong>
+                      </label>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="radio" class="btn-check" name="tipo" id="tipo3" value="recusa_embarque">
+                      <label class="btn btn-outline-warning w-100 py-3" for="tipo3">
+                        <i class="fas fa-ban fa-2x d-block mb-2"></i>
+                        <strong>Recusa de Embarque</strong>
+                      </label>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="radio" class="btn-check" name="tipo" id="tipo4" value="bagagem">
+                      <label class="btn btn-outline-success w-100 py-3" for="tipo4">
+                        <i class="fas fa-suitcase fa-2x d-block mb-2"></i>
+                        <strong>Problema com Bagagem</strong>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- PASSO 2: DISTÂNCIA DO VOO -->
+                <div class="mb-5">
+                  <h4 class="mb-4">
+                    <span class="badge bg-info me-2">2</span> Qual a distância do voo?
+                  </h4>
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <input type="radio" class="btn-check" name="distancia" id="dist1" value="curta" required>
+                      <label class="btn btn-outline-info w-100 py-3" for="dist1">
+                        <i class="fas fa-plane-departure fa-2x d-block mb-2"></i>
+                        <strong>Curta</strong>
+                        <small class="d-block text-muted">Até 1.500 km</small>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <input type="radio" class="btn-check" name="distancia" id="dist2" value="media">
+                      <label class="btn btn-outline-info w-100 py-3" for="dist2">
+                        <i class="fas fa-plane fa-2x d-block mb-2"></i>
+                        <strong>Média</strong>
+                        <small class="d-block text-muted">1.500 - 3.500 km</small>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <input type="radio" class="btn-check" name="distancia" id="dist3" value="longa">
+                      <label class="btn btn-outline-info w-100 py-3" for="dist3">
+                        <i class="fas fa-plane-arrival fa-2x d-block mb-2"></i>
+                        <strong>Longa</strong>
+                        <small class="d-block text-muted">Mais de 3.500 km</small>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- PASSO 3: HORAS DE ATRASO (condicional) -->
+                <div class="mb-5" id="atrasoSection" style="display: none;">
+                  <h4 class="mb-4">
+                    <span class="badge bg-info me-2">3</span> Quantas horas de atraso?
+                  </h4>
+                  <div class="row g-3">
+                    <div class="col-md-3">
+                      <input type="radio" class="btn-check" name="atraso_horas" id="atraso1" value="2">
+                      <label class="btn btn-outline-secondary w-100 py-3" for="atraso1">
+                        <strong>Menos de 2h</strong>
+                      </label>
+                    </div>
+                    <div class="col-md-3">
+                      <input type="radio" class="btn-check" name="atraso_horas" id="atraso2" value="3">
+                      <label class="btn btn-outline-warning w-100 py-3" for="atraso2">
+                        <strong>2-3 horas</strong>
+                      </label>
+                    </div>
+                    <div class="col-md-3">
+                      <input type="radio" class="btn-check" name="atraso_horas" id="atraso3" value="4">
+                      <label class="btn btn-outline-warning w-100 py-3" for="atraso3">
+                        <strong>3-4 horas</strong>
+                      </label>
+                    </div>
+                    <div class="col-md-3">
+                      <input type="radio" class="btn-check" name="atraso_horas" id="atraso4" value="5">
+                      <label class="btn btn-outline-danger w-100 py-3" for="atraso4">
+                        <strong>Mais de 4h</strong>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- BOTÃO CALCULAR -->
+                <div class="text-center mt-5">
+                  <button type="submit" class="btn btn-info btn-lg px-5">
+                    <i class="fas fa-calculator me-2"></i> Calcular Meus Direitos
+                  </button>
+                </div>
+  
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- INFORMAÇÕES ADICIONAIS -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row">
+  
+        <div class="col-md-4 mb-3">
+          <div class="card-modern h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+              <h5>Gratuito</h5>
+              <p class="text-muted mb-0">Este simulador é 100% gratuito</p>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-md-4 mb-3">
+          <div class="card-modern h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="fas fa-user-lock fa-3x text-success mb-3"></i>
+              <h5>Privado</h5>
+              <p class="text-muted mb-0">Não armazenamos seus dados</p>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-md-4 mb-3">
+          <div class="card-modern h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <i class="fas fa-info-circle fa-3x text-info mb-3"></i>
+              <h5>Informativo</h5>
+              <p class="text-muted mb-0">Resultado apenas orientativo</p>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </section>
+  
+  <!-- SCRIPT CONDICIONAL -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const tipoInputs = document.querySelectorAll('input[name="tipo"]');
+      const atrasoSection = document.getElementById('atrasoSection');
+  
+      tipoInputs.forEach(input => {
+        input.addEventListener('change', function () {
+          atrasoSection.style.display = this.value === 'atraso' ? 'block' : 'none';
+        });
+      });
+    });
+  </script>
+  
+  <!-- ESTILOS ESPECÍFICOS PARA ESTA PÁGINA -->
+  <style>
+    /* ================================================== */
+    /* HERO                                               */
+    /* ================================================== */
+    .page-hero {
+      height: 50vh;
+      min-height: 400px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      margin-top: 0;
+    }
+  
+    .page-hero .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(0, 45, 135, 0.85) 0%,
+        rgba(0, 86, 179, 0.75) 40%,
+        rgba(0, 86, 179, 0.5) 70%,
+        transparent 100%
+      );
+      z-index: 1;
+    }
+  
+    .page-hero .container {
+      position: relative;
+      z-index: 2;
+    }
+  
+    .page-hero .hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+  
+    .page-hero .hero-title i {
+      color: #D4AF37;
+    }
+  
+    .page-hero .hero-subtitle {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.95);
+      max-width: 600px;
+    }
+  
+    /* ================================================== */
+    /* SIMULADOR                                          */
+    /* ================================================== */
+    .card-modern {
+      border-radius: 12px;
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+  
+    .btn-outline-primary,
+    .btn-outline-danger,
+    .btn-outline-warning,
+    .btn-outline-success,
+    .btn-outline-info,
+    .btn-outline-secondary {
+      border-radius: 50px;
+      padding: 1rem;
+      transition: all 0.3s ease;
+    }
+  
+    .btn-outline-primary:hover,
+    .btn-outline-danger:hover,
+    .btn-outline-warning:hover,
+    .btn-outline-success:hover,
+    .btn-outline-info:hover,
+    .btn-outline-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+  
+    .btn-check:checked + .btn-outline-primary   { background: #0056b3; color: white;   border-color: #0056b3; }
+    .btn-check:checked + .btn-outline-danger    { background: #dc3545; color: white;   border-color: #dc3545; }
+    .btn-check:checked + .btn-outline-warning   { background: #ffc107; color: #212529; border-color: #ffc107; }
+    .btn-check:checked + .btn-outline-success   { background: #28a745; color: white;   border-color: #28a745; }
+    .btn-check:checked + .btn-outline-info      { background: #17a2b8; color: white;   border-color: #17a2b8; }
+    .btn-check:checked + .btn-outline-secondary { background: #6c757d; color: white;   border-color: #6c757d; }
+  
+    .btn-info {
+      background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);
+      border: none;
+      color: white;
+      border-radius: 50px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+  
+    .btn-info:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(23, 162, 184, 0.25);
+    }
+  
+    /* ================================================== */
+    /* RESPONSIVIDADE                                     */
+    /* ================================================== */
+    @media (max-width: 768px) {
+      .page-hero .hero-title {
+        font-size: 2rem;
+      }
+  
+      .page-hero .hero-subtitle {
+        font-size: 1rem;
+      }
+  
+      .btn-outline-primary,
+      .btn-outline-danger,
+      .btn-outline-warning,
+      .btn-outline-success,
+      .btn-outline-info,
+      .btn-outline-secondary {
+        padding: 0.8rem;
+      }
+    }
+  </style>
+  

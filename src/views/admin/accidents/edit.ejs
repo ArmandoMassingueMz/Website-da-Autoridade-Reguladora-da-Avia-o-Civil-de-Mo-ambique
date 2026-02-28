@@ -1,0 +1,273 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">
+                <i class="fas fa-edit me-2"></i>
+                Editar Acidente/Incidente
+            </h1>
+            <p class="text-muted mb-0">Atualizar informações do registro</p>
+        </div>
+        <a href="/admin/accidents" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Voltar
+        </a>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i><%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Formulário -->
+    <form action="/admin/accidents/<%= accident.id %>" method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <!-- Coluna Principal -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Informações Principais</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Trimestre -->
+                        <div class="mb-3">
+                            <label for="quarter" class="form-label">
+                                Trimestre <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="quarter" name="quarter" required>
+                                <option value="">Selecione o trimestre</option>
+                                <option value="I" <%= accident.quarter === 'I' ? 'selected' : '' %>>I Trimestre (Janeiro - Março)</option>
+                                <option value="II" <%= accident.quarter === 'II' ? 'selected' : '' %>>II Trimestre (Abril - Junho)</option>
+                                <option value="III" <%= accident.quarter === 'III' ? 'selected' : '' %>>III Trimestre (Julho - Setembro)</option>
+                                <option value="IV" <%= accident.quarter === 'IV' ? 'selected' : '' %>>IV Trimestre (Outubro - Dezembro)</option>
+                            </select>
+                            <small class="text-muted">Selecione o trimestre em que ocorreu o acidente/incidente</small>
+                        </div>
+
+                        <!-- Título -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label">
+                                Título do Acidente/Incidente <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="title" 
+                                   name="title" 
+                                   required 
+                                   value="<%= accident.title %>"
+                                   placeholder="Ex: Incidente com Boeing 737 no Aeroporto Internacional de Maputo">
+                        </div>
+
+                        <!-- Ano -->
+                        <div class="mb-3">
+                            <label for="year" class="form-label">
+                                Ano <span class="text-danger">*</span>
+                            </label>
+                            <input type="number" 
+                                   class="form-control" 
+                                   id="year" 
+                                   name="year" 
+                                   required
+                                   min="1900"
+                                   max="2100"
+                                   value="<%= accident.year %>"
+                                   placeholder="Ex: 2024">
+                            <small class="text-muted">Digite o ano em que ocorreu o acidente/incidente</small>
+                        </div>
+
+                        <!-- Descrição -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descrição/Detalhes</label>
+                            <textarea class="form-control" 
+                                      id="description" 
+                                      name="description" 
+                                      rows="5" 
+                                      placeholder="Descreva os detalhes do acidente ou incidente..."><%= accident.description || '' %></textarea>
+                            <small class="text-muted">Opcional - Forneça detalhes adicionais sobre o ocorrido</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload de Arquivos -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Documentos e Imagens</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- PDF Atual -->
+                        <% if (accident.pdfUrl) { %>
+                            <div class="alert alert-info mb-3">
+                                <i class="fas fa-file-pdf me-2"></i>
+                                <strong>PDF atual:</strong> 
+                                <a href="<%= accident.pdfUrl %>" target="_blank" class="alert-link">
+                                    Ver documento
+                                </a>
+                                <small class="d-block mt-1 text-muted">
+                                    Envie um novo arquivo para substituir
+                                </small>
+                            </div>
+                        <% } %>
+
+                        <!-- Upload PDF -->
+                        <div class="mb-3">
+                            <label for="pdfFile" class="form-label">
+                                <i class="fas fa-file-pdf text-danger me-2"></i>
+                                <%= accident.pdfUrl ? 'Substituir Documento PDF' : 'Documento PDF (Relatório)' %>
+                            </label>
+                            <input type="file" 
+                                   class="form-control" 
+                                   id="pdfFile" 
+                                   name="pdfFile" 
+                                   accept="application/pdf">
+                            <small class="text-muted">
+                                Opcional - Máximo 10MB | Apenas PDF
+                            </small>
+                        </div>
+
+                        <!-- Imagem Atual -->
+                        <% if (accident.imageUrl) { %>
+                            <div class="mb-3">
+                                <label class="form-label">Imagem atual:</label>
+                                <div>
+                                    <img src="<%= accident.imageUrl %>" 
+                                         alt="<%= accident.title %>" 
+                                         class="img-fluid rounded" 
+                                         style="max-height: 200px;">
+                                </div>
+                                <small class="text-muted d-block mt-1">
+                                    Envie uma nova imagem para substituir
+                                </small>
+                            </div>
+                        <% } %>
+
+                        <!-- Upload Imagem -->
+                        <div class="mb-3">
+                            <label for="imageFile" class="form-label">
+                                <i class="fas fa-image text-primary me-2"></i>
+                                <%= accident.imageUrl ? 'Substituir Imagem' : 'Imagem do Acidente' %>
+                            </label>
+                            <input type="file" 
+                                   class="form-control" 
+                                   id="imageFile" 
+                                   name="imageFile" 
+                                   accept="image/*"
+                                   onchange="previewImage(event)">
+                            <small class="text-muted">
+                                Opcional - Máximo 10MB | Formatos: JPG, PNG, WEBP
+                            </small>
+                            
+                            <!-- Preview da Nova Imagem -->
+                            <div id="imagePreview" class="mt-3" style="display: none;">
+                                <label class="form-label">Preview da nova imagem:</label>
+                                <img id="preview" src="" alt="Preview" class="img-fluid rounded" style="max-height: 200px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna Lateral -->
+            <div class="col-lg-4">
+                <!-- Configurações -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Configurações</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Tipo -->
+                        <div class="mb-3">
+                            <label for="type" class="form-label">
+                                Classificação <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="type" name="type" required>
+                                <option value="Incidente" <%= accident.type === 'Incidente' ? 'selected' : '' %>>Incidente</option>
+                                <option value="Acidente" <%= accident.type === 'Acidente' ? 'selected' : '' %>>Acidente</option>
+                            </select>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="mb-3">
+                            <label for="status" class="form-label">
+                                Status da Investigação <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="Em Investigação" <%= accident.status === 'Em Investigação' ? 'selected' : '' %>>Em Investigação</option>
+                                <option value="Concluído" <%= accident.status === 'Concluído' ? 'selected' : '' %>>Concluído</option>
+                                <option value="Arquivado" <%= accident.status === 'Arquivado' ? 'selected' : '' %>>Arquivado</option>
+                            </select>
+                        </div>
+
+                        <!-- Publicar -->
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       id="isPublished" 
+                                       name="isPublished" 
+                                       <%= accident.isPublished ? 'checked' : '' %>>
+                                <label class="form-check-label" for="isPublished">
+                                    Publicar no site
+                                </label>
+                            </div>
+                            <small class="text-muted">
+                                Se marcado, o registro será exibido na página pública
+                            </small>
+                        </div>
+
+                        <!-- Info de Criação -->
+                        <hr>
+                        <div class="small text-muted">
+                            <p class="mb-1">
+                                <strong>Criado em:</strong><br>
+                                <%= new Date(accident.createdAt).toLocaleString('pt-PT') %>
+                            </p>
+                            <% if (accident.author) { %>
+                                <p class="mb-0">
+                                    <strong>Por:</strong> <%= accident.author.name %>
+                                </p>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <button type="submit" class="btn btn-primary w-100 mb-2">
+                            <i class="fas fa-save me-2"></i>Atualizar Registro
+                        </button>
+                        <a href="/admin/accidents" class="btn btn-outline-secondary w-100">
+                            <i class="fas fa-times me-2"></i>Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+// Preview da imagem
+function previewImage(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('preview');
+    const previewContainer = document.getElementById('imagePreview');
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            previewContainer.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    } else {
+        previewContainer.style.display = 'none';
+    }
+}
+</script>
+
+<%- include('../../partials/admin-footer') %>

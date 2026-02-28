@@ -1,0 +1,219 @@
+<!-- src/views/admin/contacts/list.ejs -->
+<%- layout('layouts/admin') %>
+
+<div class="container-fluid py-4">
+    <!-- Cabeçalho -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1"><i class="fas fa-envelope me-2"></i>Gestão de Contactos</h2>
+                    <p class="text-muted mb-0">Gerencie todas as mensagens recebidas</p>
+                </div>
+                <div>
+                    <a href="/admin/contacts/export/csv" class="btn btn-outline-success">
+                        <i class="fas fa-file-csv me-2"></i>Exportar CSV
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estatísticas -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">Total</h6>
+                            <h2 class="mb-0"><%= stats?.total || 0 %></h2>
+                        </div>
+                        <i class="fas fa-envelope fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">Novos</h6>
+                            <h2 class="mb-0"><%= stats?.novos || 0 %></h2>
+                        </div>
+                        <i class="fas fa-bell fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">Não Lidos</h6>
+                            <h2 class="mb-0"><%= stats?.naoLidos || 0 %></h2>
+                        </div>
+                        <i class="fas fa-envelope-open fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">Respondidos</h6>
+                            <h2 class="mb-0"><%= stats?.respondidos || 0 %></h2>
+                        </div>
+                        <i class="fas fa-check-circle fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" action="/admin/contacts" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Status</label>
+                    <select name="status" class="form-select">
+                        <option value="">Todos</option>
+                        <option value="novo" <%= filters.status === 'novo' ? 'selected' : '' %>>Novo</option>
+                        <option value="em_analise" <%= filters.status === 'em_analise' ? 'selected' : '' %>>Em Análise</option>
+                        <option value="respondido" <%= filters.status === 'respondido' ? 'selected' : '' %>>Respondido</option>
+                        <option value="arquivado" <%= filters.status === 'arquivado' ? 'selected' : '' %>>Arquivado</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Assunto</label>
+                    <select name="assunto" class="form-select">
+                        <option value="">Todos</option>
+                        <option value="servicos" <%= filters.assunto === 'servicos' ? 'selected' : '' %>>Serviços</option>
+                        <option value="informacao" <%= filters.assunto === 'informacao' ? 'selected' : '' %>>Informação</option>
+                        <option value="reclamacao" <%= filters.assunto === 'reclamacao' ? 'selected' : '' %>>Reclamação</option>
+                        <option value="sugestao" <%= filters.assunto === 'sugestao' ? 'selected' : '' %>>Sugestão</option>
+                        <option value="outro" <%= filters.assunto === 'outro' ? 'selected' : '' %>>Outro</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Pesquisar</label>
+                    <input type="text" name="search" class="form-control" placeholder="Nome, email ou mensagem..." value="<%= filters.search || '' %>">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-2"></i>Filtrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de Contactos -->
+    <div class="card">
+        <div class="card-body">
+            <% if (contacts.length === 0) { %>
+                <div class="text-center py-5">
+                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Nenhum contacto encontrado</p>
+                </div>
+            <% } else { %>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th width="40"></th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Assunto</th>
+                                <th>Status</th>
+                                <th>Data</th>
+                                <th width="100">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% contacts.forEach(contact => { %>
+                                <tr class="<%= !contact.isRead ? 'table-active fw-bold' : '' %>">
+                                    <td>
+                                        <% if (!contact.isRead) { %>
+                                            <span class="badge bg-danger rounded-pill">Novo</span>
+                                        <% } %>
+                                    </td>
+                                    <td><%= contact.nome %></td>
+                                    <td><%= contact.email %></td>
+                                    <td>
+                                        <% 
+                                        const assuntos = {
+                                            'servicos': 'Serviços',
+                                            'informacao': 'Informação',
+                                            'reclamacao': 'Reclamação',
+                                            'sugestao': 'Sugestão',
+                                            'outro': 'Outro'
+                                        };
+                                        %>
+                                        <%= assuntos[contact.assunto] || contact.assunto %>
+                                    </td>
+                                    <td>
+                                        <% 
+                                        const statusColors = {
+                                            'novo': 'warning',
+                                            'em_analise': 'info',
+                                            'respondido': 'success',
+                                            'arquivado': 'secondary'
+                                        };
+                                        const statusLabels = {
+                                            'novo': 'Novo',
+                                            'em_analise': 'Em Análise',
+                                            'respondido': 'Respondido',
+                                            'arquivado': 'Arquivado'
+                                        };
+                                        %>
+                                        <span class="badge bg-<%= statusColors[contact.status] %>">
+                                            <%= statusLabels[contact.status] %>
+                                        </span>
+                                    </td>
+                                    <td><%= new Date(contact.createdAt).toLocaleDateString('pt-PT') %></td>
+                                    <td>
+                                        <a href="/admin/contacts/<%= contact.id %>" class="btn btn-sm btn-primary" title="Ver Detalhes">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <form method="POST" action="/admin/contacts/<%= contact.id %>/delete" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja deletar este contacto?')">
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Deletar">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginação -->
+                <% if (pagination.total > 1) { %>
+                    <nav aria-label="Navegação de páginas">
+                        <ul class="pagination justify-content-center mb-0">
+                            <li class="page-item <%= !pagination.hasPrev ? 'disabled' : '' %>">
+                                <a class="page-link" href="?page=<%= pagination.current - 1 %><%= filters.status ? '&status=' + filters.status : '' %><%= filters.assunto ? '&assunto=' + filters.assunto : '' %><%= filters.search ? '&search=' + filters.search : '' %>">
+                                    Anterior
+                                </a>
+                            </li>
+                            <li class="page-item active">
+                                <span class="page-link"><%= pagination.current %> de <%= pagination.total %></span>
+                            </li>
+                            <li class="page-item <%= !pagination.hasNext ? 'disabled' : '' %>">
+                                <a class="page-link" href="?page=<%= pagination.current + 1 %><%= filters.status ? '&status=' + filters.status : '' %><%= filters.assunto ? '&assunto=' + filters.assunto : '' %><%= filters.search ? '&search=' + filters.search : '' %>">
+                                    Próximo
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+</div>

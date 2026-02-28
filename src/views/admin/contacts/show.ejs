@@ -1,0 +1,245 @@
+<!-- src/views/admin/contacts/show.ejs -->
+<%- layout('layouts/admin') %>
+
+<div class="container-fluid py-4">
+    <!-- Cabeçalho -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="/admin/contacts" class="btn btn-outline-secondary mb-2">
+                        <i class="fas fa-arrow-left me-2"></i>Voltar
+                    </a>
+                    <h2 class="mb-1">Detalhes do Contacto</h2>
+                    <p class="text-muted mb-0">ID: <%= contact.id %></p>
+                </div>
+                <div>
+                    <form method="POST" action="/admin/contacts/<%= contact.id %>/delete" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja deletar este contacto?')">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash me-2"></i>Deletar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Informações do Remetente -->
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-envelope me-2"></i>Mensagem</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Nome</p>
+                            <h5><%= contact.nome %></h5>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Email</p>
+                            <h5><a href="mailto:<%= contact.email %>"><%= contact.email %></a></h5>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Telefone</p>
+                            <h5><%= contact.telefone || 'Não informado' %></h5>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Assunto</p>
+                            <% 
+                            const assuntos = {
+                                'servicos': 'Solicitação de Serviços',
+                                'informacao': 'Pedido de Informação',
+                                'reclamacao': 'Reclamação',
+                                'sugestao': 'Sugestão',
+                                'outro': 'Outro'
+                            };
+                            %>
+                            <h5><%= assuntos[contact.assunto] || contact.assunto %></h5>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-3">
+                        <p class="text-muted mb-2">Mensagem</p>
+                        <div class="alert alert-light border">
+                            <%= contact.mensagem %>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                Recebido em: <%= new Date(contact.createdAt).toLocaleString('pt-PT') %>
+                            </small>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <% if (contact.newsletter) { %>
+                                <span class="badge bg-info">
+                                    <i class="fas fa-envelope-open-text me-1"></i>
+                                    Inscrito na Newsletter
+                                </span>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notas do Administrador -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-sticky-note me-2"></i>Notas Internas</h5>
+                </div>
+                <div class="card-body">
+                    <form id="notesForm">
+                        <input type="hidden" id="contactId" value="<%= contact.id %>">
+                        <textarea class="form-control mb-3" id="adminNotes" rows="4" placeholder="Adicione notas internas sobre este contacto..."><%= contact.adminNotes || '' %></textarea>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Salvar Notas
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra Lateral -->
+        <div class="col-lg-4">
+            <!-- Status -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Status</h5>
+                </div>
+                <div class="card-body">
+                    <form id="statusForm">
+                        <input type="hidden" id="statusContactId" value="<%= contact.id %>">
+                        <div class="mb-3">
+                            <label class="form-label">Alterar Status</label>
+                            <select class="form-select" id="contactStatus">
+                                <option value="novo" <%= contact.status === 'novo' ? 'selected' : '' %>>Novo</option>
+                                <option value="em_analise" <%= contact.status === 'em_analise' ? 'selected' : '' %>>Em Análise</option>
+                                <option value="respondido" <%= contact.status === 'respondido' ? 'selected' : '' %>>Respondido</option>
+                                <option value="arquivado" <%= contact.status === 'arquivado' ? 'selected' : '' %>>Arquivado</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-check me-2"></i>Atualizar Status
+                        </button>
+                    </form>
+
+                    <hr>
+
+                    <div class="d-grid">
+                        <button class="btn btn-outline-primary mb-2" id="toggleReadBtn">
+                            <i class="fas <%= contact.isRead ? 'fa-envelope' : 'fa-envelope-open' %> me-2"></i>
+                            Marcar como <%= contact.isRead ? 'Não Lido' : 'Lido' %>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informações Técnicas -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Informações Técnicas</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        <strong>IP:</strong><br>
+                        <small class="text-muted"><%= contact.ipAddress || 'Não disponível' %></small>
+                    </p>
+                    <p class="mb-0">
+                        <strong>User Agent:</strong><br>
+                        <small class="text-muted"><%= contact.userAgent ? contact.userAgent.substring(0, 50) + '...' : 'Não disponível' %></small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Atualizar Status
+document.getElementById('statusForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const contactId = document.getElementById('statusContactId').value;
+    const status = document.getElementById('contactStatus').value;
+    
+    try {
+        const response = await fetch(`/admin/contacts/${contactId}/status`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('Status atualizado com sucesso!');
+            location.reload();
+        } else {
+            alert('Erro ao atualizar status: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao atualizar status');
+    }
+});
+
+// Salvar Notas
+document.getElementById('notesForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const contactId = document.getElementById('contactId').value;
+    const adminNotes = document.getElementById('adminNotes').value;
+    const status = document.getElementById('contactStatus').value;
+    
+    try {
+        const response = await fetch(`/admin/contacts/${contactId}/status`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status, adminNotes })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('Notas salvas com sucesso!');
+        } else {
+            alert('Erro ao salvar notas: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao salvar notas');
+    }
+});
+
+// Toggle Read
+document.getElementById('toggleReadBtn').addEventListener('click', async function() {
+    const contactId = '<%= contact.id %>';
+    
+    try {
+        const response = await fetch(`/admin/contacts/${contactId}/toggle-read`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            location.reload();
+        } else {
+            alert('Erro ao alterar status de leitura');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao alterar status de leitura');
+    }
+});
+</script>

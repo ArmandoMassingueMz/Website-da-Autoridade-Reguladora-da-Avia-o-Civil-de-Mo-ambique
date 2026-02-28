@@ -1,0 +1,82 @@
+/* ↧↧↧ ADICIONAR ESTES ESTILOS ↧↧↧ */
+
+/* Estilos para o modal de regulamentos */
+#regulamentosModal .modal-xl {
+    max-width: 1200px;
+  }
+  
+  #regulamentosModal .modal-header {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+  }
+  
+  #regulamentosModal .nav-pills .nav-link {
+    color: var(--text-dark);
+    border: 1px solid #dee2e6;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  #regulamentosModal .nav-pills .nav-link.active {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+    color: white;
+    border-color: var(--primary-blue);
+  }
+  
+  #regulamentosModal .nav-pills .nav-link:hover:not(.active) {
+    background-color: #f8f9fa;
+    border-color: var(--primary-blue);
+  }
+  
+  #regulamentosModal .table th {
+    background-color: rgba(0, 86, 179, 0.1);
+    font-weight: 600;
+    border-bottom: 2px solid var(--primary-blue);
+  }
+  
+  #regulamentosModal .table td {
+    vertical-align: middle;
+    padding: 0.75rem;
+  }
+  
+  #regulamentosModal .table tbody tr:hover {
+    background-color: rgba(0, 86, 179, 0.02);
+  }
+  
+  /* Badge no link de regulamentos */
+  .service-features .badge {
+    font-size: 0.7rem;
+    padding: 0.25em 0.5em;
+  }
+  
+  /* Responsividade do modal */
+  @media (max-width: 768px) {
+    #regulamentosModal .nav-pills .nav-link {
+      font-size: 0.875rem;
+      padding: 0.5rem 0.75rem;
+    }
+    
+    #regulamentosModal .table {
+      font-size: 0.875rem;
+    }
+    
+    #regulamentosModal .table th,
+    #regulamentosModal .table td {
+      padding: 0.5rem;
+    }
+  }
+  
+  /* Efeitos de hover para os links do modal */
+  #regulamentosModal .btn-outline-primary:hover {
+    background-color: var(--primary-blue);
+    color: white;
+    transform: translateY(-1px);
+  }
+
+
+
+
+
+
+  

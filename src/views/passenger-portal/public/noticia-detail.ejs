@@ -1,0 +1,138 @@
+<!-- BREADCRUMB -->
+<section class="bg-light py-3" style="margin-top: 80px;">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/portal-passageiro">Portal do Passageiro</a></li>
+                <li class="breadcrumb-item"><a href="/portal-passageiro/noticias">Notícias</a></li>
+                <li class="breadcrumb-item active"><%= noticia.title %></li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- CONTEÚDO DA NOTÍCIA -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                
+                <!-- IMAGEM DESTAQUE -->
+                <% if (noticia.featured_image) { %>
+                    <img src="<%= noticia.featured_image %>" 
+                         class="img-fluid rounded shadow-lg mb-4" 
+                         alt="<%= noticia.title %>"
+                         style="width: 100%; max-height: 500px; object-fit: cover;">
+                <% } %>
+                
+                <!-- TÍTULO E META -->
+                <div class="mb-4">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <%= noticia.title %>
+                    </h1>
+                    
+                    <div class="d-flex flex-wrap gap-3 align-items-center text-muted">
+                        <span>
+                            <i class="far fa-calendar-alt"></i>
+                            <%= new Date(noticia.publishedAt).toLocaleDateString('pt-PT', { 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric' 
+                            }) %>
+                        </span>
+                        
+                        <% if (noticia.author) { %>
+                            <span>
+                                <i class="far fa-user"></i>
+                                <%= noticia.author %>
+                            </span>
+                        <% } %>
+                        
+                        <% if (noticia.category) { %>
+                            <span class="badge bg-primary">
+                                <%= noticia.category %>
+                            </span>
+                        <% } %>
+                    </div>
+                </div>
+                
+                <hr class="my-4">
+                
+                <!-- CONTEÚDO -->
+                <div class="content-area">
+                    <%- noticia.content %>
+                </div>
+                
+                <hr class="my-5">
+                
+                <!-- COMPARTILHAR -->
+                <div class="d-flex gap-2 align-items-center mb-4">
+                    <strong class="me-2">Compartilhar:</strong>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent('https://iacm.gov.mz/portal-passageiro/noticias/' + noticia.slug) %>" 
+                       target="_blank" 
+                       class="btn btn-outline-primary btn-sm">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent('https://iacm.gov.mz/portal-passageiro/noticias/' + noticia.slug) %>&text=<%= encodeURIComponent(noticia.title) %>" 
+                       target="_blank" 
+                       class="btn btn-outline-info btn-sm">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= encodeURIComponent('https://iacm.gov.mz/portal-passageiro/noticias/' + noticia.slug) %>" 
+                       target="_blank" 
+                       class="btn btn-outline-primary btn-sm">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="whatsapp://send?text=<%= encodeURIComponent(noticia.title + ' https://iacm.gov.mz/portal-passageiro/noticias/' + noticia.slug) %>" 
+                       class="btn btn-outline-success btn-sm">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+                
+                <!-- VOLTAR -->
+                <div class="text-center mt-5">
+                    <a href="/portal-passageiro/noticias" class="btn btn-outline-secondary btn-lg">
+                        <i class="fas fa-arrow-left"></i> Voltar às Notícias
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .content-area {
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+    
+    .content-area p {
+        margin-bottom: 1.5rem;
+    }
+    
+    .content-area img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 1.5rem 0;
+    }
+    
+    .content-area h2,
+    .content-area h3,
+    .content-area h4 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    
+    .content-area ul,
+    .content-area ol {
+        margin-bottom: 1.5rem;
+        padding-left: 2rem;
+    }
+    
+    .content-area li {
+        margin-bottom: 0.5rem;
+    }
+</style>

@@ -1,0 +1,54 @@
+{
+	"nav": {
+		"home": "Home",
+		"about": "About",
+		"services": "Services",
+		"news": "News",
+		"events": "Events",
+		"contacts": "Contacts",
+		"login": "Login"
+	},
+	"home": {
+		"title": "IACM - Civil Aviation Authority of Mozambique",
+		"whatWeDo": "What We Do",
+		"subtitle": "IACM ensures the implementation of civil aviation policies and regulations in Mozambique",
+		"featuredNews": "FEATURED NEWS",
+		"featuredEvent": "FEATURED EVENT",
+		"readFullNews": "Read Full Article",
+		"viewFullEvent": "View Full Event",
+		"allNews": "All News",
+		"allEvents": "All Events",
+		"emptyState": "No Featured Content Available",
+		"emptyStateText": "Featured news and events will appear here soon."
+	},
+	"cards": {
+		"airSafety": {
+			"title": "Air Safety",
+			"description": "Inspection and supervision of civil aviation operational safety."
+		},
+		"regulation": {
+			"title": "Regulation",
+			"description": "Regulation of civil aviation activities and air transport."
+		},
+		"certification": {
+			"title": "Certification",
+			"description": "Certification of personnel, organizations, products and aeronautical services."
+		}
+	},
+	"stats": {
+		"airports": "Monitored Airports",
+		"professionals": "Certified Professionals",
+		"experience": "Years of Experience",
+		"airlines": "Airlines"
+	},
+	"event": {
+		"start": "Start",
+		"end": "End",
+		"location": "Location"
+	},
+	"common": {
+		"previous": "Previous",
+		"next": "Next",
+		"slide": "common.slide"
+	}
+}

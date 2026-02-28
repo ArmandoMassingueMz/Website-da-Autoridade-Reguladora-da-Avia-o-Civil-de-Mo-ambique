@@ -1,0 +1,384 @@
+<!-- ================================================== -->
+<!-- PÁGINA: REGISTRAR RECLAMAÇÃO                       -->
+<!-- ================================================== -->
+
+<!-- BREADCRUMB -->
+<section class="bg-light py-3" style="margin-top: 80px;">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/portal-passageiro">Portal do Passageiro</a>
+          </li>
+          <li class="breadcrumb-item active">Registrar Reclamação</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+  
+  <!-- HERO COM IMAGEM DE FUNDO -->
+  <section class="page-hero" style="background-image: url('/images/hero_reclamacao.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <h1 class="hero-title">
+            <i class="fas fa-exclamation-triangle me-2"></i>Registrar Reclamação
+          </h1>
+          <p class="hero-subtitle">
+            Informe-nos sobre problemas ocorridos durante sua viagem.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- INFORMAÇÕES IMPORTANTES -->
+  <section class="py-4 bg-light">
+    <div class="container">
+      <div class="alert alert-info border-0 shadow-sm">
+        <h5 class="alert-heading">
+          <i class="fas fa-info-circle"></i> Antes de Registrar sua Reclamação
+        </h5>
+        <ul class="mb-0">
+          <li>Certifique-se de ter todos os documentos relacionados à sua viagem (bilhete, cartão de embarque, etc.)</li>
+          <li>Suas informações serão mantidas em sigilo e usadas apenas para análise da reclamação</li>
+          <li>Você receberá uma confirmação por email após o registro</li>
+          <li>O prazo médio de resposta é de 10 dias úteis</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  <!-- FORMULÁRIO -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card-modern border-0 shadow">
+            <div class="card-body p-5">
+              <form action="/portal-passageiro/reclamacoes" method="POST">
+  
+                <!-- DADOS PESSOAIS -->
+                <h4 class="mb-4 pb-3 border-bottom">
+                  <i class="fas fa-user"></i> Dados Pessoais
+                </h4>
+                <div class="row mb-3">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">
+                      Nome Completo <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="passenger_name"
+                      class="form-control form-control-lg"
+                      required
+                      placeholder="Digite seu nome completo"
+                    >
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">
+                      Email <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      name="passenger_email"
+                      class="form-control form-control-lg"
+                      required
+                      placeholder="seu@email.com"
+                    >
+                  </div>
+                </div>
+                <div class="mb-4">
+                  <label class="form-label fw-bold">Telefone</label>
+                  <input
+                    type="tel"
+                    name="passenger_phone"
+                    class="form-control form-control-lg"
+                    placeholder="+258 XX XXX XXXX"
+                  >
+                </div>
+  
+                <!-- DADOS DO VOO -->
+                <h4 class="mb-4 pb-3 border-bottom mt-5">
+                  <i class="fas fa-plane"></i> Dados do Voo
+                </h4>
+                <div class="row mb-3">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Tipo de Reclamação</label>
+                    <select name="complaint_type" class="form-select form-select-lg">
+                      <option value="atraso">Atraso de Voo</option>
+                      <option value="cancelamento">Cancelamento de Voo</option>
+                      <option value="bagagem">Problema com Bagagem</option>
+                      <option value="atendimento">Atendimento</option>
+                      <option value="reembolso">Reembolso</option>
+                      <option value="outro">Outro</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Companhia Aérea</label>
+                    <input
+                      type="text"
+                      name="airline"
+                      class="form-control form-control-lg"
+                      placeholder="Nome da companhia"
+                    >
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Número do Voo</label>
+                    <input
+                      type="text"
+                      name="flight_number"
+                      class="form-control form-control-lg"
+                      placeholder="Ex: TM123"
+                    >
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Data do Voo</label>
+                    <input
+                      type="date"
+                      name="flight_date"
+                      class="form-control form-control-lg"
+                    >
+                  </div>
+                </div>
+  
+                <!-- DETALHES DA RECLAMAÇÃO -->
+                <h4 class="mb-4 pb-3 border-bottom mt-5">
+                  <i class="fas fa-file-alt"></i> Detalhes da Reclamação
+                </h4>
+                <div class="mb-4">
+                  <label class="form-label fw-bold">
+                    Descrição do Problema <span class="text-danger">*</span>
+                  </label>
+                  <textarea
+                    name="description"
+                    class="form-control"
+                    rows="6"
+                    required
+                    placeholder="Descreva detalhadamente o que aconteceu..."
+                  ></textarea>
+                  <small class="text-muted">
+                    Seja o mais específico possível. Inclua datas, horários e nomes se relevante.
+                  </small>
+                </div>
+  
+                <!-- TERMOS -->
+                <div class="form-check mb-4">
+                  <input class="form-check-input" type="checkbox" id="terms" required>
+                  <label class="form-check-label" for="terms">
+                    Confirmo que as informações fornecidas são verdadeiras e autorizo o IACM a
+                    processar meus dados para análise desta reclamação.
+                  </label>
+                </div>
+  
+                <!-- BOTÕES -->
+                <div class="d-flex gap-3">
+                  <button type="submit" class="btn btn-warning btn-lg flex-grow-1">
+                    <i class="fas fa-paper-plane"></i> Enviar Reclamação
+                  </button>
+                  <a href="/portal-passageiro" class="btn btn-outline-secondary btn-lg">
+                    Cancelar
+                  </a>
+                </div>
+  
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- COMO FUNCIONA -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h3 class="text-center mb-5">Como Funciona?</h3>
+      <div class="row g-4">
+  
+        <div class="col-md-3 text-center">
+          <div class="mb-3">
+            <div
+              class="rounded-circle bg-warning text-white d-inline-flex align-items-center justify-content-center"
+              style="width: 80px; height: 80px;"
+            >
+              <h2 class="mb-0">1</h2>
+            </div>
+          </div>
+          <h5>Preencha o Formulário</h5>
+          <p class="text-muted">Forneça os detalhes da sua reclamação</p>
+        </div>
+  
+        <div class="col-md-3 text-center">
+          <div class="mb-3">
+            <div
+              class="rounded-circle bg-info text-white d-inline-flex align-items-center justify-content-center"
+              style="width: 80px; height: 80px;"
+            >
+              <h2 class="mb-0">2</h2>
+            </div>
+          </div>
+          <h5>Receba Confirmação</h5>
+          <p class="text-muted">Enviaremos um email de confirmação</p>
+        </div>
+  
+        <div class="col-md-3 text-center">
+          <div class="mb-3">
+            <div
+              class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+              style="width: 80px; height: 80px;"
+            >
+              <h2 class="mb-0">3</h2>
+            </div>
+          </div>
+          <h5>Análise</h5>
+          <p class="text-muted">Analisaremos sua reclamação</p>
+        </div>
+  
+        <div class="col-md-3 text-center">
+          <div class="mb-3">
+            <div
+              class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center"
+              style="width: 80px; height: 80px;"
+            >
+              <h2 class="mb-0">4</h2>
+            </div>
+          </div>
+          <h5>Resposta</h5>
+          <p class="text-muted">Você receberá nossa resposta</p>
+        </div>
+  
+      </div>
+    </div>
+  </section>
+  
+  <!-- ESTILOS ESPECÍFICOS PARA ESTA PÁGINA -->
+  <style>
+    /* ================================================== */
+    /* HERO                                               */
+    /* ================================================== */
+    .page-hero {
+      height: 50vh;
+      min-height: 400px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      margin-top: 0;
+    }
+  
+    .page-hero .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(0, 45, 135, 0.85) 0%,
+        rgba(0, 86, 179, 0.75) 40%,
+        rgba(0, 86, 179, 0.5) 70%,
+        transparent 100%
+      );
+      z-index: 1;
+    }
+  
+    .page-hero .container {
+      position: relative;
+      z-index: 2;
+    }
+  
+    .page-hero .hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+  
+    .page-hero .hero-title i {
+      color: #D4AF37;
+    }
+  
+    .page-hero .hero-subtitle {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.95);
+      max-width: 600px;
+    }
+  
+    /* ================================================== */
+    /* FORMULÁRIO                                         */
+    /* ================================================== */
+    .card-modern {
+      border-radius: 12px;
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+  
+    .form-control,
+    .form-select {
+      border-radius: 50px;
+      border: 1px solid #dee2e6;
+      padding: 0.75rem 1.2rem;
+      font-size: 1rem;
+    }
+  
+    .form-control:focus,
+    .form-select:focus {
+      border-color: #0056b3;
+      box-shadow: 0 0 0 0.2rem rgba(0, 86, 179, 0.25);
+    }
+  
+    .btn-warning {
+      background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+      border: none;
+      color: #212529;
+      border-radius: 50px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+  
+    .btn-warning:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(255, 193, 7, 0.25);
+    }
+  
+    .btn-outline-secondary {
+      border: 2px solid #6c757d;
+      color: #6c757d;
+      background: transparent;
+      border-radius: 50px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+  
+    .btn-outline-secondary:hover {
+      background: #6c757d;
+      color: white;
+      transform: translateY(-2px);
+    }
+  
+    /* ================================================== */
+    /* RESPONSIVIDADE                                     */
+    /* ================================================== */
+    @media (max-width: 768px) {
+      .page-hero .hero-title {
+        font-size: 2rem;
+      }
+  
+      .page-hero .hero-subtitle {
+        font-size: 1rem;
+      }
+  
+      .form-control,
+      .form-select {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+  

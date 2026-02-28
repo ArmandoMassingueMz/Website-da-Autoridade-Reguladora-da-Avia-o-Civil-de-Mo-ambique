@@ -1,0 +1,294 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">Gestão de Acidentes e Incidentes</h1>
+            <p class="text-muted mb-0">Gerir registros de acidentes e incidentes aeronáuticos</p>
+        </div>
+        <div class="btn-group">
+            <a href="/admin" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Dashboard
+            </a>
+            <a href="/admin/accidents/create" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Registrar Novo
+            </a>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <%= messages.success[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+    
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Stats -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-info text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= accidents.length %></div>
+                            <div class="small">Total de Registros</div>
+                        </div>
+                        <i class="fas fa-exclamation-triangle fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-danger text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= accidents.filter(a => a.type === 'Acidente').length %></div>
+                            <div class="small">Acidentes</div>
+                        </div>
+                        <i class="fas fa-times-circle fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= accidents.filter(a => a.type === 'Incidente').length %></div>
+                            <div class="small">Incidentes</div>
+                        </div>
+                        <i class="fas fa-exclamation-circle fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-success text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= accidents.filter(a => a.isPublished).length %></div>
+                            <div class="small">Publicados</div>
+                        </div>
+                        <i class="fas fa-eye fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Distribution -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0">Distribuição por Status</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-warning rounded p-2 me-3">
+                                    <i class="fas fa-search text-white"></i>
+                                </div>
+                                <div>
+                                    <div class="h5 mb-0"><%= accidents.filter(a => a.status === 'Em Investigação').length %></div>
+                                    <div class="text-muted small">Em Investigação</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-success rounded p-2 me-3">
+                                    <i class="fas fa-check text-white"></i>
+                                </div>
+                                <div>
+                                    <div class="h5 mb-0"><%= accidents.filter(a => a.status === 'Concluído').length %></div>
+                                    <div class="text-muted small">Concluídos</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-secondary rounded p-2 me-3">
+                                    <i class="fas fa-archive text-white"></i>
+                                </div>
+                                <div>
+                                    <div class="h5 mb-0"><%= accidents.filter(a => a.status === 'Arquivado').length %></div>
+                                    <div class="text-muted small">Arquivados</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary rounded p-2 me-3">
+                                    <i class="fas fa-calendar text-white"></i>
+                                </div>
+                                <div>
+                                    <div class="h5 mb-0"><%= accidents.filter(a => a.year === new Date().getFullYear()).length %></div>
+                                    <div class="text-muted small">Ano Atual (<%= new Date().getFullYear() %>)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accidents Table -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h5 class="card-title mb-0">Todos os Registros</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="border-0">Trimestre</th>
+                            <th class="border-0">Ano</th>
+                            <th class="border-0">Tipo</th>
+                            <th class="border-0">Título</th>
+                            <th class="border-0">Status</th>
+                            <th class="border-0">Publicado</th>
+                            <th class="border-0 text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (accidents.length > 0) { %>
+                            <% accidents.forEach(accident => { %>
+                                <tr>
+                                    <td>
+                                        <span class="badge bg-secondary">
+                                            <i class="fas fa-calendar-alt me-1"></i>
+                                            <%= accident.quarter || 'N/A' %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <strong class="text-primary"><%= accident.year %></strong>
+                                    </td>
+                                    <td>
+                                        <span class="badge <%= accident.type === 'Acidente' ? 'bg-danger' : 'bg-warning' %>">
+                                            <i class="fas <%= accident.type === 'Acidente' ? 'fa-times-circle' : 'fa-exclamation-circle' %> me-1"></i>
+                                            <%= accident.type %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <strong class="text-dark"><%= accident.title %></strong>
+                                        <% if (accident.description && accident.description.length > 0) { %>
+                                            <br>
+                                            <small class="text-muted"><%= accident.description.substring(0, 80) %>...</small>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% 
+                                        const statusColors = {
+                                            'Em Investigação': 'warning',
+                                            'Concluído': 'success',
+                                            'Arquivado': 'secondary'
+                                        };
+                                        const statusIcons = {
+                                            'Em Investigação': 'search',
+                                            'Concluído': 'check',
+                                            'Arquivado': 'archive'
+                                        };
+                                        %>
+                                        <span class="badge bg-<%= statusColors[accident.status] %>">
+                                            <i class="fas fa-<%= statusIcons[accident.status] %> me-1"></i>
+                                            <%= accident.status %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <% if (accident.isPublished) { %>
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check me-1"></i> Sim
+                                            </span>
+                                        <% } else { %>
+                                            <span class="badge bg-secondary">
+                                                <i class="fas fa-ban me-1"></i> Não
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <% if (accident.pdfUrl) { %>
+                                                <a href="<%= accident.pdfUrl %>" 
+                                                   target="_blank" 
+                                                   class="btn btn-outline-success" 
+                                                   data-bs-toggle="tooltip" 
+                                                   title="Ver Relatório PDF">
+                                                    <i class="fas fa-file-pdf"></i>
+                                                </a>
+                                            <% } %>
+                                            <a href="/admin/accidents/<%= accident.id %>/edit" 
+                                               class="btn btn-outline-primary" 
+                                               data-bs-toggle="tooltip" 
+                                               title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="/admin/accidents/<%= accident.id %>/delete" 
+                                                  method="POST" 
+                                                  class="d-inline">
+                                                <button type="submit" 
+                                                        class="btn btn-outline-danger" 
+                                                        data-bs-toggle="tooltip" 
+                                                        title="Excluir"
+                                                        onclick="return confirm('Tem certeza que deseja excluir este registro?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-5">
+                                    <i class="fas fa-inbox fa-3x mb-3 opacity-25"></i>
+                                    <h5 class="text-muted">Nenhum registro encontrado</h5>
+                                    <p class="text-muted mb-4">Comece registrando o primeiro acidente/incidente</p>
+                                    <a href="/admin/accidents/create" class="btn btn-primary">
+                                        <i class="fas fa-plus me-2"></i>Registrar Primeiro Acidente/Incidente
+                                    </a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Ativar tooltips
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
+// Função para confirmar exclusão
+function confirmDelete(event) {
+    if (!confirm('Tem certeza que deseja excluir este registro?')) {
+        event.preventDefault();
+        return false;
+    }
+    return true;
+}
+</script>
+
+<%- include('../../partials/admin-footer') %>

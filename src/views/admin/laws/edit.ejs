@@ -1,0 +1,219 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">
+                <i class="fas fa-edit me-2"></i>Editar Lei/Decreto
+            </h1>
+            <p class="text-muted mb-0">Atualizar informações da legislação</p>
+        </div>
+        <a href="/admin/laws" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Voltar
+        </a>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Formulário -->
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <form action="/admin/laws/<%= law.id %>" method="POST" enctype="multipart/form-data">
+                        
+                        <!-- Número de Ordem -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <label for="ord" class="form-label fw-bold">
+                                    <i class="fas fa-sort-numeric-down me-1"></i>
+                                    Número de Ordem <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="ord" 
+                                       name="ord" 
+                                       value="<%= law.ord %>"
+                                       required>
+                                <small class="form-text text-muted">
+                                    Formato: 01, 02, 03...
+                                </small>
+                            </div>
+
+                            <!-- Número do Decreto -->
+                            <div class="col-md-9">
+                                <label for="decreeNumber" class="form-label fw-bold">
+                                    <i class="fas fa-file-contract me-1"></i>
+                                    Número do Decreto <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="decreeNumber" 
+                                       name="decreeNumber" 
+                                       value="<%= law.decreeNumber %>"
+                                       placeholder="Ex: Decreto n.º 45/2024"
+                                       required>
+                            </div>
+                        </div>
+
+                        <!-- Teor/Título -->
+                        <div class="mb-4">
+                            <label for="title" class="form-label fw-bold">
+                                <i class="fas fa-align-left me-1"></i>
+                                Teor do Decreto <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" 
+                                      id="title" 
+                                      name="title" 
+                                      rows="4"
+                                      required><%= law.title %></textarea>
+                        </div>
+
+                        <!-- Data de Publicação -->
+                        <div class="mb-4">
+                            <label for="publicationDate" class="form-label fw-bold">
+                                <i class="fas fa-calendar me-1"></i>
+                                Data de Publicação
+                            </label>
+                            <input type="date" 
+                                   class="form-control" 
+                                   id="publicationDate" 
+                                   name="publicationDate"
+                                   value="<%= law.publicationDate ? new Date(law.publicationDate).toISOString().split('T')[0] : '' %>">
+                        </div>
+
+                        <!-- Documento Atual -->
+                        <% if (law.fileUrl) { %>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-file-pdf me-1"></i>
+                                    Documento Atual
+                                </label>
+                                <div class="alert alert-info">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span>
+                                            <i class="fas fa-file-pdf me-2"></i>
+                                            <%= law.fileUrl.split('/').pop() %>
+                                        </span>
+                                        <a href="<%= law.fileUrl %>" 
+                                           target="_blank" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye me-1"></i>Visualizar
+                                        </a>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="currentFile" value="<%= law.fileUrl %>">
+                            </div>
+                        <% } %>
+
+                        <!-- Upload de Novo Documento -->
+                        <div class="mb-4">
+                            <label for="document" class="form-label fw-bold">
+                                <i class="fas fa-file-upload me-1"></i>
+                                <%= law.fileUrl ? 'Substituir Documento' : 'Adicionar Documento' %>
+                            </label>
+                            <input type="file" 
+                                   class="form-control" 
+                                   id="document" 
+                                   name="document"
+                                   accept=".pdf,.doc,.docx">
+                            <small class="form-text text-muted">
+                                Deixe em branco para manter o documento atual
+                            </small>
+                            
+                            <!-- Preview do novo arquivo -->
+                            <div id="filePreview" class="mt-2" style="display: none;">
+                                <div class="alert alert-success">
+                                    <i class="fas fa-file-pdf me-2"></i>
+                                    Novo arquivo: <span id="fileName"></span>
+                                    <button type="button" class="btn btn-sm btn-outline-danger float-end" onclick="clearFile()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status de Publicação -->
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       id="isPublished" 
+                                       name="isPublished"
+                                       <%= law.isPublished ? 'checked' : '' %>>
+                                <label class="form-check-label fw-bold" for="isPublished">
+                                    <i class="fas fa-eye me-1"></i>
+                                    Publicar no site
+                                </label>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <!-- Botões -->
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="/admin/laws" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-1"></i>Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Salvar Alterações
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Card de Informações -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-body">
+                    <h6 class="card-title">
+                        <i class="fas fa-info-circle me-2"></i>Informações
+                    </h6>
+                    <small class="text-muted">
+                        <strong>Criado em:</strong> <%= new Date(law.createdAt).toLocaleString('pt-PT') %><br>
+                        <strong>Última atualização:</strong> <%= new Date(law.updatedAt).toLocaleString('pt-PT') %>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Preview do novo arquivo
+document.getElementById('document').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        document.getElementById('fileName').textContent = file.name;
+        document.getElementById('filePreview').style.display = 'block';
+    }
+});
+
+function clearFile() {
+    document.getElementById('document').value = '';
+    document.getElementById('filePreview').style.display = 'none';
+}
+
+// Validação do formulário
+document.querySelector('form').addEventListener('submit', function(e) {
+    const ord = document.getElementById('ord').value.trim();
+    const decreeNumber = document.getElementById('decreeNumber').value.trim();
+    const title = document.getElementById('title').value.trim();
+    
+    if (!ord || !decreeNumber || !title) {
+        e.preventDefault();
+        alert('Por favor, preencha todos os campos obrigatórios!');
+        return false;
+    }
+});
+</script>
+
+<%- include('../../partials/admin-footer') %>

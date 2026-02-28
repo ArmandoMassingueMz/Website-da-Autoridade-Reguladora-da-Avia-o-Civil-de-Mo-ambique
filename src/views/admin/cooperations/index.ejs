@@ -1,0 +1,295 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">
+                <i class="fas fa-globe-africa me-2"></i>
+                Cooperação Internacional
+            </h1>
+            <p class="text-muted mb-0">Gestão de parcerias e acordos internacionais</p>
+        </div>
+        <div class="btn-group">
+            <a href="/admin" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Dashboard
+            </a>
+            <a href="/admin/cooperations/create" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Registrar Nova
+            </a>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i><%= messages.success[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i><%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Stats -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= cooperations.length %></div>
+                            <div class="small">Total de Cooperações</div>
+                        </div>
+                        <i class="fas fa-handshake fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-success text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= cooperations.filter(c => c.isPublished).length %></div>
+                            <div class="small">Publicadas</div>
+                        </div>
+                        <i class="fas fa-check-circle fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <% 
+            const typeCounts = {};
+            cooperations.forEach(coop => {
+                typeCounts[coop.type] = (typeCounts[coop.type] || 0) + 1;
+            });
+            const totalTypes = Object.keys(typeCounts).length;
+            %>
+            <div class="card bg-info text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= totalTypes %></div>
+                            <div class="small">Tipos de Acordo</div>
+                        </div>
+                        <i class="fas fa-file-contract fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <% 
+            const countries = [...new Set(cooperations.map(c => c.country).filter(Boolean))];
+            %>
+            <div class="card bg-warning text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= countries.length %></div>
+                            <div class="small">Países Parceiros</div>
+                        </div>
+                        <i class="fas fa-globe-americas fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h5 class="card-title mb-0">Todas as Cooperações</h5>
+        </div>
+        <div class="card-body p-0">
+            <% if (cooperations.length === 0) { %>
+                <div class="text-center py-5">
+                    <i class="fas fa-inbox fa-3x text-muted mb-3 opacity-25"></i>
+                    <h5 class="text-muted">Nenhuma cooperação internacional registrada</h5>
+                    <p class="text-muted">Adicione a primeira cooperação para começar.</p>
+                    <a href="/admin/cooperations/create" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus me-2"></i>Registrar Primeira Cooperação
+                    </a>
+                </div>
+            <% } else { %>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="border-0">Tipo</th>
+                                <th class="border-0">Título</th>
+                                <th class="border-0">Organização</th>
+                                <th class="border-0">País</th>
+                                <th class="border-0">Data</th>
+                                <th class="border-0">Documento</th>
+                                <th class="border-0">Status</th>
+                                <th class="border-0 text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% cooperations.forEach(coop => { %>
+                                <tr>
+                                    <td>
+                                        <% 
+                                        const typeColors = {
+                                            'Acordo': 'primary',
+                                            'Memorando': 'info',
+                                            'Parceria': 'success',
+                                            'Convênio': 'warning',
+                                            'Protocolo': 'secondary',
+                                            'Outro': 'dark'
+                                        };
+                                        %>
+                                        <span class="badge bg-<%= typeColors[coop.type] || 'secondary' %>">
+                                            <i class="fas fa-<%= coop.type === 'Acordo' ? 'file-signature' : 
+                                                            coop.type === 'Memorando' ? 'memo' : 
+                                                            coop.type === 'Parceria' ? 'handshake' : 
+                                                            coop.type === 'Convênio' ? 'scroll' : 'file-contract' %> me-1"></i>
+                                            <%= coop.type %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <strong class="text-dark"><%= coop.title %></strong>
+                                        <br>
+                                        <small class="text-muted">ID: <%= coop.id %></small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fas fa-building me-1"></i><%= coop.organization %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <% if (coop.country) { %>
+                                            <span class="badge bg-light text-dark">
+                                                <i class="fas fa-flag me-1"></i><%= coop.country %>
+                                            </span>
+                                        <% } else { %>
+                                            <span class="text-muted">-</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-calendar-alt text-primary me-1"></i>
+                                        <small class="text-muted">
+                                            <%= new Date(coop.date).toLocaleDateString('pt-PT', { 
+                                                day: '2-digit', 
+                                                month: 'short', 
+                                                year: 'numeric' 
+                                            }) %>
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <% if (coop.documentUrl) { %>
+                                            <a href="<%= coop.documentUrl %>" 
+                                               target="_blank" 
+                                               class="btn btn-sm btn-outline-primary"
+                                               data-bs-toggle="tooltip" 
+                                               title="Ver documento">
+                                                <i class="fas fa-file-pdf me-1"></i>PDF
+                                            </a>
+                                        <% } else { %>
+                                            <span class="text-muted">-</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% if (coop.isPublished) { %>
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check me-1"></i> Publicado
+                                            </span>
+                                        <% } else { %>
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-clock me-1"></i> Rascunho
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="/cooperacao/<%= coop.id %>" 
+                                               target="_blank" 
+                                               class="btn btn-outline-success" 
+                                               data-bs-toggle="tooltip" 
+                                               title="Ver Cooperação">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="/admin/cooperations/<%= coop.id %>/edit" 
+                                               class="btn btn-outline-primary" 
+                                               data-bs-toggle="tooltip" 
+                                               title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="/admin/cooperations/<%= coop.id %>/delete" 
+                                                  method="POST" 
+                                                  class="d-inline">
+                                                <button type="submit" 
+                                                        class="btn btn-outline-danger" 
+                                                        data-bs-toggle="tooltip" 
+                                                        title="Excluir"
+                                                        onclick="return confirm('Tem certeza que deseja excluir esta cooperação?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<script>
+// Ativar tooltips
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
+// Inicializar filtros
+document.addEventListener('DOMContentLoaded', function() {
+    // Filtro por tipo
+    const filterType = document.getElementById('filterType');
+    if (filterType) {
+        filterType.addEventListener('change', function() {
+            const type = this.value;
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const rowType = row.querySelector('.badge').textContent.trim();
+                if (type === 'all' || rowType === type) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Filtro por status
+    const filterStatus = document.getElementById('filterStatus');
+    if (filterStatus) {
+        filterStatus.addEventListener('change', function() {
+            const status = this.value;
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const rowStatus = row.querySelector('td:nth-child(7) .badge').textContent.trim();
+                if (status === 'all' || 
+                    (status === 'published' && rowStatus.includes('Publicado')) ||
+                    (status === 'draft' && rowStatus.includes('Rascunho'))) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+});
+</script>
+
+<%- include('../../partials/admin-footer') %>

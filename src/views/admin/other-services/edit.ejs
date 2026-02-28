@@ -1,0 +1,181 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">Editar Serviço</h1>
+            <p class="text-muted mb-0">Atualizar informações do serviço</p>
+        </div>
+        <div class="btn-group">
+            <a href="/admin/other-services" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Voltar
+            </a>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <%= messages.success[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+    
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <form action="/admin/other-services/<%= service.id %>/update" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                    <!-- Serviço Principal -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-tag me-2"></i>Serviço Principal
+                            <span class="text-danger">*</span>
+                        </label>
+                        <select name="serviceName" class="form-select" required>
+                            <option value="">Selecione um serviço...</option>
+                            <% serviceTypes.forEach(type => { %>
+                                <option value="<%= type %>" <%= service.serviceName === type ? 'selected' : '' %>>
+                                    <%= type %>
+                                </option>
+                            <% }) %>
+                        </select>
+                        <small class="text-muted">Selecione a direção ou área principal</small>
+                    </div>
+
+                    <!-- Status Ativo -->
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-toggle-on me-2"></i>Status
+                        </label>
+                        <div class="form-check">
+                            <input class="form-check-input" 
+                                   type="checkbox" 
+                                   name="isActive" 
+                                   id="isActive"
+                                   <%= service.isActive ? 'checked' : '' %>>
+                            <label class="form-check-label" for="isActive">
+                                Ativo
+                            </label>
+                        </div>
+                        <small class="text-muted">Serviço visível no site</small>
+                    </div>
+
+                    <!-- Ordem de Exibição -->
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-sort me-2"></i>Ordem de Exibição
+                        </label>
+                        <input type="number" 
+                               name="displayOrder" 
+                               class="form-control" 
+                               value="<%= service.displayOrder || 0 %>"
+                               min="0">
+                        <small class="text-muted">Ordem em que aparecerá (0 = primeiro)</small>
+                    </div>
+
+                    <!-- Título -->
+                    <div class="col-12 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-heading me-2"></i>Título
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" 
+                               name="title" 
+                               class="form-control" 
+                               value="<%= service.title %>"
+                               placeholder="Ex: Manual de Procedimentos"
+                               required
+                               maxlength="300">
+                        <small class="text-muted">Título principal do documento ou serviço</small>
+                    </div>
+
+                    <!-- Subtítulo -->
+                    <div class="col-12 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-text-width me-2"></i>Subtítulo
+                            <span class="text-muted">(opcional)</span>
+                        </label>
+                        <input type="text" 
+                               name="subtitle" 
+                               class="form-control" 
+                               value="<%= service.subtitle || '' %>"
+                               placeholder="Ex: Empresas, Acordos Aéreos, Estatística"
+                               maxlength="300">
+                        <small class="text-muted">
+                            <strong>Importante:</strong> Para "Direção de Regulação Econômica", use: 
+                            <em>Empresas</em>, <em>Acordos Aéreos</em>, <em>Estatística</em>, 
+                            <em>Proteção Ambiental</em>, <em>Defesa do Passageiro</em>, ou <em>SIAV</em>
+                        </small>
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="col-12 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-align-left me-2"></i>Descrição
+                            <span class="text-muted">(opcional)</span>
+                        </label>
+                        <textarea name="description" 
+                                  class="form-control" 
+                                  rows="5"
+                                  placeholder="Descreva o serviço ou documento..."><%= service.description || '' %></textarea>
+                        <small class="text-muted">Descrição detalhada que aparecerá no modal</small>
+                    </div>
+
+                    <!-- Upload PDF -->
+                    <div class="col-12 mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-file-pdf me-2"></i>Documento PDF
+                            <span class="text-muted">(opcional)</span>
+                        </label>
+                        <div class="mb-3">
+                            <% if (service.pdfUrl) { %>
+                                <div class="d-flex align-items-center mb-2">
+                                    <a href="<%= service.pdfUrl %>" target="_blank" class="btn btn-sm btn-outline-success me-2">
+                                        <i class="fas fa-eye me-1"></i>Ver PDF Atual
+                                    </a>
+                                    <span class="text-muted"><%= service.pdfUrl.split('/').pop() %></span>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" 
+                                           type="checkbox" 
+                                           name="removePdf" 
+                                           id="removePdf">
+                                    <label class="form-check-label text-danger" for="removePdf">
+                                        Remover PDF atual
+                                    </label>
+                                </div>
+                            <% } %>
+                        </div>
+                        <input type="file" 
+                               name="pdfFile" 
+                               class="form-control" 
+                               accept=".pdf">
+                        <small class="text-muted">Selecione um novo arquivo PDF para substituir (máx. 50MB)</small>
+                    </div>
+                </div>
+
+                <!-- Botões -->
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Atualizar Serviço
+                    </button>
+                    <a href="/admin/other-services" class="btn btn-secondary">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/admin-footer') %>

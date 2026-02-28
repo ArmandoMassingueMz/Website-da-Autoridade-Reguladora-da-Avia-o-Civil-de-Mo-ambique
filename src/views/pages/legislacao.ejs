@@ -1,0 +1,206 @@
+<!-- src/views/pages/legislacao.ejs -->
+<%- include('../partials/header') %>
+
+<<!-- ================================================== -->
+<!-- HERO SECTION LEGISLAÇÃO -->
+<!-- ================================================== -->
+<section class="page-hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="hero-title">Legislação e Regulamentação</h1>
+                <p class="hero-subtitle">Quadro legal e regulamentar da aviação civil em Moçambique. Consulte leis, decretos e regulamentos atualizados.</p>
+                <div class="hero-buttons">
+                    <a href="#documentos" class="btn btn-hero me-3">
+                        <i class="fas fa-list me-2"></i>Ver Documentos
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center" data-aos="fade-left" data-aos-delay="200">
+                <div class="hero-image">
+                    <img src="/images/iacmlogopreview1.png" alt="Legislação IACM" class="img-fluid floating">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================== -->
+<!-- DOCUMENTOS LEGAIS -->
+<!-- ================================================== -->
+<section id="documentos" class="services-section py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-12">
+                <h2 class="section-title" data-aos="fade-up">Documentos Legais</h2>
+                
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Card Regulamentos -->
+            <div class="col-lg-6 col-md-6 mb-4" data-aos="zoom-in">
+                <div class="service-card card-modern card-with-bg text-center h-100">
+                    <div class="card-bg-image" style="background-image: url('/images/Leis.png');"></div>
+                    <div class="card-overlay bg-primary"></div>
+                    <div class="card-content">
+                        <div class="service-icon text-white">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4 class="text-white">Regulamentos</h4>
+                        <p class="text-white opacity-90">Regulamentos da aviação civil moçambicana.</p>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-light btn-card-action" data-bs-toggle="modal" data-bs-target="#regulamentosModal">
+                                <i class="fas fa-search me-2"></i>Ver Regulamentos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Leis e Decretos -->
+            <div class="col-lg-6 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="service-card card-modern card-with-bg text-center h-100">
+                    <div class="card-bg-image" style="background-image: url('/images/legislacao_aeronautica_aerotd_mecanico_de_aeronaves.png');"></div>
+                    <div class="card-overlay bg-warning"></div>
+                    <div class="card-content">
+                        <div class="service-icon text-white">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <h4 class="text-white">Leis e Decretos</h4>
+                        <p class="text-white opacity-90">Leis e decretos que regulamentam a aviação civil.</p>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-light btn-card-action" data-bs-toggle="modal" data-bs-target="#lawsModal">
+                                <i class="fas fa-search me-2"></i>Ver Leis e Decretos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================== -->
+<!-- ESTILOS PARA CARDS COM IMAGEM DE FUNDO -->
+<!-- ================================================== -->
+<style>
+.card-with-bg {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Camada da imagem de fundo */
+.card-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.5s ease;
+    z-index: 1;
+}
+
+/* Overlay de cor - AJUSTADO PARA SER MAIS TRANSPARENTE */
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.4; /* ✅ Reduzido de 0.85 para 0.4 - deixa a imagem mais visível */
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.card-overlay.bg-primary {
+    background: linear-gradient(135deg, #0056b3 0%, #004494 100%);
+}
+
+.card-overlay.bg-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+}
+
+/* Efeito hover - imagem dá zoom e overlay escurece levemente */
+.card-with-bg:hover .card-bg-image {
+    transform: scale(1.1);
+}
+
+.card-with-bg:hover .card-overlay {
+    opacity: 0.5; /* ✅ No hover escurece só um pouco mais */
+}
+
+/* Conteúdo do card */
+.card-with-bg .card-content {
+    position: relative;
+    z-index: 3;
+    padding: 2rem;
+}
+
+/* Ícone com sombra forte para destacar */
+.card-with-bg .service-icon {
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+/* Texto com sombra para legibilidade */
+.card-with-bg h4 {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.card-with-bg p {
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    font-size: 1rem;
+}
+
+/* Botão estilizado */
+.btn-card-action {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    color: #0056b3 !important;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.btn-card-action:hover {
+    background-color: #ffffff !important;
+    border-color: #ffffff !important;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Opacidade para o parágrafo */
+.opacity-90 {
+    opacity: 0.95;
+}
+
+/* Fallback caso a imagem não carregue */
+.card-with-bg .card-bg-image {
+    background-color: #f0f0f0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .card-with-bg .card-content {
+        padding: 1.5rem;
+    }
+    
+    .card-with-bg h4 {
+        font-size: 1.3rem;
+    }
+}
+</style>
+
+<!-- ================================================== -->
+<!-- MODAIS DA LEGISLAÇÃO -->
+<!-- ================================================== -->
+<%- include('../partials/modals-legislacao') %>
+

@@ -1,0 +1,182 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">
+                <i class="fas fa-plus-circle me-2"></i>
+                Registrar Cooperação Internacional
+            </h1>
+            <p class="text-muted mb-0">Registrar parceria ou acordo internacional</p>
+        </div>
+        <a href="/admin/cooperations" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Voltar
+        </a>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i><%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Formulário -->
+    <form action="/admin/cooperations" method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <!-- Coluna Principal -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Informações Principais</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Título -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label">
+                                Título <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="title" 
+                                   name="title" 
+                                   required 
+                                   placeholder="Ex: Acordo de Cooperação com ICAO">
+                        </div>
+
+                        <!-- Organização e País -->
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label for="organization" class="form-label">
+                                    Organização/Entidade <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="organization" 
+                                       name="organization" 
+                                       required 
+                                       placeholder="Ex: ICAO - International Civil Aviation Organization">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="country" class="form-label">País</label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="country" 
+                                       name="country" 
+                                       placeholder="Ex: Canadá">
+                                <small class="text-muted">Opcional</small>
+                            </div>
+                        </div>
+
+                        <!-- Data -->
+                        <div class="mb-3">
+                            <label for="date" class="form-label">
+                                Data do Acordo/Parceria <span class="text-danger">*</span>
+                            </label>
+                            <input type="date" 
+                                   class="form-control" 
+                                   id="date" 
+                                   name="date" 
+                                   required>
+                        </div>
+
+                        <!-- Descrição -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">
+                                Descrição <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" 
+                                      id="description" 
+                                      name="description" 
+                                      rows="6" 
+                                      required
+                                      placeholder="Descreva os objetivos e detalhes da cooperação internacional..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload de Documento -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Documento</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Upload PDF -->
+                        <div class="mb-3">
+                            <label for="documentFile" class="form-label">
+                                <i class="fas fa-file-pdf text-danger me-2"></i>
+                                Documento PDF (Acordo/Memorando)
+                            </label>
+                            <input type="file" 
+                                   class="form-control" 
+                                   id="documentFile" 
+                                   name="documentFile" 
+                                   accept="application/pdf">
+                            <small class="text-muted">
+                                Opcional - Máximo 10MB | Apenas PDF
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna Lateral -->
+            <div class="col-lg-4">
+                <!-- Configurações -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Configurações</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Tipo -->
+                        <div class="mb-3">
+                            <label for="type" class="form-label">
+                                Tipo <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="type" name="type" required>
+                                <option value="Parceria" selected>Parceria</option>
+                                <option value="Acordo">Acordo</option>
+                                <option value="Memorando">Memorando</option>
+                                <option value="Convênio">Convênio</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+
+                        <!-- Publicar -->
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       id="isPublished" 
+                                       name="isPublished" 
+                                       checked>
+                                <label class="form-check-label" for="isPublished">
+                                    Publicar no site
+                                </label>
+                            </div>
+                            <small class="text-muted">
+                                Se marcado, será exibido na página pública
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <button type="submit" class="btn btn-primary w-100 mb-2">
+                            <i class="fas fa-save me-2"></i>Salvar Registro
+                        </button>
+                        <a href="/admin/cooperations" class="btn btn-outline-secondary w-100">
+                            <i class="fas fa-times me-2"></i>Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<%- include('../../partials/admin-footer') %>

@@ -1,0 +1,206 @@
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>
+                <i class="fas fa-plus-circle"></i>
+                Criar Novo Direito
+            </h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/portal-passageiro/admin/dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/portal-passageiro/admin/rights">Direitos</a></li>
+                    <li class="breadcrumb-item active">Criar</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card border-0 shadow">
+                <div class="card-body p-4">
+                    <form method="POST" 
+                          action="/portal-passageiro/admin/rights/create"
+                          enctype="multipart/form-data"
+                          id="rightForm">
+                        
+                        <div class="row">
+                            <div class="col-md-8">
+                                <!-- CATEGORIA -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Categoria <span class="text-danger">*</span>
+                                    </label>
+                                    <select name="category" class="form-select form-select-lg" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="atraso">Atraso de Voo</option>
+                                        <option value="cancelamento">Cancelamento</option>
+                                        <option value="recusa_embarque">Recusa de Embarque</option>
+                                        <option value="bagagem">Bagagem</option>
+                                        <option value="deficiencia">Passageiros com Deficiência</option>
+                                        <option value="reembolso">Reembolso</option>
+                                        <option value="geral">Geral</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- TÍTULO -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Título <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           name="title" 
+                                           class="form-control form-control-lg"
+                                           required
+                                           placeholder="Ex: Direito a Compensação por Atraso">
+                                </div>
+                                
+                                <!-- DESCRIÇÃO RESUMIDA -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Descrição Resumida <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea name="description" 
+                                              class="form-control"
+                                              rows="3"
+                                              required
+                                              placeholder="Breve descrição (máx. 200 caracteres)"
+                                              maxlength="200"></textarea>
+                                </div>
+                                
+                                <!-- CONTEÚDO COM EDITOR QUILL -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Conteúdo Detalhado
+                                    </label>
+                                    <!-- Editor Quill -->
+                                    <div id="editor" style="min-height: 300px; background: white;"></div>
+                                    <!-- Campo hidden para enviar o conteúdo -->
+                                    <input type="hidden" name="content" id="content">
+                                    <small class="text-muted d-block mt-2">
+                                        Use a barra de ferramentas para formatar o texto
+                                    </small>
+                                </div>
+                                
+                                <!-- COMPENSAÇÃO E BASE LEGAL -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">
+                                            Informação de Compensação
+                                        </label>
+                                        <textarea name="compensation_info" 
+                                                  class="form-control"
+                                                  rows="3"
+                                                  placeholder="Ex: Entre 5.000 MT e 15.000 MT"></textarea>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">
+                                            Base Legal
+                                        </label>
+                                        <textarea name="legal_basis" 
+                                                  class="form-control"
+                                                  rows="3"
+                                                  placeholder="Ex: Regulamento (CE) n.º 261/2004"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="fw-bold mb-3">Configurações</h6>
+                                        
+                                        <!-- UPLOAD DE ARQUIVO -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">
+                                                Documento Anexo
+                                            </label>
+                                            <input type="file" 
+                                                   name="attachment" 
+                                                   class="form-control"
+                                                   accept=".pdf,.doc,.docx">
+                                            <small class="text-muted">PDF ou Word (máx. 5MB)</small>
+                                        </div>
+                                        
+                                        <!-- ORDEM -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">
+                                                Ordem de Exibição
+                                            </label>
+                                            <input type="number" 
+                                                   name="display_order" 
+                                                   class="form-control"
+                                                   value="0"
+                                                   min="0">
+                                        </div>
+                                        
+                                        <!-- STATUS -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">
+                                                Status
+                                            </label>
+                                            <select name="is_published" class="form-select">
+                                                <option value="false">Rascunho</option>
+                                                <option value="true">Publicado</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- BOTÕES -->
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save"></i> Salvar Direito
+                                            </button>
+                                            <a href="/portal-passageiro/admin/rights" class="btn btn-outline-secondary">
+                                                Cancelar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quill.js - Editor Rico GRATUITO -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script>
+// Inicializar Quill
+var quill = new Quill('#editor', {
+    theme: 'snow',
+    placeholder: 'Digite o conteúdo detalhado do direito...',
+    modules: {
+        toolbar: [
+            ['bold', 'italic', 'underline'],
+            [{'list': 'ordered'}, {'list': 'bullet'}],
+            [{'header': [1, 2, 3, false]}],
+            ['link'],
+            ['clean']
+        ]
+    }
+});
+
+// Ao submeter o form, copiar conteúdo do Quill para o campo hidden
+document.getElementById('rightForm').addEventListener('submit', function(e) {
+    // Pegar HTML do editor
+    var html = quill.root.innerHTML;
+    
+    // Se estiver vazio, usar string vazia
+    if (html === '<p><br></p>') {
+        html = '';
+    }
+    
+    // Colocar no campo hidden
+    document.getElementById('content').value = html;
+});
+</script>
+
+

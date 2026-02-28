@@ -1,0 +1,159 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">Publicar Evento</h1>
+            <p class="text-muted mb-0">Preencha as informações do evento</p>
+        </div>
+        <a href="/admin/events" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Voltar
+        </a>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Form -->
+    <div class="row">
+        <div class="col-lg-8">
+            <form action="/admin/events/create" method="POST" enctype="multipart/form-data">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Informações do Evento</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Título -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título do Evento *</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+
+                        <!-- Descrição -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descrição *</label>
+                            <textarea class="form-control" id="description" name="description" rows="6" required></textarea>
+                            <small class="text-muted">Descreva os detalhes do evento</small>
+                        </div>
+
+                        <!-- Datas -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="startDate" class="form-label">Data de Início *</label>
+                                <input type="datetime-local" class="form-control" id="startDate" name="startDate" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="endDate" class="form-label">Data de Término *</label>
+                                <input type="datetime-local" class="form-control" id="endDate" name="endDate" required>
+                            </div>
+                        </div>
+
+                        <!-- Imagem -->
+                        <div class="mb-3">
+                            <label for="featuredImage" class="form-label">Imagem do Evento</label>
+                            <input type="file" class="form-control" id="featuredImage" name="featuredImage" accept="image/*">
+                            <small class="text-muted">Formatos aceitos: JPG, PNG, GIF (máx. 5MB)</small>
+                        </div>
+
+                        <!-- Preview da Imagem -->
+                        <div id="imagePreview" class="mb-3" style="display: none;">
+                            <label class="form-label">Preview:</label>
+                            <img id="preview" src="" alt="Preview" class="img-fluid rounded" style="max-height: 300px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar de Publicação -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Publicação</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Status -->
+                        <div class="mb-3">
+                            <label for="isPublished" class="form-label">Status</label>
+                            <select class="form-select" id="isPublished" name="isPublished">
+                                <option value="true">Publicado</option>
+                                <option value="false">Rascunho</option>
+                            </select>
+                        </div>
+
+                        <!-- Botões -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Publicar Evento
+                            </button>
+                            <a href="/admin/events" class="btn btn-outline-secondary">
+                                Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Info Sidebar -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm bg-light">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">
+                        <i class="fas fa-info-circle me-2"></i>Informações
+                    </h6>
+                    <ul class="list-unstyled mb-0 small">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Eventos publicados aparecem no carrossel da página inicial
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Eventos são automaticamente desativados 7 dias após o término
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Eventos desativados permanecem no dashboard para histórico
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            A data de término deve ser posterior à data de início
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para Preview da Imagem -->
+<script>
+document.getElementById('featuredImage').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('preview').src = e.target.result;
+            document.getElementById('imagePreview').style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// Validação de datas
+document.getElementById('endDate').addEventListener('change', function() {
+    const startDate = new Date(document.getElementById('startDate').value);
+    const endDate = new Date(this.value);
+    
+    if (endDate <= startDate) {
+        alert('A data de término deve ser posterior à data de início');
+        this.value = '';
+    }
+});
+</script>
+
+<%- include('../../partials/admin-footer') %>

@@ -1,0 +1,2771 @@
+
+<!-- ================================================== -->
+<!-- HERO SECTION SERVIÇOS -->
+<!-- ================================================== -->
+<section class="page-hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="hero-title">Nossos Serviços</h1>
+                <p class="hero-subtitle">Oferecemos uma gama completa de serviços especializados para garantir a excelência e segurança na aviação civil moçambicana.</p>
+                <div class="hero-buttons">
+                    <a href="#todos-servicos" class="btn btn-hero me-3">
+                        <i class="fas fa-list me-2"></i>Ver Serviços
+                    </a>
+                    <a href="/contactos" class="btn btn-outline-light">
+                        <i class="fas fa-envelope me-2"></i>Solicitar Serviço
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center" data-aos="fade-left" data-aos-delay="200">
+                <div class="hero-image">
+                    <img src="/images/iacmlogopreview1.png" alt="Serviços IACM" class="img-fluid floating">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================== -->
+<!-- TODOS OS SERVIÇOS -->
+<!-- ================================================== -->
+<section id="todos-servicos" class="services-section py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-12">
+                <h2 class="section-title" data-aos="fade-up">Serviços Prestados</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    Conheça todos os serviços que disponibilizamos para a aviação civil
+                </p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Card 1: Regulação Econômica -->
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in">
+                <div class="service-card card-modern card-with-bg text-center h-100">
+                    <div class="card-bg-image" style="background-image: url('/images/Regulacao2.png');"></div>
+                    <div class="card-overlay bg-primary"></div>
+                    <div class="card-content">
+                        <div class="service-icon text-white">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4 class="text-white mb-3">Regulação Econômica</h4>
+                        <p class="text-white opacity-90 mb-3">Supervisão e regulação dos aspectos económicos da aviação civil.</p>
+                        <div class="mt-2">
+                            <a href="#" class="btn btn-light btn-card-action" data-bs-toggle="modal" data-bs-target="#economicRegulationsModal">
+                                <i class="fas fa-search me-2"></i>Ver Registros
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Acidentes e Incidentes -->
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="service-card card-modern card-with-bg text-center h-100">
+                                    
+                    <div class="card-bg-image" style="background-image: url('/images/regulamentos-1000-600.png');"></div>
+                    <div class="card-overlay bg-warning"></div>
+                    <div class="card-content">
+                        <div class="service-icon text-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h4 class="text-white mb-3">Acidentes e Incidentes</h4>
+                        <p class="text-white opacity-90 mb-3">Investigações para melhorar a segurança operacional.</p>
+                        <div class="mt-2">
+                            <a href="#" class="btn btn-light btn-card-action" data-bs-toggle="modal" data-bs-target="#accidentsModal">
+                                <i class="fas fa-search me-2"></i>Ver Registros
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Cooperação Internacional -->
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="service-card card-modern card-with-bg text-center h-100">
+                    <div class="card-bg-image" style="background-image: url('/images/cooperacao-internacional-desenvolvimento-pixabay-1.png');"></div>
+                    <div class="card-overlay bg-success"></div>
+                    <div class="card-content">
+                        <div class="service-icon text-white">
+                            <i class="fas fa-globe-africa"></i>
+                        </div>
+                        <h4 class="text-white mb-3">Cooperação Internacional</h4>
+                        <p class="text-white opacity-90 mb-3">Parcerias com organizações internacionais de aviação civil.</p>
+                        <div class="mt-2">
+                            <a href="#" class="btn btn-light btn-card-action" data-bs-toggle="modal" data-bs-target="#cooperationsModal">
+                                <i class="fas fa-search me-2"></i>Ver Parcerias
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ADICIONAR ESTE CARD ANTES DO FECHAMENTO DA SECTION "todos-servicos" -->
+<!-- Dentro de: <div class="row"> (após os outros service cards) -->
+
+
+
+<!-- ================================================== -->
+<!-- STYLES PARA OUTROS SERVIÇOS -->
+<!-- ================================================== -->
+
+
+<!-- ================================================== -->
+<!-- MODAL: DIREÇÃO DE REGULAÇÃO ECONÔMICA (ESPECIAL) -->
+<!-- ================================================== -->
+<% 
+const economicServices = otherServices.filter(s => 
+    s.serviceName === 'Direção de Regulação Econômica' && s.isActive
+);
+%>
+
+<% if (economicServices.length > 0) { %>
+<div class="modal fade" id="economicRegulationServicesModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0056b3; color: white;">
+                <div class="d-flex align-items-center">
+                    <img src="/images/iacmlogopreview.png" alt="IACM Logo" style="height: 40px; width: auto; margin-right: 15px;">
+                    <h5 class="modal-title mb-0">
+                        <i class="fas fa-chart-line me-2"></i>
+                        Direção de Regulação Econômica
+                    </h5>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <h3 class="text-dark mb-3">Selecione a Área de Interesse</h3>
+                    <p class="text-muted">Clique em uma das opções abaixo para acessar documentos e informações</p>
+                </div>
+                
+                <div class="row g-4">
+                    <% economicServices.forEach(service => { %>
+                        <div class="col-md-4">
+                            <button type="button" 
+                                    class="btn btn-outline-primary w-100 py-4 economic-service-btn"
+                                    onclick="openEconomicTabFromService('<%= service.subtitle %>')"
+                                    data-category="<%= service.subtitle %>">
+                                <div class="mb-3">
+                                    <% 
+                                    const categoryIcons = {
+                                        'Empresas': 'fas fa-building',
+                                        'Acordos Aéreos': 'fas fa-handshake',
+                                        'Estatística': 'fas fa-chart-bar',
+                                        'Proteção Ambiental': 'fas fa-leaf',
+                                        'Defesa do Passageiro': 'fas fa-user-shield',
+                                        'SIAV': 'fas fa-plane-departure'
+                                    };
+                                    %>
+                                    <i class="<%= categoryIcons[service.subtitle] || 'fas fa-file' %> fa-3x text-primary"></i>
+                                </div>
+                                <h5 class="mb-2"><%= service.subtitle %></h5>
+                                <% if (service.title && service.title !== service.subtitle) { %>
+                                    <p class="small text-muted mb-0"><%= service.title %></p>
+                                <% } %>
+                                <% if (service.pdfUrl) { %>
+                                    <div class="mt-2">
+                                        <span class="badge bg-success small">
+                                            <i class="fas fa-file-pdf me-1"></i>Documento disponível
+                                        </span>
+                                    </div>
+                                <% } %>
+                            </button>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<% } %>
+
+<!-- ================================================== -->
+<!-- MODAIS: OUTROS SERVIÇOS (NÃO ECONÓMICOS) -->
+<!-- ================================================== -->
+<% if (otherServices && otherServices.length > 0) { %>
+    <% 
+    const nonEconomicServices = otherServices.filter(s => 
+        s.serviceName !== 'Direção de Regulação Econômica' && s.isActive
+    );
+    %>
+    
+    <% nonEconomicServices.forEach(service => { %>
+    <div class="modal fade" id="otherServiceModal<%= service.id %>" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #0056b3; color: white;">
+                    <div class="d-flex align-items-center">
+                        <img src="/images/iacmlogopreview.png" alt="IACM Logo" style="height: 40px; width: auto; margin-right: 15px;">
+                        <h5 class="modal-title mb-0"><%= service.serviceName %></h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <h3 class="text-dark mb-2"><%= service.title %></h3>
+                        <% if (service.subtitle) { %>
+                            <p class="text-muted"><%= service.subtitle %></p>
+                        <% } %>
+                    </div>
+                    
+                    <% if (service.description) { %>
+                        <div class="card bg-light mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary mb-3">Descrição do Serviço</h5>
+                                <p class="card-text text-justify"><%= service.description %></p>
+                            </div>
+                        </div>
+                    <% } %>
+                    
+                    <% if (service.pdfUrl) { %>
+                        <div class="text-center">
+                            <div class="pdf-preview-card">
+                                <div class="pdf-icon-wrapper mb-3">
+                                    <i class="fas fa-file-pdf fa-4x text-danger"></i>
+                                </div>
+                                <h5 class="mb-3">Documento Oficial Disponível</h5>
+                                <p class="text-muted mb-4">Clique abaixo para visualizar ou fazer o download</p>
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <a href="<%= service.pdfUrl %>" target="_blank" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-eye me-2"></i>Visualizar
+                                    </a>
+                                    <a href="<%= service.pdfUrl %>" download class="btn btn-outline-primary btn-lg">
+                                        <i class="fas fa-download me-2"></i>Baixar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                    
+                    <% if (!service.description && !service.pdfUrl) { %>
+                        <div class="alert alert-info text-center">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Informações sobre este serviço em atualização.
+                        </div>
+                    <% } %>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }); %>
+<% } %>
+
+<!-- ================================================== -->
+<!-- PROCESSO DE SERVIÇO -->
+<!-- ================================================== -->
+<section class="process-section py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-12">
+                <h2 class="section-title" data-aos="fade-up">Como Solicitar Nossos Serviços</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    Um processo simples e transparente para atender às suas necessidades
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up">
+                <div class="process-step text-center">
+                    <div class="step-number">1</div>
+                    <h5>Consulta</h5>
+                    <p>Contacte-nos para discutir suas necessidades específicas</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="process-step text-center">
+                    <div class="step-number">2</div>
+                    <h5>Documentação</h5>
+                    <p>Submeta a documentação necessária para análise</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="process-step text-center">
+                    <div class="step-number">3</div>
+                    <h5>Avaliação</h5>
+                    <p>Nossa equipa técnica avalia o pedido e documentação</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="process-step text-center">
+                    <div class="step-number">4</div>
+                    <h5>Emissão</h5>
+                    <p>Emissão do certificado ou licença solicitada</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================== -->
+<!-- MODAIS - ESTRUTURA SIMPLIFICADA -->
+<!-- ================================================== -->
+
+<!-- Modal Regulamentos -->
+<div class="modal fade" id="regulamentosModal" tabindex="-1" aria-labelledby="regulamentosModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0056b3; color: white;">
+                <div class="d-flex align-items-center">
+                    <img src="/images/iacmlogopreview.png" alt="IACM Logo" style="height: 40px; width: auto; margin-right: 15px;">
+                    <h5 class="modal-title mb-0">
+                        <i class="fas fa-gavel me-2"></i>Regulamentos da Aviação Civil
+                    </h5>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <% const types = Object.keys(regulationsByType); %>
+                <% if (types.length === 0) { %>
+                    <div class="text-center py-5">
+                        <i class="fas fa-file-pdf fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhum regulamento disponível</h4>
+                        <p class="text-muted">Volte em breve para consultar os documentos regulamentares.</p>
+                    </div>
+                <% } else { %>
+                    <ul class="nav nav-pills mb-4" id="regulationsTabs" role="tablist">
+                        <% types.forEach((type, index) => { %>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link <%= index === 0 ? 'active' : '' %>"
+                                        id="tab-<%= index %>"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#pane-<%= index %>"
+                                        type="button"
+                                        role="tab">
+                                    <%= type %>
+                                    <span class="badge bg-secondary ms-1"><%= regulationsByType[type].length %></span>
+                                </button>
+                            </li>
+                        <% }) %>
+                    </ul>
+
+                    <div class="tab-content" id="regulationsTabContent">
+                        <% types.forEach((type, index) => { %>
+                            <div class="tab-pane fade <%= index === 0 ? 'show active' : '' %>"
+                                id="pane-<%= index %>"
+                                role="tabpanel"
+                                aria-labelledby="tab-<%= index %>">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead style="background-color: #0056b3; color: white;">
+                                            <tr>
+                                                <th width="15%">Número</th>
+                                                <th width="50%">Título do Documento</th>
+                                                <th width="15%">Data</th>
+                                                <th width="20%">Acção</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% regulationsByType[type].forEach(regulation => { %>
+                                                <tr>
+                                                    <td><strong class="text-primary"><%= regulation.documentNumber %></strong></td>
+                                                    <td><div class="fw-medium"><%= regulation.title %></div></td>
+                                                    <td><small class="text-muted"><%= new Date(regulation.publicationDate).toLocaleDateString('pt-PT') %></small></td>
+                                                    <td>
+                                                        <a href="<%= regulation.fileUrl %>" target="_blank" class="btn btn-sm" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                                            <i class="fas fa-download me-1"></i>PDF
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn" style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Leis e Decretos -->
+<div class="modal fade" id="lawsModal" tabindex="-1" aria-labelledby="lawsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #ffc107; color: #212529;">
+                <div class="d-flex align-items-center">
+                    <img src="/images/iacmlogopreview.png" alt="IACM Logo" style="height: 40px; width: auto; margin-right: 15px;">
+                    <h5 class="modal-title mb-0">
+                        <i class="fas fa-gavel me-2"></i>Leis e Decretos da Aviação Civil
+                    </h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <% if (laws && laws.length > 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead style="background-color: #ffc107; color: #212529;">
+                                <tr>
+                                    <th width="8%">Ord</th>
+                                    <th width="20%">Número do Decreto</th>
+                                    <th width="52%">Teor</th>
+                                    <th width="12%">Data</th>
+                                    <th width="8%" class="text-center">Documento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% laws.forEach(law => { %>
+                                    <tr>
+                                        <td>
+                                            <span class="badge" style="background-color: #0056b3; color: white;">
+                                                <%= law.ord %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <strong style="color: #ffc107;">
+                                                <%= law.decreeNumber %>
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <div class="fw-medium">
+                                                <%= law.title %>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <% if (law.publicationDate) { %>
+                                                <small class="text-muted">
+                                                    <%= new Date(law.publicationDate).toLocaleDateString('pt-PT') %>
+                                                </small>
+                                            <% } else { %>
+                                                <small class="text-muted">-</small>
+                                            <% } %>
+                                        </td>
+                                        <td class="text-center">
+                                            <% if (law.fileUrl) { %>
+                                                <a href="<%= law.fileUrl %>" 
+                                                   target="_blank" 
+                                                   class="btn btn-sm" 
+                                                   style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;"
+                                                   data-bs-toggle="tooltip"
+                                                   title="Ver Documento">
+                                                    <i class="fas fa-file-pdf"></i>
+                                                </a>
+                                            <% } else { %>
+                                                <small class="text-muted">-</small>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } else { %>
+                    <div class="text-center py-5">
+                        <i class="fas fa-gavel fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhuma lei ou decreto disponível</h4>
+                        <p class="text-muted">Volte em breve para consultar a legislação atualizada.</p>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Regulação Econômica -->
+<div class="modal fade" id="economicRegulationsModal" tabindex="-1" aria-labelledby="economicRegulationsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0056b3; color: white;">
+                <div class="d-flex align-items-center">
+                    <img src="/images/iacmlogopreview.png" alt="IACM Logo" style="height: 40px; width: auto; margin-right: 15px;">
+                    <h5 class="modal-title mb-0">
+                        <i class="fas fa-chart-line me-2"></i>Regulação Econômica
+                    </h5>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <% const economicTypes = Object.keys(economicRegulationsByType); %>
+                <% if (economicTypes.length === 0) { %>
+                    <div class="text-center py-5">
+                        <i class="fas fa-file-pdf fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhum documento disponível</h4>
+                        <p class="text-muted">Volte em breve para consultar os documentos de regulação econômica.</p>
+                    </div>
+                <% } else { %>
+                    <ul class="nav nav-pills mb-4" id="economicRegulationsTabs" role="tablist">
+                        <% economicTypes.forEach((type, index) => { %>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link <%= index === 0 ? 'active' : '' %>"
+                                        id="economic-tab-<%= index %>"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#economic-pane-<%= index %>"
+                                        type="button"
+                                        role="tab"
+                                        data-type="<%= type %>">
+                                    <%= type %>
+                                    <span class="badge bg-secondary ms-1"><%= economicRegulationsByType[type].length %></span>
+                                </button>
+                            </li>
+                        <% }) %>
+                    </ul>
+
+                    <div class="tab-content" id="economicRegulationsTabContent">
+                        <% economicTypes.forEach((type, index) => { %>
+                            <div class="tab-pane fade <%= index === 0 ? 'show active' : '' %>"
+                                id="economic-pane-<%= index %>"
+                                role="tabpanel"
+                                aria-labelledby="economic-tab-<%= index %>">
+                                
+                                <!-- ESTATÍSTICA -->
+                                <% if (type === 'Estatística') { %>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle">
+                                            <thead style="background-color: #0056b3; color: white;">
+                                                <tr>
+                                                    <th width="10%">Ano</th>
+                                                    <th width="15%">Período</th>
+                                                    <th width="55%">Título</th>
+                                                    <th width="20%" class="text-center">Ficheiro</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% economicRegulationsByType[type].forEach(regulation => { %>
+                                                    <tr>
+                                                        <td><strong class="text-primary"><%= regulation.year || '-' %></strong></td>
+                                                        <td><span class="badge" style="background-color: #0056b3; color: white;"><%= regulation.period || '-' %></span></td>
+                                                        <td><div class="fw-medium"><%= regulation.title %></div></td>
+                                                        <td class="text-center">
+                                                            <a href="<%= regulation.fileUrl %>" target="_blank" class="btn btn-sm" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                                                <i class="fas fa-download me-1"></i>
+                                                                <%= regulation.fileUrl.endsWith('.pdf') ? 'PDF' : 
+                                                                    regulation.fileUrl.endsWith('.xlsx') || regulation.fileUrl.endsWith('.xls') ? 'Excel' : 
+                                                                    'Download' %>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                
+                                <!-- ACORDOS AÉREOS -->
+                                <% } else if (type === 'Acordos Aéreos') { %>
+                                    <!-- Descrição sobre Acordos Aéreos -->
+                                    <div class="card bg-light mb-4">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary mb-3">
+                                                <i class="fas fa-info-circle me-2"></i>Sobre Acordos Aéreos
+                                            </h5>
+                                            <p class="mb-2">
+                                                <strong>Acordo Aéreo</strong> é um instrumento legal, celebrado entre o Governo de Moçambique e o Governo de um outro Estado em conformidade com as normas recomendadas pela Organização Internacional da Aviação Civil – ICAO, que define as condições de exploração das ligações aéreas regulares internacionais com uso dos respectivos territórios.
+                                            </p>
+                                            <p class="mb-2"><strong>O Acordo regula questões como:</strong></p>
+                                            <ul class="mb-3">
+                                                <li><strong>Designação, Propriedade e Controle</strong> – o número de companhias aéreas que os parceiros bilaterais podem designar para operar serviços e os critérios que definem a propriedade e controle dessas companhias aéreas.</li>
+                                                <li><strong>Direitos de Tráfego</strong> – as rotas que as companhias aéreas podem voar, incluindo cidades que podem ser servidas dentro, entre e além dos parceiros bilaterais.</li>
+                                                <li><strong>Capacidade e Frequências</strong> – o número de voos que podem ser operados ou passageiros que podem ser transportados entre os estados.</li>
+                                                <li><strong>Tarifas</strong> – como o mercado liberalizado, as tarifas são definidas pelas forças de mercado.</li>
+                                                <li><strong>Concorrência e segurança operacional</strong> assim como aspectos comerciais e tributáveis.</li>
+                                            </ul>
+                                            <div class="alert mb-3" style="background-color: rgba(255, 193, 7, 0.1); border-color: #ffc107; color: #212529;">
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <strong>Nota:</strong> Antes que uma companhia aérea possa operar serviços internacionais para outro país, o Governo deve primeiro negociar um Acordo sobre Serviços Aéreos com o Governo do país de destino.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tabela de Acordos Aéreos -->
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle">
+                                            <thead style="background-color: #0056b3; color: white;">
+                                                <tr>
+                                                    <th width="20%">Tipo de Acordo</th>
+                                                    <th width="50%">Título do Documento</th>
+                                                    <th width="15%">Data</th>
+                                                    <th width="15%" class="text-center">Ficheiro</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% economicRegulationsByType[type].forEach(regulation => { %>
+                                                    <tr>
+                                                        <td>
+                                                            <span class="badge" style="background-color: #0056b3; color: white;">
+                                                                <%= regulation.agreementType || 'Acordo Aéreo' %>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <div class="fw-medium"><%= regulation.title %></div>
+                                                            <% if (regulation.description) { %>
+                                                                <small class="text-muted">
+                                                                    <%= regulation.description.substring(0, 100) %>...
+                                                                </small>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <small class="text-muted">
+                                                                <%= new Date(regulation.publicationDate).toLocaleDateString('pt-PT') %>
+                                                            </small>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="<%= regulation.fileUrl %>" target="_blank" class="btn btn-sm" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                                                <i class="fas fa-download me-1"></i>PDF
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                
+                                <!-- PROTEÇÃO AMBIENTAL -->
+                                <% } else if (type === 'Proteção Ambiental') { %>
+                                    <!-- Descrição com Imagem -->
+                                    <div class="card bg-light mb-4">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <h5 class="card-title text-primary mb-3">
+                                                        <i class="fas fa-leaf me-2"></i>Proteção Ambiental na Aviação Civil
+                                                    </h5>
+                                                    <p class="mb-2">
+                                                        A aviação civil tem um compromisso fundamental com a proteção do meio ambiente. As regulamentações ambientais visam minimizar o impacto das operações aéreas sobre o ambiente, incluindo a redução de emissões de gases de efeito estufa, gestão de ruído aeronáutico e uso sustentável de recursos.
+                                                    </p>
+                                                    <p class="mb-3">
+                                                        <strong>Áreas de Atuação:</strong>
+                                                    </p>
+                                                    <ul>
+                                                        <li>Controle de emissões atmosféricas</li>
+                                                        <li>Gestão de ruído em aeroportos</li>
+                                                        <li>Uso eficiente de combustíveis</li>
+                                                        <li>Gestão de resíduos aeroportuários</li>
+                                                        <li>Proteção da qualidade do ar</li>
+                                                        <li>Conformidade com convenções internacionais</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-4 text-center">
+                                                    <img src="/images/environmental-aviation.jpg" 
+                                                         alt="Proteção Ambiental" 
+                                                         class="img-fluid rounded shadow-sm"
+                                                         onerror="this.src='/images/iacmlogopreview.png'">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tabela de Proteção Ambiental -->
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle">
+                                            <thead style="background-color: #0056b3; color: white;">
+                                                <tr>
+                                                    <th width="50%">Título</th>
+                                                    <th width="20%">Período</th>
+                                                    <th width="30%" class="text-center">Ficheiro</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% economicRegulationsByType[type].forEach(regulation => { %>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="fw-medium"><%= regulation.title %></div>
+                                                            <% if (regulation.description) { %>
+                                                                <small class="text-muted">
+                                                                    <%= regulation.description.substring(0, 80) %>...
+                                                                </small>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (regulation.period) { %>
+                                                                <span class="badge" style="background-color: #0056b3; color: white;"><%= regulation.period %></span>
+                                                            <% } else { %>
+                                                                <small class="text-muted">
+                                                                    <%= new Date(regulation.publicationDate).toLocaleDateString('pt-PT') %>
+                                                                </small>
+                                                            <% } %>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="btn-group btn-group-sm">
+                                                                <a href="<%= regulation.fileUrl %>" target="_blank" class="btn" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                                                    <i class="fas fa-download me-1"></i>
+                                                                    <%= regulation.fileUrl.endsWith('.pdf') ? 'PDF' : 'Download' %>
+                                                                </a>
+                                                                <% if (regulation.imageUrl) { %>
+                                                                    <button type="button" class="btn" style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;" 
+                                                                            data-bs-toggle="modal" 
+                                                                            data-bs-target="#envImageModal<%= regulation.id %>">
+                                                                        <i class="fas fa-image"></i>
+                                                                    </button>
+                                                                <% } %>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                <!-- DEFESA DO PASSAGEIRO -->
+                                <% } else if (type === 'Defesa do Passageiro') { %>
+                                    <!-- Descrição -->
+                                    <div class="card bg-light mb-4">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary mb-3">
+                                                <i class="fas fa-user-shield me-2"></i>Defesa dos Direitos do Passageiro
+                                            </h5>
+                                            <p class="mb-2">
+                                                A proteção dos direitos dos passageiros é uma prioridade na regulação da aviação civil. Os instrumentos legais estabelecem os direitos e deveres tanto das companhias aéreas quanto dos passageiros, assegurando um transporte aéreo seguro, eficiente e justo.
+                                            </p>
+                                            <p class="mb-3"><strong>Direitos do Passageiro incluem:</strong></p>
+                                            <ul class="mb-0">
+                                                <li>Informação clara sobre voos e serviços</li>
+                                                <li>Assistência em caso de atrasos ou cancelamentos</li>
+                                                <li>Compensação por overbooking</li>
+                                                <li>Proteção de bagagem</li>
+                                                <li>Acesso a mecanismos de reclamação</li>
+                                                <li>Tratamento digno e não discriminatório</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tabela: Instrumentos Legais de Defesa do Passageiro -->
+                                    <h6 class="mb-3 text-primary">
+                                        <i class="fas fa-gavel me-2"></i>Instrumentos Legais de Defesa do Passageiro
+                                    </h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle">
+                                            <thead style="background-color: #0056b3; color: white;">
+                                                <tr>
+                                                    <th width="70%">Título</th>
+                                                    <th width="30%" class="text-center">Ficheiro</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% economicRegulationsByType[type].forEach(regulation => { %>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="fw-medium"><%= regulation.title %></div>
+                                                            <% if (regulation.description) { %>
+                                                                <small class="text-muted">
+                                                                    <%= regulation.description.substring(0, 100) %>...
+                                                                </small>
+                                                            <% } %>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="<%= regulation.fileUrl %>" target="_blank" class="btn btn-sm" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                                                <i class="fas fa-download me-1"></i>Baixar
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                <!-- OUTROS TIPOS (formato padrão) -->
+                                <% } else { %>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead style="background-color: #0056b3; color: white;">
+                                                <tr>
+                                                    <th width="15%">Número</th>
+                                                    <th width="50%">Título do Documento</th>
+                                                    <th width="15%">Data</th>
+                                                    <th width="20%">Acção</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% economicRegulationsByType[type].forEach(regulation => { %>
+                                                    <tr>
+                                                        <td><strong class="text-primary"><%= regulation.documentNumber %></strong></td>
+                                                        <td><div class="fw-medium"><%= regulation.title %></div></td>
+                                                        <td><small class="text-muted"><%= new Date(regulation.publicationDate).toLocaleDateString('pt-PT') %></small></td>
+                                                        <td>
+                                                            <a href="<%= regulation.fileUrl %>" target="_blank" class="btn btn-sm" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                                                <i class="fas fa-download me-1"></i>PDF
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <% } %>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn" style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;" onclick="goBackToEconomicServicesModal()">
+                    <i class="fas fa-arrow-left me-1"></i>Voltar
+                </button>
+                <button type="button" class="btn" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Acidentes e Incidentes -->
+<div class="modal fade" id="accidentsModal" tabindex="-1" aria-labelledby="accidentsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0056b3; color: white;">
+                <div class="d-flex align-items-center">
+                    <img src="/images/iacmlogopreview.png" alt="IACM Logo" style="height: 40px; width: auto; margin-right: 15px;">
+                    <h5 class="modal-title mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Acidentes e Incidentes Aeronáuticos
+                    </h5>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <% if (accidents && accidents.length > 0) { %>
+                    <!-- Filtros por Tipo, Trimestre e Ano -->
+                    <div class="mb-4">
+                        <div class="row">
+                            <div class="col-md-4 mb-2">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-filter me-2"></i>Filtrar por Tipo:
+                                </label>
+                                <div class="btn-group w-100" role="group" aria-label="Filtro de Tipo">
+                                    <button type="button" class="btn active" onclick="filterAccidents('all')" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                        <i class="fas fa-list me-1"></i>Todos (<%= accidents.length %>)
+                                    </button>
+                                    <button type="button" class="btn" onclick="filterAccidents('Acidente')" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                        <i class="fas fa-times-circle me-1"></i>Acidentes (<%= accidents.filter(a => a.type === 'Acidente').length %>)
+                                    </button>
+                                    <button type="button" class="btn" onclick="filterAccidents('Incidente')" style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;">
+                                        <i class="fas fa-exclamation-circle me-1"></i>Incidentes (<%= accidents.filter(a => a.type === 'Incidente').length %>)
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-calendar-alt me-2"></i>Filtrar por Trimestre:
+                                </label>
+                                <div class="btn-group w-100" role="group" aria-label="Filtro de Trimestre">
+                                    <button type="button" class="btn active" onclick="filterAccidentsByQuarter('all')" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                        <i class="fas fa-globe me-1"></i>Todos
+                                    </button>
+                                    <button type="button" class="btn" onclick="filterAccidentsByQuarter('I')" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">I Trim</button>
+                                    <button type="button" class="btn" onclick="filterAccidentsByQuarter('II')" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">II Trim</button>
+                                    <button type="button" class="btn" onclick="filterAccidentsByQuarter('III')" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">III Trim</button>
+                                    <button type="button" class="btn" onclick="filterAccidentsByQuarter('IV')" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">IV Trim</button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-calendar me-2"></i>Filtrar por Ano:
+                                </label>
+                                <select class="form-select" id="yearFilter" onchange="filterAccidentsByYear(this.value)">
+                                    <option value="all">Todos os anos</option>
+                                    <% 
+                                    const years = [...new Set(accidents.map(a => a.year))].sort((a,b) => b-a);
+                                    years.forEach(year => { 
+                                    %>
+                                        <option value="<%= year %>"><%= year %> (<%= accidents.filter(a => a.year === year).length %>)</option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabela de Acidentes -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle" id="accidentsTable">
+                            <thead style="background-color: #0056b3; color: white;">
+                                <tr>
+                                    <th width="8%">Trimestre</th>
+                                    <th width="8%">Ano</th>
+                                    <th width="10%">Tipo</th>
+                                    <th width="40%">Título</th>
+                                    <th width="14%">Status</th>
+                                    <th width="20%" class="text-center">Documentos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% accidents.forEach(accident => { %>
+                                    <tr data-accident-type="<%= accident.type %>" 
+                                        data-accident-quarter="<%= accident.quarter || 'N/A' %>"
+                                        data-accident-year="<%= accident.year %>">
+                                        <!-- Trimestre -->
+                                        <td>
+                                            <span class="badge" style="background-color: #0056b3; color: white;">
+                                                <i class="fas fa-calendar-alt me-1"></i>
+                                                <%= accident.quarter || 'N/A' %>
+                                            </span>
+                                        </td>
+                                        <!-- Ano -->
+                                        <td>
+                                            <strong class="text-primary"><%= accident.year %></strong>
+                                        </td>
+                                        <!-- Tipo -->
+                                        <td>
+                                            <span class="badge" style="background-color: <%= accident.type === 'Acidente' ? '#dc3545' : '#ffc107' %>; color: <%= accident.type === 'Acidente' ? 'white' : '#212529' %>;">
+                                                <i class="fas <%= accident.type === 'Acidente' ? 'fa-times-circle' : 'fa-exclamation-circle' %> me-1"></i>
+                                                <%= accident.type %>
+                                            </span>
+                                        </td>
+                                        <!-- Título -->
+                                        <td>
+                                            <strong><%= accident.title %></strong>
+                                            <% if (accident.description && accident.description.length > 0) { %>
+                                                <br>
+                                                <small class="text-muted">
+                                                    <%= accident.description.substring(0, 100) %><%= accident.description.length > 100 ? '...' : '' %>
+                                                </small>
+                                            <% } %>
+                                        </td>
+                                        <!-- Status -->
+                                        <td>
+                                            <% 
+                                            const statusColors = {
+                                                'Em Investigação': '#ffc107',
+                                                'Concluído': '#28a745',
+                                                'Arquivado': '#6c757d'
+                                            };
+                                            const statusTextColors = {
+                                                'Em Investigação': '#212529',
+                                                'Concluído': 'white',
+                                                'Arquivado': 'white'
+                                            };
+                                            const statusIcons = {
+                                                'Em Investigação': 'search',
+                                                'Concluído': 'check',
+                                                'Arquivado': 'archive'
+                                            };
+                                            %>
+                                            <span class="badge" style="background-color: <%= statusColors[accident.status] || '#6c757d' %>; color: <%= statusTextColors[accident.status] || 'white' %>;">
+                                                <i class="fas fa-<%= statusIcons[accident.status] || 'info-circle' %> me-1"></i>
+                                                <%= accident.status %>
+                                            </span>
+                                        </td>
+                                        <!-- Documentos -->
+                                        <td class="text-center">
+                                            <div class="btn-group btn-group-sm">
+                                                <% if (accident.pdfUrl) { %>
+                                                    <a href="<%= accident.pdfUrl %>" 
+                                                       target="_blank" 
+                                                       class="btn"
+                                                       style="background-color: #0056b3; color: white; border: 1px solid #0056b3;"
+                                                       data-bs-toggle="tooltip"
+                                                       title="Ver Relatório PDF">
+                                                        <i class="fas fa-file-pdf"></i>
+                                                    </a>
+                                                <% } %>
+                                                <% if (accident.imageUrl) { %>
+                                                    <button type="button" 
+                                                            class="btn" 
+                                                            style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;"
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#imageModal<%= accident.id %>"
+                                                            title="Ver Imagem">
+                                                        <i class="fas fa-image"></i>
+                                                    </button>
+                                                <% } %>
+                                                <% if (accident.description) { %>
+                                                    <button type="button" 
+                                                            class="btn" 
+                                                            style="background-color: #0056b3; color: white; border: 1px solid #0056b3;"
+                                                            data-bs-toggle="collapse" 
+                                                            data-bs-target="#desc<%= accident.id %>"
+                                                            title="Ver Detalhes">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </button>
+                                                <% } %>
+                                                <% if (!accident.pdfUrl && !accident.imageUrl && !accident.description) { %>
+                                                    <small class="text-muted">-</small>
+                                                <% } %>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                    <!-- Linha de Descrição Completa (Collapse) -->
+                                    <% if (accident.description) { %>
+                                        <tr class="collapse" 
+                                            id="desc<%= accident.id %>" 
+                                            data-accident-type="<%= accident.type %>" 
+                                            data-accident-quarter="<%= accident.quarter || 'N/A' %>"
+                                            data-accident-year="<%= accident.year %>">
+                                            <td colspan="6" class="bg-light">
+                                                <div class="p-3">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h6 class="text-primary mb-3">
+                                                                <i class="fas fa-align-left me-2"></i>Descrição Completa
+                                                            </h6>
+                                                            <p class="mb-0"><%= accident.description %></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                    
+                                    <!-- Modal para Imagem Individual -->
+                                    <% if (accident.imageUrl) { %>
+                                        <div class="modal fade" id="imageModal<%= accident.id %>" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="background-color: #0056b3; color: white;">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="/images/iacmlogopreview.png" alt="IACM Logo" style="height: 40px; width: auto; margin-right: 15px;">
+                                                            <h5 class="modal-title mb-0">
+                                                                <i class="fas fa-image me-2"></i><%= accident.title %>
+                                                            </h5>
+                                                        </div>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body text-center p-0">
+                                                        <img src="<%= accident.imageUrl %>" 
+                                                             alt="<%= accident.title %>" 
+                                                             class="img-fluid w-100">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="<%= accident.imageUrl %>" 
+                                                           download 
+                                                           class="btn" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                                            <i class="fas fa-download me-2"></i>Baixar Imagem
+                                                        </a>
+                                                        <button type="button" class="btn" style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;" data-bs-dismiss="modal">
+                                                            Fechar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } else { %>
+                    <div class="text-center py-5">
+                        <i class="fas fa-exclamation-triangle fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhum registro disponível</h4>
+                        <p class="text-muted">Ainda não há acidentes ou incidentes registrados no sistema.</p>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- FOOTER COM BOTÕES -->
+            <div class="modal-footer bg-light">
+                <button type="button" 
+        class="btn btn-lg" 
+        style="background-color: #0056b3; color: white; border: 1px solid #0056b3;"
+        onclick="openFormsSection()">
+    <i class="fas fa-file-alt me-2"></i>
+    FORMULÁRIOS DE NOTIFICAÇÕES E REPORTES DE OCORRÊNCIAS
+</button>
+                <button type="button" 
+                        class="btn" 
+                        style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;"
+                        data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Cooperação Internacional -->
+<div class="modal fade" id="cooperationsModal" tabindex="-1" aria-labelledby="cooperationsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0056b3; color: white;">
+                <div class="d-flex align-items-center">
+                    <img src="/images/iacmlogopreview.png" alt="IACM Logo" style="height: 40px; width: auto; margin-right: 15px;">
+                    <h5 class="modal-title mb-0">
+                        <i class="fas fa-globe-africa me-2"></i>Cooperação Internacional
+                    </h5>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <% if (cooperations && cooperations.length > 0) { %>
+                    <!-- Filtros por Tipo -->
+                    <div class="mb-4">
+                        <div class="btn-group flex-wrap" role="group" aria-label="Filtro de Cooperações">
+                            <button type="button" class="btn active" onclick="filterCooperations('all')" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                <i class="fas fa-globe me-1"></i>Todos (<%= cooperations.length %>)
+                            </button>
+                            <button type="button" class="btn" onclick="filterCooperations('Acordo')" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                <i class="fas fa-file-signature me-1"></i>Acordos (<%= cooperations.filter(c => c.type === 'Acordo').length %>)
+                            </button>
+                            <button type="button" class="btn" onclick="filterCooperations('Memorando')" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                                <i class="fas fa-file-contract me-1"></i>Memorandos (<%= cooperations.filter(c => c.type === 'Memorando').length %>)
+                            </button>
+                            <button type="button" class="btn" onclick="filterCooperations('Parceria')" style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;">
+                                <i class="fas fa-handshake me-1"></i>Parcerias (<%= cooperations.filter(c => c.type === 'Parceria').length %>)
+                            </button>
+                            <button type="button" class="btn" onclick="filterCooperations('Convênio')" style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;">
+                                <i class="fas fa-hands-helping me-1"></i>Convênios (<%= cooperations.filter(c => c.type === 'Convênio').length %>)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Lista de Cooperações -->
+                    <div class="row" id="cooperationsContainer">
+                        <% cooperations.forEach(cooperation => { %>
+                            <div class="col-md-6 mb-4 cooperation-item" data-cooperation-type="<%= cooperation.type %>">
+                                <div class="card h-100 shadow-sm border-0">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-3">
+                                            <% 
+                                            const typeColors = {
+                                                'Acordo': 'primary',
+                                                'Memorando': 'info',
+                                                'Parceria': 'success',
+                                                'Convênio': 'warning',
+                                                'Outro': 'secondary'
+                                            };
+                                            const typeIcons = {
+                                                'Acordo': 'file-signature',
+                                                'Memorando': 'file-contract',
+                                                'Parceria': 'handshake',
+                                                'Convênio': 'hands-helping',
+                                                'Outro': 'file-alt'
+                                            };
+                                            %>
+                                            <span class="badge" style="background-color: #0056b3; color: white; margin-bottom: 8px;">
+                                                <i class="fas fa-<%= typeIcons[cooperation.type] || 'file-alt' %> me-1"></i>
+                                                <%= cooperation.type %>
+                                            </span>
+                                            <small class="text-muted">
+                                                <i class="far fa-calendar me-1"></i>
+                                                <%= new Date(cooperation.date).toLocaleDateString('pt-PT') %>
+                                            </small>
+                                        </div>
+                                        <h5 class="card-title text-dark mb-3">
+                                            <i class="fas fa-bookmark me-2" style="color: #ffc107;"></i>
+                                            <%= cooperation.title %>
+                                        </h5>
+                                        
+                                        <p class="card-text mb-2">
+                                            <strong class="text-primary"><i class="fas fa-building me-2"></i>Organização:</strong>
+                                            <%= cooperation.organization %>
+                                        </p>
+                                        
+                                        <% if (cooperation.country) { %>
+                                            <p class="card-text mb-3">
+                                                <strong class="text-primary"><i class="fas fa-flag me-2"></i>País:</strong>
+                                                <%= cooperation.country %>
+                                            </p>
+                                        <% } %>
+                                        
+                                        <p class="card-text text-muted small">
+                                            <i class="fas fa-align-left me-1"></i>
+                                            <%= cooperation.description.substring(0, 150) %>...
+                                        </p>
+                                        
+                                        <div class="d-flex gap-2 mt-3">
+                                            <button type="button" class="btn btn-sm" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;" data-bs-toggle="collapse" data-bs-target="#coopDesc<%= cooperation.id %>">
+                                                <i class="fas fa-info-circle me-1"></i>Ver Descrição Completa
+                                            </button>
+                                            <% if (cooperation.documentUrl) { %>
+                                                <a href="<%= cooperation.documentUrl %>" target="_blank" class="btn btn-sm" style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;">
+                                                    <i class="fas fa-file-pdf me-1"></i>Documento
+                                                </a>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Descrição Completa (Collapse) -->
+                                    <div class="collapse" id="coopDesc<%= cooperation.id %>">
+                                        <div class="card-footer bg-light border-top">
+                                            <strong class="text-primary">
+                                                <i class="fas fa-file-alt me-2"></i>Descrição Completa:
+                                            </strong>
+                                            <p class="mb-0 mt-2 text-dark"><%= cooperation.description %></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } else { %>
+                    <div class="text-center py-5">
+                        <i class="fas fa-globe-africa fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhuma cooperação registrada</h4>
+                        <p class="text-muted">Ainda não há cooperações internacionais registradas no sistema.</p>
+                    </div>
+                <% } %>
+            </div>
+          
+            <div class="modal-footer">
+                <button type="button" class="btn" style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Formulários de Notificações e Reportes -->
+<div class="modal fade" id="formsModal" tabindex="-1" aria-labelledby="formsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable modal-fullscreen-lg-down">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0056b3; color: white;">
+                <div class="d-flex align-items-center">
+                    <img src="/images/iacmlogopreview.png" alt="IACM Logo" style="height: 40px; width: auto; margin-right: 15px;">
+                    <h5 class="modal-title mb-0">
+                        <i class="fas fa-file-alt me-2"></i>FORMULÁRIOS DE NOTIFICAÇÕES E REPORTES DE OCORRÊNCIAS
+                    </h5>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Filtros -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text" style="background-color: #0056b3; color: white;">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="formSearch" 
+                                   placeholder="Pesquisar por número ou título..."
+                                   onkeyup="filterForms()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-select" id="formCategoryFilter" onchange="filterForms()">
+                            <option value="all">Todas as categorias</option>
+                            <option value="Notificação">Notificação</option>
+                            <option value="Reporte de Ocorrência">Reporte de Ocorrência</option>
+                            <option value="Outro">Outros</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Mensagem quando não há formulários -->
+                <div id="noFormsMessage" class="text-center py-5" style="display: none;">
+                    <i class="fas fa-file-pdf fa-4x text-muted mb-3"></i>
+                    <h4 class="text-muted">Nenhum formulário disponível</h4>
+                    <p class="text-muted">Volte em breve para consultar os formulários.</p>
+                </div>
+
+                <!-- Lista de Formulários -->
+                <div class="table-responsive" id="formsTableContainer" style="display: none;">
+                    <table class="table table-hover align-middle">
+                        <thead style="background-color: #0056b3; color: white;">
+                            <tr>
+                                <th width="15%">Número</th>
+                                <th width="50%">Título do Formulário</th>
+                                <th width="15%">Categoria</th>
+                                <th width="20%" class="text-center">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="formsTableBody">
+                            <!-- Os formulários serão carregados aqui via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginação -->
+                <nav aria-label="Paginação de formulários" class="mt-4">
+                    <ul class="pagination justify-content-center" id="formsPagination">
+                        <!-- Paginação será gerada dinamicamente -->
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="modal-footer bg-light">
+                <div class="row w-100">
+                    <div class="col-md-8">
+                        <button type="button" class="btn" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;" onclick="goBackToAccidentsModal()">
+                            <i class="fas fa-arrow-left me-1"></i>Voltar
+                        </button>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button type="button" class="btn" style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-1"></i>Fechar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================================== -->
+<!-- SCRIPTS (com funções de navegação adicionadas) -->
+<!-- ================================================== -->
+<script>
+    // Variáveis para formulários
+    let formsData = [];
+    let currentFormsPage = 1;
+    const formsPerPage = 10;
+
+    // Função para voltar ao modal de Acidentes e Incidentes
+    function goBackToAccidentsModal() {
+        // Fechar o modal atual
+        const formsModal = bootstrap.Modal.getInstance(document.getElementById('formsModal'));
+        if (formsModal) {
+            formsModal.hide();
+        }
+        
+        // Aguardar um pouco e abrir o modal de Acidentes e Incidentes
+        setTimeout(() => {
+            const accidentsModal = new bootstrap.Modal(document.getElementById('accidentsModal'));
+            accidentsModal.show();
+        }, 300);
+    }
+
+    // Função para voltar ao modal de Direção de Regulação Econômica
+    function goBackToEconomicServicesModal() {
+        // Fechar o modal atual
+        const economicModal = bootstrap.Modal.getInstance(document.getElementById('economicRegulationsModal'));
+        if (economicModal) {
+            economicModal.hide();
+        }
+        
+        // Aguardar um pouco e abrir o modal de Direção de Regulação Econômica
+        setTimeout(() => {
+            const servicesModal = new bootstrap.Modal(document.getElementById('economicRegulationServicesModal'));
+            servicesModal.show();
+        }, 300);
+    }
+
+    // Função para abrir modal de formulários
+    async function openFormsSection() {
+        try {
+            // Fechar modal de acidentes
+            const accidentsModal = bootstrap.Modal.getInstance(document.getElementById('accidentsModal'));
+            if (accidentsModal) {
+                accidentsModal.hide();
+            }
+
+            // Mostrar loading
+            document.getElementById('formsTableBody').innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                        <p class="mt-2">Carregando formulários...</p>
+                    </td>
+                </tr>
+            `;
+
+            // Mostrar container
+            document.getElementById('formsTableContainer').style.display = 'block';
+            document.getElementById('noFormsMessage').style.display = 'none';
+
+            // Buscar formulários da API
+            const response = await fetch('/admin/forms/api/forms');
+            const result = await response.json();
+            
+            if (result.success && result.data.length > 0) {
+                formsData = result.data;
+                currentFormsPage = 1;
+                renderFormsTable();
+            } else {
+                showNoFormsMessage();
+            }
+
+            // Abrir modal de formulários
+            const formsModal = new bootstrap.Modal(document.getElementById('formsModal'));
+            formsModal.show();
+            
+        } catch (error) {
+            console.error('Erro ao carregar formulários:', error);
+            document.getElementById('formsTableBody').innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center py-5 text-danger">
+                        <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+                        <p>Erro ao carregar formulários. Tente novamente.</p>
+                    </td>
+                </tr>
+            `;
+        }
+    }
+
+    // Mostrar mensagem de "nenhum formulário"
+    function showNoFormsMessage() {
+        document.getElementById('formsTableContainer').style.display = 'none';
+        document.getElementById('noFormsMessage').style.display = 'block';
+    }
+
+    // Renderizar tabela de formulários
+    function renderFormsTable() {
+        const searchTerm = document.getElementById('formSearch').value.toLowerCase();
+        const categoryFilter = document.getElementById('formCategoryFilter').value;
+        
+        // Filtrar formulários
+        let filteredForms = formsData.filter(form => {
+            const matchesSearch = form.formNumber.toLowerCase().includes(searchTerm) || 
+                                 form.title.toLowerCase().includes(searchTerm);
+            const matchesCategory = categoryFilter === 'all' || form.category === categoryFilter;
+            return matchesSearch && matchesCategory;
+        });
+
+        // Paginação
+        const totalPages = Math.ceil(filteredForms.length / formsPerPage);
+        const startIndex = (currentFormsPage - 1) * formsPerPage;
+        const paginatedForms = filteredForms.slice(startIndex, startIndex + formsPerPage);
+
+        // Renderizar tabela
+        const tableBody = document.getElementById('formsTableBody');
+        
+        if (paginatedForms.length === 0) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center py-5">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">Nenhum formulário encontrado</h5>
+                        <p class="text-muted">Tente ajustar os filtros de pesquisa.</p>
+                    </td>
+                </tr>
+            `;
+        } else {
+            tableBody.innerHTML = paginatedForms.map(form => `
+                <tr>
+                    <td>
+                        <span class="badge fs-6" style="background-color: #0056b3; color: white;">
+                            <i class="fas fa-hashtag me-1"></i>${form.formNumber}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="fw-bold text-dark mb-1">${form.title}</div>
+                        ${form.description ? `<small class="text-muted">${form.description}</small>` : ''}
+                        <div class="mt-1">
+                            <small class="text-muted">
+                                <i class="fas fa-language me-1"></i>${form.language} 
+                                <span class="mx-2">|</span>
+                                <i class="fas fa-code-branch me-1"></i>v${form.version}
+                                ${form.fileSize ? `<span class="mx-2">|</span><i class="fas fa-weight me-1"></i>${form.fileSize}` : ''}
+                            </small>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge ${form.category === 'Notificação' ? 'bg-info' : form.category === 'Reporte de Ocorrência' ? 'bg-warning' : 'bg-secondary'}">
+                            ${form.category}
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <a href="${form.pdfUrl}" 
+                               target="_blank" 
+                               class="btn btn-sm" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;"
+                               onclick="trackFormDownload('${form.id}')">
+                                <i class="fas fa-eye me-1"></i>Visualizar
+                            </a>
+                            <a href="${form.pdfUrl}" 
+                               download 
+                               class="btn btn-sm" style="background-color: #ffc107; color: #212529; border: 1px solid #ffc107;"
+                               onclick="trackFormDownload('${form.id}')">
+                                <i class="fas fa-download me-1"></i>Baixar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Renderizar paginação
+        renderFormsPagination(totalPages);
+    }
+
+    // Renderizar paginação
+    function renderFormsPagination(totalPages) {
+        const paginationElement = document.getElementById('formsPagination');
+        
+        if (totalPages <= 1) {
+            paginationElement.innerHTML = '';
+            return;
+        }
+
+        let paginationHTML = `
+            <li class="page-item ${currentFormsPage === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="changeFormsPage(${currentFormsPage - 1})" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            </li>
+        `;
+
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= currentFormsPage - 2 && i <= currentFormsPage + 2)) {
+                paginationHTML += `
+                    <li class="page-item ${currentFormsPage === i ? 'active' : ''}">
+                        <a class="page-link ${currentFormsPage === i ? 'active' : ''}" href="#" onclick="changeFormsPage(${i})" style="${currentFormsPage === i ? 'background-color: #0056b3; color: white; border: 1px solid #0056b3;' : 'background-color: #0056b3; color: white; border: 1px solid #0056b3;'}">${i}</a>
+                    </li>
+                `;
+            } else if (i === currentFormsPage - 3 || i === currentFormsPage + 3) {
+                paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+            }
+        }
+
+        paginationHTML += `
+            <li class="page-item ${currentFormsPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="changeFormsPage(${currentFormsPage + 1})" style="background-color: #0056b3; color: white; border: 1px solid #0056b3;">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+        `;
+
+        paginationElement.innerHTML = paginationHTML;
+    }
+
+    // Mudar página
+    function changeFormsPage(page) {
+        if (page < 1 || page > Math.ceil(formsData.length / formsPerPage)) return;
+        currentFormsPage = page;
+        renderFormsTable();
+    }
+
+    // Filtrar formulários
+    function filterForms() {
+        currentFormsPage = 1;
+        renderFormsTable();
+    }
+
+    // Rastrear download de formulário
+    async function trackFormDownload(formId) {
+        try {
+            await fetch(`/admin/forms/api/forms/${formId}/download`, {
+                method: 'POST'
+            });
+        } catch (error) {
+            console.error('Erro ao rastrear download:', error);
+        }
+    }
+
+    // Funções para filtros de acidentes
+    function filterAccidents(type) {
+        const rows = document.querySelectorAll('#accidentsTable tbody tr');
+        rows.forEach(row => {
+            if (type === 'all' || row.dataset.accidentType === type) {
+                row.style.display = '';
+                const descRow = document.getElementById('desc' + row.dataset.accidentId);
+                if (descRow) descRow.style.display = '';
+            } else {
+                row.style.display = 'none';
+                const descRow = document.getElementById('desc' + row.dataset.accidentId);
+                if (descRow) descRow.style.display = 'none';
+            }
+        });
+    }
+
+    function filterAccidentsByQuarter(quarter) {
+        const rows = document.querySelectorAll('#accidentsTable tbody tr');
+        rows.forEach(row => {
+            if (quarter === 'all' || row.dataset.accidentQuarter === quarter) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    function filterAccidentsByYear(year) {
+        const rows = document.querySelectorAll('#accidentsTable tbody tr');
+        rows.forEach(row => {
+            if (year === 'all' || row.dataset.accidentYear === year) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // Função para filtros de cooperações
+    function filterCooperations(type) {
+        const items = document.querySelectorAll('.cooperation-item');
+        items.forEach(item => {
+            if (type === 'all' || item.dataset.cooperationType === type) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    // Função para abrir aba específica no modal econômico
+    function openEconomicTabFromService(category) {
+        // Fechar modal de serviços econômicos
+        const servicesModal = bootstrap.Modal.getInstance(document.getElementById('economicRegulationServicesModal'));
+        if (servicesModal) {
+            servicesModal.hide();
+        }
+        
+        // Aguardar fechamento do modal
+        setTimeout(() => {
+            // Abrir modal de regulação econômica
+            const economicModal = new bootstrap.Modal(document.getElementById('economicRegulationsModal'));
+            economicModal.show();
+            
+            // Aguardar modal abrir e clicar na aba correspondente
+            setTimeout(() => {
+                const tabButtons = document.querySelectorAll('#economicRegulationsTabs .nav-link');
+                tabButtons.forEach(button => {
+                    if (button.textContent.trim().includes(category)) {
+                        button.click();
+                    }
+                });
+            }, 500);
+        }, 300);
+    }
+</script>
+<!-- ================================================== -->
+<!-- STYLES PARA PÁGINA DE SERVIÇOS -->
+<!-- ================================================== -->
+<!-- ================================================== -->
+<!-- STYLES PARA PÁGINA DE SERVIÇOS (HERO REDUZIDO) -->
+<!-- ================================================== -->
+<style>
+    /* ================================================== */
+    /* HERO SECTION REDUZIDO (50% da altura) */
+    /* ================================================== */
+    
+    .services-hero-section {
+        background: linear-gradient(135deg, #002D87 0%, #0039A6 100%);
+        padding: 60px 0 40px 0; /* Reduzido o padding */
+        position: relative;
+        overflow: hidden;
+        min-height: 50vh; /* Reduzido de 80vh para 50vh */
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Adicionar padrão sutil de aviação no fundo */
+    .services-hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05) 2px, transparent 2px),
+            radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05) 2px, transparent 2px);
+        background-size: 60px 60px;
+        opacity: 0.3;
+        z-index: 1;
+    }
+    
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem; /* Reduzido de 2.8rem */
+        font-weight: 800;
+        color: white; /* Alterado para branco para contraste */
+        margin-bottom: 15px;
+        line-height: 1.2;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.6;
+        margin-bottom: 25px;
+        max-width: 600px;
+    }
+    
+    .hero-buttons .btn-hero {
+        background: linear-gradient(135deg, #D4AF37 0%, #B88C25 100%);
+        color: #212529;
+        padding: 0.75rem 1.8rem;
+        border-radius: 50px;
+        font-weight: 700;
+        border: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    .hero-buttons .btn-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.6s ease;
+        z-index: -1;
+    }
+    
+    .hero-buttons .btn-hero:hover::before {
+        left: 100%;
+    }
+    
+    .hero-buttons .btn-hero:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(212, 175, 55, 0.5);
+    }
+    
+    .hero-buttons .btn-outline-light {
+        border: 2px solid white;
+        color: white;
+        background: transparent;
+        padding: 0.75rem 1.8rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+    }
+    
+    .hero-buttons .btn-outline-light:hover {
+        background: white;
+        color: #0039A6;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+    }
+    
+    /* ÍCONE DO HERO COM MAIS DESTAQUE */
+    .services-hero-image {
+        position: relative;
+    }
+    
+    .services-hero-image img {
+        max-width: 320px; /* Reduzido de 450px para 320px */
+        filter: 
+            drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3))
+            drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+        transition: all 0.5s ease;
+        position: relative;
+        z-index: 2;
+    }
+    
+    /* Efeito de brilho atrás do logo */
+    .services-hero-image::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 280px;
+        height: 280px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 1;
+        animation: pulseGlow 3s ease-in-out infinite;
+    }
+    
+    @keyframes pulseGlow {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 0.9; }
+    }
+    
+    .services-hero-image img:hover {
+        transform: scale(1.05) rotate(3deg);
+        filter: 
+            drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4))
+            drop-shadow(0 0 25px rgba(255, 255, 255, 0.3));
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .floating {
+        animation: float 5s ease-in-out infinite;
+    }
+    
+    /* ================================================== */
+    /* CARDS COM IMAGENS DE FUNDO NÍTIDAS */
+    /* ================================================== */
+    
+    .card-with-bg {
+        position: relative;
+        overflow: hidden;
+        height: 320px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .card-bg-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: transform 0.6s ease;
+        z-index: 1;
+        filter: brightness(0.95) contrast(1.1);
+    }
+    
+    .card-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.4;
+        transition: opacity 0.3s ease;
+        z-index: 2;
+    }
+    
+    .card-overlay.bg-primary {
+        background: linear-gradient(135deg, rgba(0, 57, 166, 0.7) 0%, rgba(0, 45, 135, 0.7) 100%);
+    }
+    
+    .card-overlay.bg-warning {
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.7) 0%, rgba(184, 148, 39, 0.7) 100%);
+    }
+    
+    .card-overlay.bg-success {
+        background: linear-gradient(135deg, rgba(40, 167, 69, 0.7) 0%, rgba(30, 126, 52, 0.7) 100%);
+    }
+    
+    .card-with-bg:hover .card-bg-image {
+        transform: scale(1.08);
+    }
+    
+    .card-with-bg:hover .card-overlay {
+        opacity: 0.5;
+    }
+    
+    .card-with-bg .card-content {
+        position: relative;
+        z-index: 3;
+        padding: 2.5rem 1.5rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .card-with-bg .service-icon {
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+        transition: all 0.3s ease;
+        text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
+    }
+    
+    .card-with-bg h4 {
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 0.9rem;
+        line-height: 1.3;
+        text-align: center;
+        color: white;
+    }
+    
+    .card-with-bg p {
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        opacity: 0.95;
+        color: white;
+    }
+    
+    .btn-card-action {
+        background-color: rgba(255, 255, 255, 0.95) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        color: #0039A6 !important;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(5px);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    .btn-card-action:hover {
+        background-color: #ffffff !important;
+        border-color: #ffffff !important;
+        color: #002D87 !important;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+    
+    .card-with-bg:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-with-bg:hover .service-icon {
+        transform: scale(1.15);
+    }
+    
+    /* ================================================== */
+    /* SECTION TITLES */
+    /* ================================================== */
+    
+    .section-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #002D87;
+        margin-bottom: 15px;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+        color: #718096;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    /* ================================================== */
+    /* RESPONSIVIDADE */
+    /* ================================================== */
+    
+    @media (max-width: 768px) {
+        .services-hero-section {
+            min-height: 60vh; /* Um pouco mais alto em mobile */
+            padding: 40px 0 30px 0;
+        }
+        
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+        
+        .services-hero-image img {
+            max-width: 250px;
+            margin-top: 20px;
+        }
+        
+        .services-hero-image::before {
+            width: 200px;
+            height: 200px;
+        }
+        
+        .hero-buttons .btn {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .hero-buttons .me-3 {
+            margin-right: 0 !important;
+        }
+        
+        .card-with-bg {
+            height: 280px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-with-bg .card-content {
+            padding: 2rem 1rem;
+        }
+        
+        .card-with-bg .service-icon {
+            font-size: 2.2rem;
+        }
+        
+        .card-with-bg h4 {
+            font-size: 1.3rem;
+        }
+        
+        .card-with-bg p {
+            font-size: 0.9rem;
+        }
+    }
+    
+    @media (max-width: 992px) {
+        .card-with-bg {
+            height: 300px;
+        }
+        
+        .card-with-bg .card-content {
+            padding: 2rem 1.2rem;
+        }
+        
+        .card-with-bg h4 {
+            font-size: 1.4rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .services-hero-section {
+            min-height: 65vh;
+        }
+        
+        .hero-title {
+            font-size: 1.8rem;
+        }
+        
+        .services-hero-image img {
+            max-width: 200px;
+        }
+        
+        .services-hero-image::before {
+            width: 180px;
+            height: 180px;
+        }
+        
+        .card-with-bg {
+            height: 260px;
+        }
+    }
+    
+    @media (min-width: 1400px) {
+        .services-hero-section {
+            min-height: 45vh; /* Um pouco menor em telas muito grandes */
+        }
+    }
+
+
+
+    /* ================================================== */
+    /* PROCESS SECTION */
+    /* ================================================== */
+    
+    .process-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .process-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #0039A6, #D4AF37, #0039A6);
+    }
+    
+    .process-step {
+        padding: 1.3rem 0.8rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 86, 179, 0.08);
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .process-step:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 86, 179, 0.12);
+        border-color: rgba(0, 86, 179, 0.2);
+    }
+    
+    .step-number {
+        width: 55px;
+        height: 55px;
+        background: linear-gradient(135deg, #0039A6, #002D87);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin: 0 auto 0.8rem auto;
+        box-shadow: 0 4px 12px rgba(0, 86, 179, 0.25);
+        transition: all 0.3s ease;
+    }
+    
+    .process-step:hover .step-number {
+        transform: scale(1.08);
+    }
+    
+    .process-step h5 {
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 1.05rem;
+        margin-bottom: 0.6rem;
+    }
+    
+    .process-step p {
+        color: #6c757d;
+        line-height: 1.5;
+        font-size: 0.85rem;
+        margin-bottom: 0;
+    }
+    
+    /* ================================================== */
+    /* UTILITÁRIOS */
+    /* ================================================== */
+    
+    .opacity-90 {
+        opacity: 0.95;
+    }
+    
+    /* ================================================== */
+    /* RESPONSIVIDADE */
+    /* ================================================== */
+    
+    @media (max-width: 768px) {
+        .services-hero-section {
+            min-height: 50vh;
+            padding: 30px 0 20px 0;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 1.9rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        
+        .services-hero-image img {
+            max-width: 180px;
+            margin-top: 15px;
+        }
+        
+        .section-title {
+            font-size: 1.7rem;
+        }
+        
+        .section-subtitle {
+            font-size: 0.9rem;
+        }
+        
+        .hero-buttons .btn {
+            display: block;
+            width: 100%;
+            margin-bottom: 8px;
+            padding: 0.6rem 1.2rem;
+        }
+        
+        .hero-buttons .me-3 {
+            margin-right: 0 !important;
+        }
+        
+        .card-with-bg {
+            height: 260px;
+            margin-bottom: 1.2rem;
+        }
+        
+        .card-with-bg .card-content {
+            padding: 1.5rem 1rem;
+        }
+        
+        .card-with-bg .service-icon {
+            font-size: 2rem;
+        }
+        
+        .card-with-bg h4 {
+            font-size: 1.2rem;
+        }
+        
+        .card-with-bg p {
+            font-size: 0.85rem;
+        }
+        
+        .btn-card-action {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+    }
+    
+    @media (max-width: 992px) {
+        .card-with-bg {
+            height: 280px;
+        }
+        
+        .card-with-bg .card-content {
+            padding: 1.8rem 1.2rem;
+        }
+        
+        .card-with-bg h4 {
+            font-size: 1.3rem;
+        }
+        
+        .hero-title {
+            font-size: 2rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .services-hero-section {
+            min-height: 55vh;
+        }
+        
+        .hero-title {
+            font-size: 1.7rem;
+        }
+        
+        .services-hero-image img {
+            max-width: 150px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+        }
+        
+        .card-with-bg {
+            height: 240px;
+        }
+        
+        .card-with-bg .card-content {
+            padding: 1.3rem 0.8rem;
+        }
+        
+        .card-with-bg h4 {
+            font-size: 1.1rem;
+        }
+        
+        .card-with-bg p {
+            font-size: 0.8rem;
+        }
+    }
+    
+    @media (min-width: 1200px) {
+        .services-hero-section {
+            min-height: 40vh; /* Um pouco menor em telas grandes */
+        }
+        
+        .hero-title {
+            font-size: 2.4rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+        
+        .services-hero-image img {
+            max-width: 240px;
+        }
+        
+        .card-with-bg {
+            height: 320px;
+        }
+    }
+
+    
+</style>
+
+<!-- ================================================== -->
+<!-- SCRIPT: AUTO-ABRIR MODAL DE REGULAÇÃO ECONÔMICA -->
+<!-- ================================================== -->
+<script>
+    // Verificar se deve abrir modal automaticamente ao carregar a página
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔍 Verificando sessionStorage para categoria...');
+        
+        // Verificar se há uma categoria salva no sessionStorage
+        const categoryToOpen = sessionStorage.getItem('openEconomicRegulationTab');
+        
+        if (categoryToOpen) {
+            console.log('✅ Categoria encontrada:', categoryToOpen);
+            console.log('🎯 Abrindo modal de Regulação Econômica...');
+            
+            // Remover do sessionStorage para não reabrir em recarregamentos futuros
+            sessionStorage.removeItem('openEconomicRegulationTab');
+            
+            // Aguardar um pequeno delay para garantir que a página carregou completamente
+            setTimeout(() => {
+                // Verificar se o modal existe
+                const modalElement = document.getElementById('economicRegulationsModal');
+                if (!modalElement) {
+                    console.error('❌ Modal economicRegulationsModal não encontrado!');
+                    return;
+                }
+                
+                // Abrir o modal de Regulação Econômica
+                const economicModal = new bootstrap.Modal(modalElement);
+                economicModal.show();
+                console.log('✅ Modal aberto com sucesso');
+                
+                // Aguardar o modal abrir e então selecionar a aba
+                setTimeout(() => {
+                    // Buscar todas as abas do modal
+                    const tabButtons = document.querySelectorAll('#economicRegulationsTabs .nav-link');
+                    console.log(`🔍 Encontradas ${tabButtons.length} abas`);
+                    
+                    if (tabButtons.length === 0) {
+                        console.error('❌ Nenhuma aba encontrada no modal!');
+                        return;
+                    }
+                    
+                    // Encontrar e clicar na aba correspondente
+                    let tabFound = false;
+                    tabButtons.forEach((button, index) => {
+                        const tabType = button.getAttribute('data-type');
+                        console.log(`📋 Aba ${index + 1}: "${tabType}"`);
+                        
+                        if (tabType === categoryToOpen) {
+                            button.click();
+                            tabFound = true;
+                            console.log('✅ Aba encontrada e ativada:', categoryToOpen);
+                            
+                            // Scroll suave até o conteúdo do modal
+                            setTimeout(() => {
+                                const modalBody = document.querySelector('#economicRegulationsModal .modal-body');
+                                if (modalBody) {
+                                    modalBody.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }, 300);
+                        }
+                    });
+                    
+                    if (!tabFound) {
+                        console.warn('⚠️ Aba não encontrada para categoria:', categoryToOpen);
+                        console.log('💡 Abrindo primeira aba disponível...');
+                        if (tabButtons.length > 0) {
+                            tabButtons[0].click();
+                        }
+                    }
+                }, 500);
+            }, 300);
+        } else {
+            console.log('ℹ️ Nenhuma categoria pendente no sessionStorage');
+        }
+        
+        // Verificar se há âncora #regulacao-economica na URL
+        if (window.location.hash === '#regulacao-economica') {
+            console.log('🔗 Âncora #regulacao-economica detectada na URL');
+            setTimeout(() => {
+                const modalElement = document.getElementById('economicRegulationsModal');
+                if (modalElement) {
+                    const economicModal = new bootstrap.Modal(modalElement);
+                    economicModal.show();
+                    console.log('✅ Modal aberto via âncora');
+                }
+            }, 300);
+        }
+    });
+</script>
+
+<!-- ================================================== -->
+<!-- CORREÇÃO: MODAL BACKDROP TRAVANDO A PÁGINA        -->
+<!-- Adicionar no final da página, antes do </body>    -->
+<!-- ================================================== -->
+
+<script>
+    // =============================================
+    // CORREÇÃO DE MODAIS ANINHADOS
+    // =============================================
+    
+    // Função para limpar todos os backdrops
+    function cleanupModalBackdrops() {
+        // Remover todos os backdrops do DOM
+        document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+            backdrop.remove();
+        });
+        
+        // Remover classes modal-open do body
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    }
+    
+    // Função para garantir que apenas um backdrop exista
+    function ensureSingleBackdrop() {
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        if (backdrops.length > 1) {
+            // Manter apenas o último backdrop (o mais recente)
+            backdrops.forEach((backdrop, index) => {
+                if (index < backdrops.length - 1) {
+                    backdrop.remove();
+                }
+            });
+        }
+    }
+    
+    // =============================================
+    // EVENT LISTENERS PARA TODOS OS MODAIS
+    // =============================================
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔧 Iniciando correção de modais...');
+        
+        // IDs de todos os modais relevantes
+        const modalIds = [
+            'economicRegulationServicesModal',
+            'economicRegulationsModal',
+            'otherServiceModal',
+            'regulamentosModal',
+            'lawsModal',
+            'accidentsModal',
+            'cooperationsModal',
+            'formsModal'
+        ];
+        
+        // Adicionar event listeners para cada modal
+        modalIds.forEach(modalId => {
+            const modalElement = document.getElementById(modalId);
+            
+            if (modalElement) {
+                console.log(`✅ Configurando modal: ${modalId}`);
+                
+                // Quando o modal é mostrado
+                modalElement.addEventListener('shown.bs.modal', function() {
+                    console.log(`📖 Modal aberto: ${modalId}`);
+                    ensureSingleBackdrop();
+                });
+                
+                // Quando o modal é fechado (IMPORTANTE)
+                modalElement.addEventListener('hidden.bs.modal', function() {
+                    console.log(`📕 Modal fechado: ${modalId}`);
+                    
+                    // Aguardar um pouco para o Bootstrap processar
+                    setTimeout(() => {
+                        const openModals = document.querySelectorAll('.modal.show');
+                        
+                        if (openModals.length === 0) {
+                            // Nenhum modal aberto - limpar tudo
+                            console.log('🧹 Limpando todos os backdrops...');
+                            cleanupModalBackdrops();
+                        } else {
+                            // Ainda há modais abertos - garantir apenas um backdrop
+                            console.log(`ℹ️ ${openModals.length} modal(is) ainda aberto(s)`);
+                            ensureSingleBackdrop();
+                        }
+                    }, 100);
+                });
+                
+                // Quando o botão X é clicado
+                const closeButtons = modalElement.querySelectorAll('[data-bs-dismiss="modal"]');
+                closeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        console.log(`❌ Botão X clicado no modal: ${modalId}`);
+                        
+                        // Forçar fechamento limpo
+                        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                        if (modalInstance) {
+                            modalInstance.hide();
+                        }
+                    });
+                });
+            }
+        });
+        
+        // =============================================
+        // CORREÇÃO PARA MODAIS DINÂMICOS (otherServiceModal)
+        // =============================================
+        
+        // Observar quando novos modais são adicionados ao DOM
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1 && node.classList && node.classList.contains('modal')) {
+                        const modalId = node.id;
+                        if (modalId && modalId.startsWith('otherServiceModal')) {
+                            console.log(`✅ Modal dinâmico detectado: ${modalId}`);
+                            
+                            // Adicionar event listeners
+                            node.addEventListener('hidden.bs.modal', function() {
+                                console.log(`📕 Modal dinâmico fechado: ${modalId}`);
+                                setTimeout(() => {
+                                    const openModals = document.querySelectorAll('.modal.show');
+                                    if (openModals.length === 0) {
+                                        cleanupModalBackdrops();
+                                    } else {
+                                        ensureSingleBackdrop();
+                                    }
+                                }, 100);
+                            });
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Observar o body inteiro
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+        
+        // =============================================
+        // LISTENER GLOBAL PARA TECLA ESC
+        // =============================================
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                console.log('⌨️ ESC pressionado');
+                
+                // Verificar se há modal aberto
+                const openModal = document.querySelector('.modal.show');
+                if (openModal) {
+                    const modalInstance = bootstrap.Modal.getInstance(openModal);
+                    if (modalInstance) {
+                        modalInstance.hide();
+                    }
+                    
+                    // Limpar após fechar
+                    setTimeout(() => {
+                        const stillOpen = document.querySelectorAll('.modal.show');
+                        if (stillOpen.length === 0) {
+                            cleanupModalBackdrops();
+                        }
+                    }, 200);
+                }
+            }
+        });
+        
+        // =============================================
+        // LISTENER PARA CLIQUE FORA DO MODAL
+        // =============================================
+        
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                console.log('🖱️ Clique fora do modal detectado');
+                
+                const modalInstance = bootstrap.Modal.getInstance(e.target);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+                
+                setTimeout(() => {
+                    const openModals = document.querySelectorAll('.modal.show');
+                    if (openModals.length === 0) {
+                        cleanupModalBackdrops();
+                    } else {
+                        ensureSingleBackdrop();
+                    }
+                }, 100);
+            }
+        });
+        
+        console.log('✅ Correção de modais ativada!');
+    });
+    
+    // =============================================
+    // FUNÇÃO DE EMERGÊNCIA - CHAMAR SE TRAVAR
+    // =============================================
+    
+    // Esta função pode ser chamada do console do navegador se a página travar
+    window.forceCloseAllModals = function() {
+        console.log('🚨 FORÇANDO FECHAMENTO DE TODOS OS MODALS');
+        
+        // Fechar todos os modais
+        document.querySelectorAll('.modal').forEach(modal => {
+            const instance = bootstrap.Modal.getInstance(modal);
+            if (instance) {
+                instance.hide();
+            }
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+        });
+        
+        // Limpar tudo
+        cleanupModalBackdrops();
+        
+        console.log('✅ Todos os modais foram fechados');
+    };
+    
+    // =============================================
+    // CORREÇÃO ESPECÍFICA PARA openEconomicTabFromService
+    // =============================================
+    
+    // Substituir a função openEconomicTabFromService existente
+    window.openEconomicTabFromService = function(category) {
+        console.log('\n╔════════════════════════════════════════╗');
+        console.log('║   ABRINDO REGULAÇÃO ECONÔMICA         ║');
+        console.log('╚════════════════════════════════════════╝');
+        console.log('📂 Categoria:', category);
+        
+        // Fechar modal de serviços econômicos
+        const servicesModal = document.getElementById('economicRegulationServicesModal');
+        const servicesInstance = bootstrap.Modal.getInstance(servicesModal);
+        
+        if (servicesInstance) {
+            console.log('🔒 Fechando modal de serviços...');
+            servicesInstance.hide();
+        }
+        
+        // Aguardar fechamento completo
+        setTimeout(() => {
+            // Limpar backdrops antes de abrir novo modal
+            cleanupModalBackdrops();
+            
+            console.log('🔓 Abrindo modal de regulação econômica...');
+            
+            // Abrir modal de regulação econômica
+            const economicModal = document.getElementById('economicRegulationsModal');
+            if (economicModal) {
+                const economicInstance = new bootstrap.Modal(economicModal);
+                economicInstance.show();
+                
+                // Aguardar modal abrir e clicar na aba
+                setTimeout(() => {
+                    const tabButtons = document.querySelectorAll('#economicRegulationsTabs .nav-link');
+                    console.log(`🔍 Procurando aba para: "${category}"`);
+                    
+                    let found = false;
+                    tabButtons.forEach(button => {
+                        const tabType = button.getAttribute('data-type');
+                        if (tabType === category) {
+                            console.log('✅ Aba encontrada! Ativando...');
+                            button.click();
+                            found = true;
+                        }
+                    });
+                    
+                    if (!found) {
+                        console.warn('⚠️ Aba não encontrada, abrindo primeira disponível');
+                        if (tabButtons.length > 0) {
+                            tabButtons[0].click();
+                        }
+                    }
+                    
+                    console.log('════════════════════════════════════════\n');
+                }, 500);
+            } else {
+                console.error('❌ Modal economicRegulationsModal não encontrado!');
+            }
+        }, 400);
+    };
+    
+    // =============================================
+    // CORREÇÃO PARA goBackToEconomicServicesModal
+    // =============================================
+    
+    window.goBackToEconomicServicesModal = function() {
+        console.log('⬅️ Voltando para modal de serviços econômicos...');
+        
+        // Fechar modal atual
+        const economicModal = document.getElementById('economicRegulationsModal');
+        const economicInstance = bootstrap.Modal.getInstance(economicModal);
+        
+        if (economicInstance) {
+            economicInstance.hide();
+        }
+        
+        // Aguardar e limpar
+        setTimeout(() => {
+            cleanupModalBackdrops();
+            
+            // Abrir modal de serviços
+            const servicesModal = document.getElementById('economicRegulationServicesModal');
+            if (servicesModal) {
+                const servicesInstance = new bootstrap.Modal(servicesModal);
+                servicesInstance.show();
+            }
+        }, 400);
+    };
+    
+    // =============================================
+    // CORREÇÃO PARA goBackToAccidentsModal
+    // =============================================
+    
+    window.goBackToAccidentsModal = function() {
+        console.log('⬅️ Voltando para modal de acidentes...');
+        
+        // Fechar modal de formulários
+        const formsModal = document.getElementById('formsModal');
+        const formsInstance = bootstrap.Modal.getInstance(formsModal);
+        
+        if (formsInstance) {
+            formsInstance.hide();
+        }
+        
+        // Aguardar e limpar
+        setTimeout(() => {
+            cleanupModalBackdrops();
+            
+            // Abrir modal de acidentes
+            const accidentsModal = document.getElementById('accidentsModal');
+            if (accidentsModal) {
+                const accidentsInstance = new bootstrap.Modal(accidentsModal);
+                accidentsInstance.show();
+            }
+        }, 400);
+    };
+    
+    console.log('✅ Script de correção de modais carregado!');
+    console.log('💡 Se a página travar, execute no console: forceCloseAllModals()');
+    </script>
+    
+    <!-- ================================================== -->
+    <!-- ESTILO ADICIONAL PARA GARANTIR LIMPEZA            -->
+    <!-- ================================================== -->
+    
+    <style>
+    /* Garantir que não sobre nenhum backdrop fantasma */
+    body.modal-cleanup {
+        overflow: auto !important;
+        padding-right: 0 !important;
+    }
+    
+    /* Garantir que backdrop não fique permanente */
+    .modal-backdrop {
+        transition: opacity 0.15s linear;
+    }
+    
+    .modal-backdrop.fade {
+        opacity: 0;
+    }
+    
+    .modal-backdrop.show {
+        opacity: 0.5;
+    }
+    
+    /* Prevenir scroll quando modal está aberto */
+    body.modal-open {
+        overflow: hidden;
+    }
+    
+    /* Garantir que modal seja clicável */
+    .modal {
+        z-index: 1050;
+    }
+    
+    .modal-backdrop {
+        z-index: 1040;
+    }
+    
+    /* Melhorar transição de fechamento */
+    .modal.fade .modal-dialog {
+        transition: transform 0.3s ease-out;
+    }
+    </style>
+    
+

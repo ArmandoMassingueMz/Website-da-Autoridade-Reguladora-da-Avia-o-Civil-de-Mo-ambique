@@ -1,0 +1,280 @@
+<!-- src/views/passenger-portal/layouts/portal-admin.ejs -->
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | Portal do Passageiro - IACM</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .admin-header h4 {
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .sidebar .nav-link {
+            color: #495057;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: #0056b3;
+            color: white;
+        }
+        
+        .sidebar .nav-link i {
+            width: 20px;
+            margin-right: 10px;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #0056b3;
+            transition: transform 0.3s;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stats-card.primary { border-left-color: #0056b3; }
+        .stats-card.success { border-left-color: #28a745; }
+        .stats-card.warning { border-left-color: #ffc107; }
+        .stats-card.danger { border-left-color: #dc3545; }
+        
+        .stats-card h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            color: #212529;
+        }
+        
+        .stats-card .icon {
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+        
+        .table-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        /* Form Styles */
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            padding: 0.75rem 1rem;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #0056b3;
+            box-shadow: 0 0 0 0.2rem rgba(0, 86, 179, 0.25);
+        }
+        
+        .btn {
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="admin-header">
+        <div class="container-fluid px-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h4>
+                        <i class="fas fa-plane-departure me-2"></i>
+                        Portal do Passageiro - Administração
+                    </h4>
+                </div>
+                <div class="col-md-6 text-end">
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <span class="me-3">
+                            <i class="fas fa-user me-2"></i>
+                            <%= user.name %>
+                        </span>
+                        <a href="/auth/logout" class="btn btn-sm btn-light">
+                            <i class="fas fa-sign-out-alt me-1"></i>
+                            Sair
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 col-md-3">
+                <div class="sidebar">
+                    <nav class="nav flex-column">
+                        <a class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'dashboard' ? 'active' : '' %>" 
+                           href="/portal-passageiro/admin/dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Dashboard
+                        </a>
+                        <a class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'rights' ? 'active' : '' %>" 
+                           href="/portal-passageiro/admin/rights">
+                            <i class="fas fa-gavel"></i>
+                            Direitos
+                        </a>
+                        <a class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'faqs' ? 'active' : '' %>" 
+                           href="/portal-passageiro/admin/faqs">
+                            <i class="fas fa-question-circle"></i>
+                            FAQs
+                        </a>
+                        <a class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'guides' ? 'active' : '' %>" 
+                           href="/portal-passageiro/admin/guides">
+                            <i class="fas fa-map"></i>
+                            Guias
+                        </a>
+                        <a class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'complaints' ? 'active' : '' %>" 
+                           href="/portal-passageiro/admin/complaints">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Reclamações
+                        </a>
+                        <a class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'compensation' ? 'active' : '' %>" 
+                           href="/portal-passageiro/admin/compensation">
+                            <i class="fas fa-coins"></i>
+                            Compensações
+                        </a>
+                        <a class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'news' ? 'active' : '' %>" 
+                           href="/portal-passageiro/admin/news">
+                            <i class="fas fa-newspaper"></i>
+                            Notícias
+                        </a>
+                        
+                        <hr class="my-3">
+                        
+                        <a class="nav-link" href="/portal-passageiro" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Portal Público
+                        </a>
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home"></i>
+                            Site Principal
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10 col-md-9">
+                <div class="main-content">
+                    <!-- Flash Messages -->
+                    <% if (typeof messages !== 'undefined') { %>
+                        <% if (messages.success) { %>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <%= messages.success %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        <% } %>
+                        <% if (messages.error) { %>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <%= messages.error %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        <% } %>
+                    <% } %>
+
+                    <!-- Page Content -->
+                    <%- body %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Auto-hide alerts
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+        
+        function confirmDelete(message) {
+            return confirm(message || 'Tem certeza que deseja deletar?');
+        }
+    </script>
+</body>
+</html>

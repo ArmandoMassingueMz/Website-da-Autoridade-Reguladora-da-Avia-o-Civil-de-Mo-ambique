@@ -1,0 +1,54 @@
+{
+	"nav": {
+		"home": "Início",
+		"about": "Sobre",
+		"services": "Serviços",
+		"news": "Notícias",
+		"events": "Eventos",
+		"contacts": "Contactos",
+		"login": "Entrar"
+	},
+	"home": {
+		"title": "IACM - Autoridade de Aviação Civil de Moçambique",
+		"whatWeDo": "O Que Fazemos",
+		"subtitle": "O IACM assegura a implementação das políticas e regulamentos de aviação civil em Moçambique",
+		"featuredNews": "NOTÍCIA EM DESTAQUE",
+		"featuredEvent": "EVENTO EM DESTAQUE",
+		"readFullNews": "Ler Notícia Completa",
+		"viewFullEvent": "Ver Evento Completo",
+		"allNews": "Todas as Notícias",
+		"allEvents": "Todos os Eventos",
+		"emptyState": "Nenhum Destaque Disponível",
+		"emptyStateText": "Notícias e eventos em destaque aparecerão aqui em breve."
+	},
+	"cards": {
+		"airSafety": {
+			"title": "Segurança Aérea",
+			"description": "Fiscalização e supervisão da segurança operacional da aviação civil."
+		},
+		"regulation": {
+			"title": "Regulação",
+			"description": "Regulamentação das atividades de aviação civil e transporte aéreo."
+		},
+		"certification": {
+			"title": "Certificação",
+			"description": "Certificação de pessoal, organizações, produtos e serviços aeronáuticos."
+		}
+	},
+	"stats": {
+		"airports": "Aeroportos Monitorados",
+		"professionals": "Profissionais Certificados",
+		"experience": "Anos de Experiência",
+		"airlines": "Companhias Aéreas"
+	},
+	"event": {
+		"start": "Início",
+		"end": "Término",
+		"location": "Local"
+	},
+	"common": {
+		"previous": "Anterior",
+		"next": "Próximo",
+		"slide": "common.slide"
+	}
+}

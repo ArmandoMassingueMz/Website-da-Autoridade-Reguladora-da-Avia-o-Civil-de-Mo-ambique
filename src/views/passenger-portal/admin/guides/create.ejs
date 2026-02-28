@@ -1,0 +1,156 @@
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>
+                <i class="fas fa-plus-circle"></i>
+                Criar Novo Guia de Viagem
+            </h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/portal-passageiro/admin/dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/portal-passageiro/admin/guides">Guias</a></li>
+                    <li class="breadcrumb-item active">Criar</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card border-0 shadow">
+                <div class="card-body p-4">
+                    <form method="POST" 
+                          action="/portal-passageiro/admin/guides/create"
+                          enctype="multipart/form-data"
+                          id="guideForm">
+                        
+                        <div class="row">
+                            <div class="col-md-8">
+                                <!-- FASE DA VIAGEM -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Fase da Viagem <span class="text-danger">*</span>
+                                    </label>
+                                    <select name="phase" class="form-select form-select-lg" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="antes_viagem">Antes da Viagem</option>
+                                        <option value="aeroporto">No Aeroporto</option>
+                                        <option value="durante_voo">Durante o Voo</option>
+                                        <option value="destino">No Destino</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- TÍTULO -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Título <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           name="title" 
+                                           class="form-control form-control-lg"
+                                           required
+                                           placeholder="Ex: Documentação Necessária">
+                                </div>
+                                
+                                <!-- CONTEÚDO COM EDITOR QUILL -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Conteúdo
+                                    </label>
+                                    <div id="editor" style="min-height: 300px; background: white;"></div>
+                                    <input type="hidden" name="content" id="content">
+                                    <small class="text-muted d-block mt-2">
+                                        Use a barra de ferramentas para formatar o texto
+                                    </small>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="fw-bold mb-3">Configurações</h6>
+                                        
+                                        <!-- UPLOAD -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">
+                                                Documento Anexo
+                                            </label>
+                                            <input type="file" 
+                                                   name="attachment" 
+                                                   class="form-control"
+                                                   accept=".pdf,.doc,.docx">
+                                            <small class="text-muted">PDF ou Word (máx. 5MB)</small>
+                                        </div>
+                                        
+                                        <!-- ORDEM -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">
+                                                Ordem de Exibição
+                                            </label>
+                                            <input type="number" 
+                                                   name="display_order" 
+                                                   class="form-control"
+                                                   value="0"
+                                                   min="0">
+                                        </div>
+                                        
+                                        <!-- STATUS -->
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">
+                                                Status
+                                            </label>
+                                            <select name="is_published" class="form-select">
+                                                <option value="false">Rascunho</option>
+                                                <option value="true">Publicado</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- BOTÕES -->
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-info">
+                                                <i class="fas fa-save"></i> Salvar Guia
+                                            </button>
+                                            <a href="/portal-passageiro/admin/guides" class="btn btn-outline-secondary">
+                                                Cancelar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quill.js -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script>
+// Inicializar Quill
+var quill = new Quill('#editor', {
+    theme: 'snow',
+    placeholder: 'Digite o conteúdo do guia...',
+    modules: {
+        toolbar: [
+            ['bold', 'italic', 'underline'],
+            [{'list': 'ordered'}, {'list': 'bullet'}],
+            [{'header': [1, 2, 3, false]}],
+            ['link'],
+            ['clean']
+        ]
+    }
+});
+
+// Ao submeter
+document.getElementById('guideForm').addEventListener('submit', function(e) {
+    var html = quill.root.innerHTML;
+    if (html === '<p><br></p>') html = '';
+    document.getElementById('content').value = html;
+});
+</script>
+

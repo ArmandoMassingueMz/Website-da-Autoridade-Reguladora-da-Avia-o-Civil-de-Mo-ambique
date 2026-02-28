@@ -1,0 +1,210 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">Gestão de Eventos</h1>
+            <p class="text-muted mb-0">Gerir eventos do IACM</p>
+        </div>
+        <div class="btn-group">
+            <a href="/admin" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Dashboard
+            </a>
+            <a href="/admin/events/create" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Adicionar Evento
+            </a>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <%= messages.success[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+    
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Stats -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= events.length %></div>
+                            <div class="small">Total de Eventos</div>
+                        </div>
+                        <i class="fas fa-calendar-alt fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-success text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= events.filter(e => e.isPublished).length %></div>
+                            <div class="small">Publicados</div>
+                        </div>
+                        <i class="fas fa-check-circle fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-info text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= events.filter(e => e.isActive).length %></div>
+                            <div class="small">Ativos</div>
+                        </div>
+                        <i class="fas fa-calendar-check fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= events.filter(e => new Date(e.createdAt) > new Date(Date.now() - 30*24*60*60*1000)).length %></div>
+                            <div class="small">Últimos 30 Dias</div>
+                        </div>
+                        <i class="fas fa-calendar fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Events Table -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h5 class="card-title mb-0">Todos os Eventos</h5>
+        </div>
+        <div class="card-body p-0">
+            <% if (events.length === 0) { %>
+                <div class="text-center py-5">
+                    <i class="fas fa-calendar-alt fa-3x text-muted mb-3 opacity-25"></i>
+                    <h5 class="text-muted">Nenhum evento encontrado</h5>
+                    <p class="text-muted">Adicione o primeiro evento para começar.</p>
+                    <a href="/admin/events/create" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus me-2"></i>Adicionar Evento
+                    </a>
+                </div>
+            <% } else { %>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="border-0">Imagem</th>
+                                <th class="border-0">Título</th>
+                                <th class="border-0">Data de Início</th>
+                                <th class="border-0">Data de Término</th>
+                                <th class="border-0">Autor</th>
+                                <th class="border-0">Status</th>
+                                <th class="border-0 text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% events.forEach(event => { %>
+                                <tr>
+                                    <td>
+                                        <% if (event.featuredImage) { %>
+                                            <img src="<%= event.featuredImage %>" 
+                                                 alt="<%= event.title %>" 
+                                                 class="rounded"
+                                                 style="width: 60px; height: 60px; object-fit: cover;">
+                                        <% } else { %>
+                                            <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                                                 style="width: 60px; height: 60px;">
+                                                <i class="fas fa-calendar-alt text-muted"></i>
+                                            </div>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <strong class="text-dark"><%= event.title %></strong>
+                                        <br>
+                                        <small class="text-muted">ID: <%= event.id %></small>
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-play-circle text-success me-1"></i>
+                                        <small class="text-muted">
+                                            <%= new Date(event.startDate).toLocaleDateString('pt-PT', { 
+                                                day: '2-digit', 
+                                                month: 'short', 
+                                                year: 'numeric' 
+                                            }) %>
+                                            <br>
+                                            <%= new Date(event.startDate).toLocaleTimeString('pt-PT', { 
+                                                hour: '2-digit', 
+                                                minute: '2-digit' 
+                                            }) %>
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-stop-circle text-danger me-1"></i>
+                                        <small class="text-muted">
+                                            <%= new Date(event.endDate).toLocaleDateString('pt-PT', { 
+                                                day: '2-digit', 
+                                                month: 'short', 
+                                                year: 'numeric' 
+                                            }) %>
+                                            <br>
+                                            <%= new Date(event.endDate).toLocaleTimeString('pt-PT', { 
+                                                hour: '2-digit', 
+                                                minute: '2-digit' 
+                                            }) %>
+                                        </small>
+                                    </td>
+                                    <td><span class="badge bg-light text-dark"><%= event.author ? event.author.name : 'N/A' %></span></td>
+                                    <td>
+                                        <% if (event.isPublished && event.isActive) { %>
+                                            <span class="badge bg-success"><i class="fas fa-check me-1"></i>Publicado</span>
+                                            <br>
+                                            <span class="badge bg-info mt-1"><i class="fas fa-calendar-check me-1"></i>Ativo</span>
+                                        <% } else if (!event.isActive) { %>
+                                            <span class="badge bg-secondary"><i class="fas fa-archive me-1"></i>Expirado</span>
+                                        <% } else { %>
+                                            <span class="badge bg-warning"><i class="fas fa-clock me-1"></i>Rascunho</span>
+                                        <% } %>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="/eventos/<%= event.id %>" target="_blank" class="btn btn-outline-success" data-bs-toggle="tooltip" title="Ver Evento">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="/admin/events/<%= event.id %>/edit" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="/admin/events/<%= event.id %>/delete" method="POST" class="d-inline">
+                                                <button type="submit" class="btn btn-outline-danger" data-bs-toggle="tooltip" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir este evento?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/admin-footer') %>

@@ -1,0 +1,405 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">
+                <i class="fas fa-gavel me-2"></i>Gestão de Leis e Decretos
+            </h1>
+            <p class="text-muted mb-0">Gerir legislação da aviação civil</p>
+        </div>
+        <div class="btn-group">
+            <a href="/admin" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Dashboard
+            </a>
+            <a href="/admin/laws/create" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Nova Lei/Decreto
+            </a>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i><%= messages.success[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i><%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Stats -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= laws.length %></div>
+                            <div class="small">Total de Leis/Decretos</div>
+                        </div>
+                        <i class="fas fa-gavel fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-success text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= laws.filter(l => l.isPublished).length %></div>
+                            <div class="small">Publicadas</div>
+                        </div>
+                        <i class="fas fa-check-circle fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <% 
+            const withDocument = laws.filter(law => law.fileUrl && law.fileUrl.trim() !== '').length;
+            %>
+            <div class="card bg-info text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= withDocument %></div>
+                            <div class="small">Com Documento</div>
+                        </div>
+                        <i class="fas fa-file-pdf fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <% 
+            const currentYear = new Date().getFullYear();
+            const currentYearLaws = laws.filter(law => {
+                if (!law.publicationDate) return false;
+                const pubYear = new Date(law.publicationDate).getFullYear();
+                return pubYear === currentYear;
+            }).length;
+            %>
+            <div class="card bg-warning text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= currentYearLaws %></div>
+                            <div class="small">Este Ano (<%= currentYear %>)</div>
+                        </div>
+                        <i class="fas fa-calendar-star fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-filter me-2"></i>Filtrar por Status:
+                    </label>
+                    <select class="form-select" id="filterStatus">
+                        <option value="all">Todos os Status</option>
+                        <option value="published">Publicados</option>
+                        <option value="draft">Rascunhos</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-sort me-2"></i>Ordenar por:
+                    </label>
+                    <select class="form-select" id="filterSort">
+                        <option value="ord">Número de Ordem</option>
+                        <option value="date">Data de Publicação</option>
+                        <option value="title">Título</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-search me-2"></i>Buscar:
+                    </label>
+                    <input type="text" class="form-control" id="filterSearch" 
+                           placeholder="Buscar por número, título...">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela de Leis -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Todas as Leis e Decretos</h5>
+                <div class="d-flex align-items-center">
+                    <span class="text-muted me-3">
+                        Mostrando <strong id="showingCount"><%= laws.length %></strong> de <strong><%= laws.length %></strong>
+                    </span>
+                    <a href="/admin/laws/create" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus me-1"></i>Adicionar Novo
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <% if (laws.length === 0) { %>
+                <div class="text-center py-5">
+                    <i class="fas fa-gavel fa-3x text-muted mb-3 opacity-25"></i>
+                    <h5 class="text-muted">Nenhuma lei ou decreto registrado</h5>
+                    <p class="text-muted">Adicione a primeira lei ou decreto para começar.</p>
+                    <a href="/admin/laws/create" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus me-2"></i>Registrar Primeira Lei/Decreto
+                    </a>
+                </div>
+            <% } else { %>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="lawsTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="border-0" width="8%">Ord</th>
+                                <th class="border-0" width="20%">Nº Decreto/Lei</th>
+                                <th class="border-0" width="40%">Teor</th>
+                                <th class="border-0" width="12%">Data</th>
+                                <th class="border-0" width="10%">Documento</th>
+                                <th class="border-0" width="10%">Status</th>
+                                <th class="border-0 text-end" width="10%">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% laws.forEach(law => { %>
+                                <tr data-law-id="<%= law.id %>" 
+                                    data-law-status="<%= law.isPublished ? 'published' : 'draft' %>"
+                                    data-law-title="<%= law.title.toLowerCase() %>"
+                                    data-law-number="<%= law.decreeNumber.toLowerCase() %>"
+                                    data-law-date="<%= law.publicationDate ? new Date(law.publicationDate).getTime() : 0 %>">
+                                    <td>
+                                        <span class="badge bg-secondary fs-6">
+                                            <%= law.ord %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <strong class="text-primary d-block">
+                                            <%= law.decreeNumber %>
+                                        </strong>
+                                        <small class="text-muted">ID: <%= law.id %></small>
+                                    </td>
+                                    <td>
+                                        <div class="text-truncate" style="max-width: 400px;">
+                                            <%= law.title %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <% if (law.publicationDate) { %>
+                                            <i class="fas fa-calendar-alt text-primary me-1"></i>
+                                            <small class="text-muted">
+                                                <%= new Date(law.publicationDate).toLocaleDateString('pt-PT', { 
+                                                    day: '2-digit', 
+                                                    month: 'short', 
+                                                    year: 'numeric' 
+                                                }) %>
+                                            </small>
+                                        <% } else { %>
+                                            <span class="text-muted">-</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% if (law.fileUrl) { %>
+                                            <a href="<%= law.fileUrl %>" 
+                                               target="_blank" 
+                                               class="btn btn-sm btn-outline-success"
+                                               data-bs-toggle="tooltip" 
+                                               title="Ver documento">
+                                                <i class="fas fa-file-pdf me-1"></i>PDF
+                                            </a>
+                                        <% } else { %>
+                                            <span class="text-muted">-</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% if (law.isPublished) { %>
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check me-1"></i> Publicado
+                                            </span>
+                                        <% } else { %>
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-clock me-1"></i> Rascunho
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="/admin/laws/<%= law.id %>/edit" 
+                                               class="btn btn-outline-primary" 
+                                               data-bs-toggle="tooltip" 
+                                               title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button type="button" 
+                                                    class="btn btn-outline-danger"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal<%= law.id %>"
+                                                    data-bs-toggle="tooltip" 
+                                                    title="Excluir">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Modal de Confirmação -->
+                                        <div class="modal fade" id="deleteModal<%= law.id %>" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-danger text-white">
+                                                        <h5 class="modal-title">
+                                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                                            Confirmar Exclusão
+                                                        </h5>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Tem certeza que deseja excluir esta lei/decreto?</p>
+                                                        <div class="alert alert-warning">
+                                                            <strong>Ord:</strong> <%= law.ord %><br>
+                                                            <strong>Decreto:</strong> <%= law.decreeNumber %><br>
+                                                            <strong>Teor:</strong> <%= law.title %>
+                                                        </div>
+                                                        <p class="text-danger mb-0">
+                                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                                            Esta ação não pode ser desfeita!
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                            Cancelar
+                                                        </button>
+                                                        <form action="/admin/laws/<%= law.id %>/delete" method="POST" class="d-inline">
+                                                            <button type="submit" class="btn btn-danger">
+                                                                <i class="fas fa-trash me-1"></i>Excluir
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
+        </div>
+        <% if (laws.length > 0) { %>
+            <div class="card-footer bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">
+                        Total de registros: <strong><%= laws.length %></strong>
+                    </small>
+                    <div>
+                        <a href="/admin/dashboard" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Voltar ao Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<script>
+// Ativar tooltips
+document.addEventListener('DOMContentLoaded', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    // Filtro por status
+    const filterStatus = document.getElementById('filterStatus');
+    const filterSort = document.getElementById('filterSort');
+    const filterSearch = document.getElementById('filterSearch');
+    const lawsTable = document.getElementById('lawsTable');
+    const showingCount = document.getElementById('showingCount');
+    
+    function applyFilters() {
+        const statusValue = filterStatus.value;
+        const sortValue = filterSort.value;
+        const searchValue = filterSearch.value.toLowerCase();
+        
+        const rows = lawsTable.querySelectorAll('tbody tr');
+        let visibleCount = 0;
+        
+        rows.forEach(row => {
+            const rowStatus = row.getAttribute('data-law-status');
+            const rowTitle = row.getAttribute('data-law-title');
+            const rowNumber = row.getAttribute('data-law-number');
+            
+            // Aplicar filtro de status
+            const statusMatch = statusValue === 'all' || rowStatus === statusValue;
+            
+            // Aplicar filtro de busca
+            const searchMatch = !searchValue || 
+                               rowTitle.includes(searchValue) || 
+                               rowNumber.includes(searchValue);
+            
+            if (statusMatch && searchMatch) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        
+        // Atualizar contador
+        showingCount.textContent = visibleCount;
+        
+        // Ordenar tabela
+        sortTable(sortValue);
+    }
+    
+    function sortTable(sortBy) {
+        const tbody = lawsTable.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        
+        rows.sort((a, b) => {
+            switch(sortBy) {
+                case 'date':
+                    const dateA = parseInt(a.getAttribute('data-law-date'));
+                    const dateB = parseInt(b.getAttribute('data-law-date'));
+                    return dateB - dateA; // Mais recente primeiro
+                    
+                case 'title':
+                    const titleA = a.getAttribute('data-law-title');
+                    const titleB = b.getAttribute('data-law-title');
+                    return titleA.localeCompare(titleB);
+                    
+                default: // 'ord'
+                    const ordA = parseInt(a.querySelector('.badge').textContent);
+                    const ordB = parseInt(b.querySelector('.badge').textContent);
+                    return ordA - ordB;
+            }
+        });
+        
+        // Reinserir linhas ordenadas
+        rows.forEach(row => tbody.appendChild(row));
+    }
+    
+    // Adicionar event listeners
+    filterStatus.addEventListener('change', applyFilters);
+    filterSort.addEventListener('change', applyFilters);
+    filterSearch.addEventListener('input', applyFilters);
+    
+    // Aplicar filtros iniciais
+    applyFilters();
+});
+</script>
+
+<%- include('../../partials/admin-footer') %>

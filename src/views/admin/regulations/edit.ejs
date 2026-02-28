@@ -1,0 +1,107 @@
+<%- include('../../partials/admin-header') %>
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 text-dark mb-1">Editar Regulamento</h1>
+                    <p class="text-muted mb-0">Atualizar informações do regulamento</p>
+                </div>
+                <a href="/admin/regulations" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+            </div>
+
+            <!-- Card de Edição -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <form method="POST" action="/admin/regulations/<%= regulation.id %>" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="type" class="form-label">Tipo de Regulamento *</label>
+                                <select class="form-select" id="type" name="type" required>
+                                    <option value="">Selecione o tipo...</option>
+                                    <% regulationTypes.forEach(type => { %>
+                                        <option value="<%= type %>" <%= regulation.type === type ? 'selected' : '' %>><%= type %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="documentNumber" class="form-label">Número do Documento *</label>
+                                <input type="text" class="form-control" id="documentNumber" name="documentNumber" value="<%= regulation.documentNumber %>" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título do Regulamento *</label>
+                            <input type="text" class="form-control" id="title" name="title" value="<%= regulation.title %>" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="publicationDate" class="form-label">Data de Publicação *</label>
+                                <input type="date" class="form-control" id="publicationDate" name="publicationDate" 
+                                       value="<%= new Date(regulation.publicationDate).toISOString().split('T')[0] %>" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="isPublished" class="form-label">Status *</label>
+                                <select class="form-select" id="isPublished" name="isPublished" required>
+                                    <option value="false" <%= !regulation.isPublished ? 'selected' : '' %>>Rascunho</option>
+                                    <option value="true" <%= regulation.isPublished ? 'selected' : '' %>>Publicado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Atualizar Ficheiro PDF</label>
+                            <input type="file" class="form-control" id="file" name="file" accept=".pdf">
+                            <div class="form-text">
+                                Deixe em branco para manter o ficheiro atual. Apenas ficheiros PDF são permitidos (máx. 10MB)
+                            </div>
+                            <% if (regulation.fileUrl) { %>
+                                <div class="mt-2">
+                                    <small class="text-muted">Ficheiro atual: </small>
+                                    <a href="<%= regulation.fileUrl %>" target="_blank" class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-file-pdf me-1"></i>Ver PDF Atual
+                                    </a>
+                                </div>
+                            <% } %>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="/admin/regulations" class="btn btn-secondary me-md-2">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Atualizar Regulamento
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Informações Adicionais -->
+            <div class="card border-0 shadow-sm mt-3">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-3 text-muted">Informações do Regulamento</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-2"><strong>Criado por:</strong> <%= regulation.author.name %></p>
+                            <p class="mb-2"><strong>Data de criação:</strong> <%= new Date(regulation.createdAt).toLocaleString('pt-PT') %></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-2"><strong>Última atualização:</strong> <%= new Date(regulation.updatedAt).toLocaleString('pt-PT') %></p>
+                            <p class="mb-2"><strong>ID:</strong> <code><%= regulation.id %></code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/admin-footer') %>

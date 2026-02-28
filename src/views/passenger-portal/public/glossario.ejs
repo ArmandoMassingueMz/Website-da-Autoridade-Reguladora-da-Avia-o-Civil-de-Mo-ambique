@@ -1,0 +1,262 @@
+<!-- ================================================== -->
+<!-- PÁGINA: GLOSSÁRIO                                  -->
+<!-- ================================================== -->
+
+<!-- BREADCRUMB -->
+<section class="bg-light py-3" style="margin-top: 80px;">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="/portal-passageiro">Portal do Passageiro</a>
+          </li>
+          <li class="breadcrumb-item active">Glossário</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+  
+  <!-- HERO COM IMAGEM DE FUNDO -->
+  <section class="page-hero" style="background-image: url('/images/hero_glossario.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <h1 class="hero-title">
+            <i class="fas fa-book me-2"></i>Glossário de Termos
+          </h1>
+          <p class="hero-subtitle">
+            Entenda os termos mais utilizados em aviação civil.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- BUSCA -->
+  <section class="py-4 bg-light">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="input-group input-group-lg shadow-sm">
+            <span class="input-group-text bg-white">
+              <i class="fas fa-search text-secondary"></i>
+            </span>
+            <input
+              type="text"
+              id="glossarySearch"
+              class="form-control border-start-0"
+              placeholder="Pesquisar termo..."
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- TERMOS -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+  
+          <!-- NAVEGAÇÃO ALFABÉTICA -->
+          <div class="mb-5">
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+              <% 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letra => { %>
+                <a href="#letra-<%= letra %>" class="btn btn-outline-secondary btn-sm">
+                  <%= letra %>
+                </a>
+              <% }) %>
+            </div>
+          </div>
+  
+          <!-- LISTA DE TERMOS -->
+          <% if (termos && termos.length > 0) { %>
+            <div id="glossaryList">
+              <%
+                const termosPorLetra = {};
+                termos.forEach(termo => {
+                  const primeiraLetra = termo.termo.charAt(0).toUpperCase();
+                  if (!termosPorLetra[primeiraLetra]) termosPorLetra[primeiraLetra] = [];
+                  termosPorLetra[primeiraLetra].push(termo);
+                });
+                const letrasOrdenadas = Object.keys(termosPorLetra).sort();
+              %>
+  
+              <% letrasOrdenadas.forEach(letra => { %>
+                <div class="mb-5" id="letra-<%= letra %>">
+                  <h2 class="mb-4 pb-3 border-bottom text-secondary"><%= letra %></h2>
+                  <div class="accordion" id="accordion<%= letra %>">
+                    <% termosPorLetra[letra].forEach((termo, index) => { %>
+                      <div
+                        class="accordion-item border-0 mb-3 shadow-sm glossary-item"
+                        data-termo="<%= termo.termo.toLowerCase() %>"
+                      >
+                        <h2 class="accordion-header">
+                          <button
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#termo<%= letra %><%= index %>"
+                          >
+                            <strong><%= termo.termo %></strong>
+                          </button>
+                        </h2>
+                        <div
+                          id="termo<%= letra %><%= index %>"
+                          class="accordion-collapse collapse"
+                          data-bs-parent="#accordion<%= letra %>"
+                        >
+                          <div class="accordion-body">
+                            <%= termo.definicao %>
+                          </div>
+                        </div>
+                      </div>
+                    <% }) %>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <div class="text-center py-5">
+              <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+              <h3 class="text-muted">Nenhum termo cadastrado ainda</h3>
+            </div>
+          <% } %>
+  
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- SCRIPT DE BUSCA -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchInput = document.getElementById('glossarySearch');
+      const glossaryItems = document.querySelectorAll('.glossary-item');
+  
+      if (searchInput) {
+        searchInput.addEventListener('input', function () {
+          const searchTerm = this.value.toLowerCase();
+          glossaryItems.forEach(item => {
+            const termo = item.getAttribute('data-termo');
+            item.style.display = termo.includes(searchTerm) ? '' : 'none';
+          });
+        });
+      }
+    });
+  </script>
+  
+  <!-- ESTILOS ESPECÍFICOS PARA ESTA PÁGINA -->
+  <style>
+    /* ================================================== */
+    /* HERO                                               */
+    /* ================================================== */
+    .page-hero {
+      height: 50vh;
+      min-height: 400px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      margin-top: 0;
+    }
+  
+    .page-hero .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(0, 45, 135, 0.85) 0%,
+        rgba(0, 86, 179, 0.75) 40%,
+        rgba(0, 86, 179, 0.5) 70%,
+        transparent 100%
+      );
+      z-index: 1;
+    }
+  
+    .page-hero .container {
+      position: relative;
+      z-index: 2;
+    }
+  
+    .page-hero .hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+  
+    .page-hero .hero-title i {
+      color: #D4AF37;
+    }
+  
+    .page-hero .hero-subtitle {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.95);
+      max-width: 600px;
+    }
+  
+    /* ================================================== */
+    /* GLOSSÁRIO                                          */
+    /* ================================================== */
+    .btn-outline-secondary {
+      border: 2px solid #6c757d;
+      color: #6c757d;
+      background: transparent;
+      border-radius: 50px;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+  
+    .btn-outline-secondary:hover {
+      background: #6c757d;
+      color: white;
+      transform: translateY(-2px);
+    }
+  
+    .accordion-item {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(108, 117, 125, 0.2);
+    }
+  
+    .accordion-button {
+      background: white;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+  
+    .accordion-button:not(.collapsed) {
+      background: #0056b3;
+      color: white;
+    }
+  
+    .accordion-body {
+      background: #f8fafc;
+      color: #4a5568;
+      line-height: 1.6;
+      padding: 1.2rem;
+    }
+  
+    /* ================================================== */
+    /* RESPONSIVIDADE                                     */
+    /* ================================================== */
+    @media (max-width: 768px) {
+      .page-hero .hero-title {
+        font-size: 2rem;
+      }
+  
+      .page-hero .hero-subtitle {
+        font-size: 1rem;
+      }
+    }
+  </style>
+  

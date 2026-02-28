@@ -1,0 +1,97 @@
+<div class="row mb-4"></div>
+    <div class="col-12">
+        <h2>
+            <i class="fas fa-plus-circle"></i>
+            Criar Nova FAQ
+        </h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/portal-passageiro/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/portal-passageiro/admin/faqs">FAQs</a></li>
+                <li class="breadcrumb-item active">Criar</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow">
+            <div class="card-body p-4">
+                <form method="POST" action="/portal-passageiro/admin/faqs/create">
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            Categoria <span class="text-danger">*</span>
+                        </label>
+                        <select name="category" class="form-select form-select-lg" required>
+                            <option value="">Selecione...</option>
+                            <option value="geral">Geral</option>
+                            <option value="bagagem">Bagagem</option>
+                            <option value="documentos">Documentos</option>
+                            <option value="checkin">Check-in</option>
+                            <option value="voo">Voo</option>
+                            <option value="compensacao">Compensação</option>
+                            <option value="reclamacao">Reclamação</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            Pergunta <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" 
+                               name="question" 
+                               class="form-control form-control-lg"
+                               required
+                               placeholder="Ex: O que fazer se meu voo atrasar?">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            Resposta <span class="text-danger">*</span>
+                        </label>
+                        <textarea name="answer" 
+                                  class="form-control"
+                                  rows="8"
+                                  required
+                                  placeholder="Resposta detalhada para a pergunta"></textarea>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Ordem de Exibição
+                            </label>
+                            <input type="number" 
+                                   name="display_order" 
+                                   class="form-control"
+                                   value="0"
+                                   min="0">
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                Status
+                            </label>
+                            <select name="is_published" class="form-select">
+                                <option value="false">Rascunho</option>
+                                <option value="true">Publicado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex gap-3">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-save"></i> Salvar FAQ
+                        </button>
+                        <a href="/portal-passageiro/admin/faqs" class="btn btn-outline-secondary btn-lg">
+                            Cancelar
+                        </a>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

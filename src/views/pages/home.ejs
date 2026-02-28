@@ -1,0 +1,783 @@
+<%- include('../partials/header') %>
+
+<!-- CSS Inline do Carrossel Premium -->
+<style>
+/* ===========================================
+   CARROSSEL HERO - DESTAQUE PRINCIPAL
+   =========================================== */
+
+.hero-carousel-section {
+    position: relative;
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+.hero-carousel-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 102, 204, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(40, 167, 69, 0.1) 0%, transparent 50%);
+    z-index: 1;
+}
+
+.carousel-inner {
+    position: relative;
+    z-index: 2;
+}
+
+/* Card do Carrossel Hero */
+.hero-carousel-card {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none;
+    min-height: 70vh;
+    display: flex;
+    align-items: stretch;
+}
+
+/* Layout da Imagem - Fullscreen à Esquerda */
+.hero-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.hero-carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 8s ease;
+}
+
+.carousel-item.active .hero-carousel-image {
+    animation: kenBurns 20s ease-in-out infinite alternate;
+}
+
+@keyframes kenBurns {
+    0% {
+        transform: scale(1) translateX(0);
+    }
+    100% {
+        transform: scale(1.1) translateX(-20px);
+    }
+}
+
+/* Overlay Gradiente na Imagem */
+.hero-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.1) 100%
+    );
+    z-index: 1;
+}
+
+/* Badge Flutuante */
+.hero-badge {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #0066cc;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: floatBadge 3s ease-in-out infinite;
+}
+
+.hero-badge.event-badge {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+}
+
+@keyframes floatBadge {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Conteúdo do Card Hero */
+.hero-carousel-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    z-index: 2;
+}
+
+.hero-carousel-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 30px;
+    line-height: 1.2;
+    text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.5);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-carousel-excerpt {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.8;
+    margin-bottom: 40px;
+    max-width: 600px;
+    text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.4);
+    animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+/* Datas do Evento Hero */
+.hero-event-dates {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    padding: 20px 30px;
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    margin-bottom: 30px;
+    max-width: 600px;
+    animation: fadeInUp 1.2s ease-out 0.3s both;
+}
+
+.hero-date-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 0;
+    color: white;
+}
+
+.hero-date-item i {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.hero-date-item strong {
+    font-weight: 700;
+    margin-right: 8px;
+}
+
+/* Botões Hero */
+.hero-btn-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    animation: fadeInUp 1.4s ease-out 0.4s both;
+}
+
+.btn-hero-primary {
+    padding: 18px 40px;
+    background: linear-gradient(135deg, #0066cc 0%, #004d99 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 30px rgba(0, 102, 204, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-hero-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-hero-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 102, 204, 0.6);
+    color: white;
+}
+
+.btn-hero-primary:hover::before {
+    left: 100%;
+}
+
+.btn-hero-secondary {
+    padding: 18px 40px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 3px solid white;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
+}
+
+.btn-hero-secondary:hover {
+    background: white;
+    color: #0066cc;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(255, 255, 255, 0.4);
+}
+
+.btn-hero-event {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    box-shadow: 0 8px 30px rgba(40, 167, 69, 0.4);
+}
+
+.btn-hero-event:hover {
+    box-shadow: 0 12px 40px rgba(40, 167, 69, 0.6);
+}
+
+/* Controles do Carrossel - Modernos */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 10;
+}
+
+.carousel:hover .carousel-control-prev,
+.carousel:hover .carousel-control-next {
+    opacity: 1;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-control-prev {
+    left: 40px;
+}
+
+.carousel-control-next {
+    right: 40px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* Indicadores Premium */
+.carousel-indicators {
+    bottom: 40px;
+    gap: 10px;
+    z-index: 10;
+}
+
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    opacity: 1;
+    transition: all 0.4s ease;
+    margin: 0 8px;
+}
+
+.carousel-indicators button.active {
+    width: 50px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+/* Botões Ver Todas/Todos */
+.view-all-section {
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 100%);
+    padding: 40px 0;
+}
+
+.btn-view-all {
+    padding: 15px 35px;
+    background: white;
+    color: #0066cc;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-view-all:hover {
+    background: #0066cc;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 102, 204, 0.4);
+}
+
+.btn-view-events {
+    background: transparent;
+    color: white;
+    border: 3px solid white;
+}
+
+.btn-view-events:hover {
+    background: white;
+    color: #28a745;
+}
+
+/* Estado Vazio */
+.empty-hero-state {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.empty-hero-icon {
+    font-size: 6rem;
+    margin-bottom: 30px;
+    opacity: 0.3;
+}
+
+.empty-hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.empty-hero-text {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* Animações */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+    .hero-carousel-content {
+        padding: 50px 60px;
+    }
+    
+    .hero-carousel-title {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-carousel-card {
+        min-height: 60vh;
+    }
+    
+    .hero-image-wrapper {
+        height: 60vh;
+    }
+    
+    .hero-carousel-content {
+        padding: 40px;
+    }
+    
+    .hero-carousel-title {
+        font-size: 2.5rem;
+    }
+    
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-carousel-card {
+        min-height: 80vh;
+    }
+    
+    .hero-image-wrapper {
+        height: 50vh;
+    }
+    
+    .hero-carousel-content {
+        padding: 30px 25px;
+        position: relative;
+    }
+    
+    .hero-carousel-title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .hero-badge {
+        top: 20px;
+        left: 20px;
+        padding: 10px 20px;
+        font-size: 0.8rem;
+    }
+    
+    .hero-event-dates {
+        padding: 15px 20px;
+    }
+    
+    .hero-btn-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 15px 30px;
+        font-size: 1rem;
+    }
+    
+    .carousel-control-prev,
+    .carousel-control-next {
+        display: none;
+    }
+    
+    .carousel-indicators {
+        bottom: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-carousel-title {
+        font-size: 1.75rem;
+    }
+}
+</style>
+
+<!-- Carrossel Hero - Destaque Principal -->
+<section class="hero-carousel-section">
+    <div class="container-fluid p-0">
+        <% 
+        let carouselItems = [];
+        
+        if (typeof allItems !== 'undefined' && allItems && allItems.length > 0) {
+            carouselItems = allItems;
+        } else {
+            const news = (featuredNews || []).map(n => ({type: 'news', ...n}));
+            const events = (featuredEvents || []).map(e => ({type: 'event', ...e}));
+            
+            const maxLen = Math.max(news.length, events.length);
+            for (let i = 0; i < maxLen; i++) {
+                if (i < news.length) carouselItems.push(news[i]);
+                if (i < events.length) carouselItems.push(events[i]);
+            }
+        }
+        %>
+        
+        <% if (carouselItems.length > 0) { %>
+            <!-- Carrossel Hero -->
+            <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <!-- Indicadores -->
+                <div class="carousel-indicators">
+                    <% carouselItems.forEach((item, index) => { %>
+                        <button type="button" 
+                                data-bs-target="#heroCarousel" 
+                                data-bs-slide-to="<%= index %>" 
+                                class="<%= index === 0 ? 'active' : '' %>" 
+                                aria-current="<%= index === 0 ? 'true' : 'false' %>" 
+                                aria-label="Slide <%= index + 1 %>"></button>
+                    <% }); %>
+                </div>
+                
+                <!-- Slides -->
+                <div class="carousel-inner">
+                    <% carouselItems.forEach((item, index) => { %>
+                        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                            <article class="hero-carousel-card">
+                                <!-- Imagem Fullscreen -->
+                                <div class="hero-image-wrapper">
+                                    <% 
+                                    let imagePath = '/images/news-default.jpg';
+                                    if (item.featuredImage) {
+                                        if (item.featuredImage.startsWith('http')) {
+                                            imagePath = item.featuredImage;
+                                        } else if (item.featuredImage.startsWith('/')) {
+                                            imagePath = item.featuredImage;
+                                        } else {
+                                            imagePath = '/uploads/' + item.featuredImage;
+                                        }
+                                    }
+                                    %>
+                                    <img src="<%= imagePath %>" 
+                                         class="hero-carousel-image" 
+                                         alt="<%= item.title || 'Imagem de destaque' %>"
+                                         onerror="this.onerror=null; this.src='/images/news-default.jpg';">
+                                    
+                                    <div class="hero-image-overlay"></div>
+                                    
+                                    <!-- Badge Flutuante -->
+                                    <% if (item.type === 'event') { %>
+                                        <div class="hero-badge event-badge">
+                                            <i class="fas fa-calendar-check me-2"></i>
+                                            EVENTO EM DESTAQUE
+                                        </div>
+                                    <% } else { %>
+                                        <div class="hero-badge">
+                                            <i class="fas fa-newspaper me-2"></i>
+                                            NOTÍCIA EM DESTAQUE
+                                        </div>
+                                    <% } %>
+                                </div>
+                                
+                                <!-- Conteúdo Sobreposto -->
+                                <div class="hero-carousel-content">
+                                    <h1 class="hero-carousel-title">
+                                        <%= item.title || 'Sem título' %>
+                                    </h1>
+                                    
+                                    <% if (item.type === 'event') { %>
+                                        <div class="hero-event-dates">
+                                            <% if (item.startDate) { %>
+                                            <div class="hero-date-item">
+                                                <i class="fas fa-calendar-plus text-success"></i>
+                                                <span>
+                                                    <strong>Início:</strong> 
+                                                    <%= new Date(item.startDate).toLocaleDateString('pt-PT', { 
+                                                        day: '2-digit', 
+                                                        month: 'long', 
+                                                        year: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    }) %>
+                                                </span>
+                                            </div>
+                                            <% } %>
+                                            
+                                            <% if (item.endDate) { %>
+                                            <div class="hero-date-item">
+                                                <i class="fas fa-calendar-times text-danger"></i>
+                                                <span>
+                                                    <strong>Término:</strong> 
+                                                    <%= new Date(item.endDate).toLocaleDateString('pt-PT', { 
+                                                        day: '2-digit', 
+                                                        month: 'long', 
+                                                        year: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    }) %>
+                                                </span>
+                                            </div>
+                                            <% } %>
+                                            
+                                            <% if (item.location) { %>
+                                            <div class="hero-date-item">
+                                                <i class="fas fa-map-marker-alt text-primary"></i>
+                                                <span><strong>Local:</strong> <%= item.location %></span>
+                                            </div>
+                                            <% } %>
+                                        </div>
+                                        
+                                        <div class="hero-btn-group">
+                                            <a href="/eventos" class="btn-hero-primary btn-hero-event">
+                                                <span>Ver Evento Completo</span>
+                                                <i class="fas fa-arrow-right"></i>
+                                            </a>
+                                            <a href="/eventos" class="btn-hero-secondary">
+                                                <span>Todos os Eventos</span>
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </a>
+                                        </div>
+                                    <% } else { %>
+                                        <div class="hero-btn-group">
+                                            <a href="/noticias" class="btn-hero-primary">
+                                                <span>Ler Notícia Completa</span>
+                                                <i class="fas fa-arrow-right"></i>
+                                            </a>
+                                            <a href="/noticias" class="btn-hero-secondary">
+                                                <span>Todas as Notícias</span>
+                                                <i class="fas fa-newspaper"></i>
+                                            </a>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </article>
+                        </div>
+                    <% }); %>
+                </div>
+                
+                <!-- Controles -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Próximo</span>
+                </button>
+            </div>
+            
+            <!-- Botões de Navegação Rápida -->
+           
+        <% } else { %>
+            <!-- Estado Vazio -->
+            <div class="empty-hero-state">
+                <div>
+                    <div class="empty-hero-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h2 class="empty-hero-title">Nenhum Destaque Disponível</h2>
+                    <p class="empty-hero-text">Notícias e eventos em destaque aparecerão aqui em breve.</p>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="sobre" class="py-5 bg-white">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-12">
+                <h2 class="section-title" data-aos="fade-up">O Que Fazemos</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    O IACM assegura a implementação das políticas e regulamentos de aviação civil em Moçambique
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="card card-modern h-100 text-center">
+                    <div class="card-body">
+                        <div class="card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5 class="card-title">Segurança Aérea</h5>
+                        <p class="card-text">Fiscalização e supervisão da segurança operacional da aviação civil.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="card card-modern h-100 text-center">
+                    <div class="card-body">
+                        <div class="card-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <h5 class="card-title">Regulação</h5>
+                        <p class="card-text">Regulamentação das atividades de aviação civil e transporte aéreo.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="400">
+                <div class="card card-modern h-100 text-center">
+                    <div class="card-body">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5 class="card-title">Certificação</h5>
+                        <p class="card-text">Certificação de pessoal, organizações, produtos e serviços aeronáuticos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up">
+                <div class="stat-item">
+                    <h3 class="counter" data-target="50">0</h3>
+                    <p>Aeroportos Monitorados</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-item">
+                    <h3 class="counter" data-target="1000">0</h3>
+                    <p>Profissionais Certificados</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-item">
+                    <h3 class="counter" data-target="25">0</h3>
+                    <p>Anos de Experiência</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-item">
+                    <h3 class="counter" data-target="15">0</h3>
+                    <p>Companhias Aéreas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript -->
+<script>
+// Inicializar carrossel hero
+document.addEventListener('DOMContentLoaded', function() {
+    var heroCarousel = document.getElementById('heroCarousel');
+    if (heroCarousel) {
+        var carousel = new bootstrap.Carousel(heroCarousel, {
+            interval: 3000,
+            ride: 'carousel',
+            pause: 'hover',
+            wrap: true
+        });
+    }
+});
+</script>

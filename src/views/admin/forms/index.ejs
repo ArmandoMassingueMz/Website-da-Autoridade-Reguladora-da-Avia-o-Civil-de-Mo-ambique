@@ -1,0 +1,218 @@
+<%- include('../../partials/admin-header', {title: 'Formulários', currentPage: 'forms'}) %>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-dark mb-1">Gestão de Formulários</h1>
+            <p class="text-muted mb-0">Crie e gerencie formulários de notificações e reportes</p>
+        </div>
+        <div class="btn-group">
+            <a href="/admin" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Dashboard
+            </a>
+            <a href="/admin/forms/create" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Novo Formulário
+            </a>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if (messages.success && messages.success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <%= messages.success[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+    
+    <% if (messages.error && messages.error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= messages.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <!-- Stats -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= forms.length %></div>
+                            <div class="small">Total de Formulários</div>
+                        </div>
+                        <i class="fas fa-file-alt fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-success text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= forms.filter(f => f.isPublished).length %></div>
+                            <div class="small">Publicados</div>
+                        </div>
+                        <i class="fas fa-eye fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-info text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= forms.filter(f => f.category === 'Notificação').length %></div>
+                            <div class="small">Notificações</div>
+                        </div>
+                        <i class="fas fa-bell fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h4 mb-0"><%= forms.filter(f => f.category === 'Reporte de Ocorrência').length %></div>
+                            <div class="small">Reportes</div>
+                        </div>
+                        <i class="fas fa-exclamation-triangle fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forms Table -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h5 class="card-title mb-0">Todos os Formulários</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="border-0">Número</th>
+                            <th class="border-0">Formulário</th>
+                            <th class="border-0">Categoria</th>
+                            <th class="border-0">Downloads</th>
+                            <th class="border-0">Status</th>
+                            <th class="border-0 text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (forms.length > 0) { %>
+                            <% forms.forEach(form => { %>
+                                <tr>
+                                    <td>
+                                        <span class="badge bg-primary">
+                                            <%= form.formNumber %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <strong class="text-dark d-block"><%= form.title %></strong>
+                                            <% if (form.description) { %>
+                                                <small class="text-muted"><%= form.description.substring(0, 80) %>...</small>
+                                            <% } %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge <%= form.category === 'Notificação' ? 'bg-info' : form.category === 'Reporte de Ocorrência' ? 'bg-warning' : 'bg-secondary' %>">
+                                            <%= form.category %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fas fa-download me-1"></i><%= form.downloadCount || 0 %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <% if (form.isPublished) { %>
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check me-1"></i>Publicado
+                                            </span>
+                                        <% } else { %>
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-pencil-alt me-1"></i>Rascunho
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="<%= form.pdfUrl %>" target="_blank" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Visualizar">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="/admin/forms/<%= form.id %>/edit" class="btn btn-outline-warning" data-bs-toggle="tooltip" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="/admin/forms/<%= form.id %>/toggle-publish" method="POST" class="d-inline">
+                                                <button type="submit" class="btn <%= form.isPublished ? 'btn-outline-secondary' : 'btn-outline-success' %>" data-bs-toggle="tooltip" title="<%= form.isPublished ? 'Despublicar' : 'Publicar' %>">
+                                                    <i class="fas <%= form.isPublished ? 'fa-eye-slash' : 'fa-eye' %>"></i>
+                                                </button>
+                                            </form>
+                                            <form action="/admin/forms/<%= form.id %>/delete" method="POST" class="d-inline">
+                                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Tem certeza que deseja excluir este formulário?')" data-bs-toggle="tooltip" title="Excluir">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-5">
+                                    <i class="fas fa-file-alt fa-4x mb-3 opacity-25"></i>
+                                    <h5 class="text-muted">Nenhum formulário encontrado</h5>
+                                    <p class="text-muted mb-4">Comece criando o seu primeiro formulário</p>
+                                    <a href="/admin/forms/create" class="btn btn-primary">
+                                        <i class="fas fa-plus me-2"></i>Criar Primeiro Formulário
+                                    </a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <% if (forms.length > 0) { %>
+            <div class="card-footer bg-white border-top">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <small class="text-muted">
+                            Mostrando <strong><%= forms.length %></strong> formulário(s)
+                        </small>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <small class="text-muted">
+                            <i class="fas fa-download me-1"></i>
+                            Total de downloads: <strong><%= forms.reduce((sum, form) => sum + (form.downloadCount || 0), 0) %></strong>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Ativar tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
+
+<%- include('../../partials/admin-footer') %>

@@ -1,0 +1,129 @@
+<!-- src/views/partials/header.ejs -->
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/images/iacmlogopreview.png" alt="IACM Logo" class="logo">
+                <span class="brand-text"></span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'home' ? 'active' : '' %>" href="/">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'sobre' ? 'active' : '' %>" href="/sobre">
+                            Sobre
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'servicos' ? 'active' : '' %>" href="/servicos">
+                            Serviços
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'legislacao' ? 'active' : '' %>" href="/legislacao">
+                            Legislação
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'areas-sectores' ? 'active' : '' %>" href="/areas-sectores">
+                            Áreas/Sectores
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'noticias' ? 'active' : '' %>" href="/noticias">
+                            Notícias
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'eventos' ? 'active' : '' %>" href="/eventos">
+                            Eventos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= currentPage === 'contactos' ? 'active' : '' %>" href="/contactos">
+                            Contactos
+                        </a>
+                    </li>
+                    
+                    <!-- Portal do Passageiro -->
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white px-3 ms-2" href="/portal-passageiro" style="border-radius: 20px;">
+                            Portal do Passageiro
+                        </a>
+                    </li>
+
+                    <% if (user) { %>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <%= user.name %>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- APENAS Portal Admin para passenger_admin/passenger_editor -->
+                                <% if (user.role === 'passenger_admin' || user.role === 'passenger_editor') { %>
+                                    <li>
+                                        <a class="dropdown-item" href="/portal-passageiro/admin/dashboard">
+                                            <i class="fas fa-plane"></i> Admin Portal Passageiro
+                                        </a>
+                                    </li>
+                                <% } %>
+                                
+                                <!-- APENAS Admin Web para admin/super_admin/editor -->
+                                <% if (user.role === 'admin' || user.role === 'super_admin' || user.role === 'editor') { %>
+                                    <li>
+                                        <a class="dropdown-item" href="/admin/dashboard">
+                                            <i class="fas fa-tachometer-alt"></i> Painel de Controlo
+                                        </a>
+                                    </li>
+                                <% } %>
+                                
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="POST" action="/auth/logout" class="d-inline">
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt"></i> Sair
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link <%= currentPage === 'login' ? 'active' : '' %>" href="/auth/login">
+                                Entrar
+                            </a>
+                        </li>
+                    <% } %>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            PT
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item active" href="/change-locale/pt">
+                                    Português
+                                    <span class="float-end">✓</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/change-locale/en">
+                                    English
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

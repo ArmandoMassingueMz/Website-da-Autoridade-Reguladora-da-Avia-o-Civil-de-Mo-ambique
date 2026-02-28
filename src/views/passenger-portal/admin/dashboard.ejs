@@ -1,0 +1,243 @@
+<div class="row"></div>
+    <div class="col-12 mb-4">
+        <h2>
+            <i class="fas fa-tachometer-alt"></i>
+            Dashboard do Portal do Passageiro
+        </h2>
+        <p class="text-muted">Visão geral das atividades do portal</p>
+    </div>
+</div>
+
+<!-- CARDS DE ESTATÍSTICAS -->
+<div class="row">
+    <div class="col-md-3">
+        <div class="stats-card primary">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1"><%= stats.totalRights %></h2>
+                    <p class="text-muted mb-0">Direitos Cadastrados</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-gavel"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="stats-card success">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1"><%= stats.totalFaqs %></h2>
+                    <p class="text-muted mb-0">FAQs Disponíveis</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="stats-card warning">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1"><%= stats.pendingComplaints %></h2>
+                    <p class="text-muted mb-0">Reclamações Pendentes</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="stats-card danger">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1"><%= stats.totalGuides %></h2>
+                    <p class="text-muted mb-0">Guias de Viagem</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AÇÕES RÁPIDAS -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="table-card">
+            <h5 class="mb-4">
+                <i class="fas fa-bolt"></i>
+                Ações Rápidas
+            </h5>
+            
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <a href="/portal-passageiro/admin/rights/create" class="btn btn-primary w-100 py-3">
+                        <i class="fas fa-plus-circle fa-2x d-block mb-2"></i>
+                        <strong>Novo Direito</strong>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="/portal-passageiro/admin/faqs/create" class="btn btn-success w-100 py-3">
+                        <i class="fas fa-question-circle fa-2x d-block mb-2"></i>
+                        <strong>Nova FAQ</strong>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="/portal-passageiro/admin/guides/create" class="btn btn-info w-100 py-3">
+                        <i class="fas fa-map fa-2x d-block mb-2"></i>
+                        <strong>Novo Guia</strong>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="/portal-passageiro/admin/complaints" class="btn btn-warning w-100 py-3">
+                        <i class="fas fa-list fa-2x d-block mb-2"></i>
+                        <strong>Ver Reclamações</strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- RECLAMAÇÕES RECENTES -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="table-card">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">
+                    <i class="fas fa-list"></i>
+                    Reclamações Recentes
+                </h5>
+                <a href="/portal-passageiro/admin/complaints" class="btn btn-sm btn-outline-primary">
+                    Ver Todas <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <% if (recentComplaints && recentComplaints.length > 0) { %>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Passageiro</th>
+                                <th>Tipo</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th>Prioridade</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% recentComplaints.forEach(complaint => { %>
+                                <tr>
+                                    <td><strong>#<%= complaint.id %></strong></td>
+                                    <td><%= complaint.passenger_name %></td>
+                                    <td>
+                                        <span class="badge bg-secondary"><%= complaint.complaint_type %></span>
+                                    </td>
+                                    <td>
+                                        <small><%= new Date(complaint.createdAt).toLocaleDateString('pt-PT') %></small>
+                                    </td>
+                                    <td>
+                                        <% 
+                                        let statusClass = 'secondary';
+                                        if (complaint.status === 'pendente') statusClass = 'warning';
+                                        else if (complaint.status === 'em_analise') statusClass = 'info';
+                                        else if (complaint.status === 'respondida') statusClass = 'primary';
+                                        else if (complaint.status === 'resolvida') statusClass = 'success';
+                                        %>
+                                        <span class="badge bg-<%= statusClass %>">
+                                            <%= complaint.status.replace('_', ' ') %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <% 
+                                        let priorityClass = 'secondary';
+                                        if (complaint.priority === 'urgente') priorityClass = 'danger';
+                                        else if (complaint.priority === 'alta') priorityClass = 'warning';
+                                        else if (complaint.priority === 'media') priorityClass = 'info';
+                                        %>
+                                        <span class="badge bg-<%= priorityClass %>">
+                                            <%= complaint.priority %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="/portal-passageiro/admin/complaints/<%= complaint.id %>" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <div class="text-center py-5 text-muted">
+                    <i class="fas fa-inbox fa-3x mb-3"></i>
+                    <p>Nenhuma reclamação registrada ainda.</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<!-- ESTATÍSTICAS ADICIONAIS -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="table-card">
+            <h5 class="mb-4">
+                <i class="fas fa-chart-pie"></i>
+                Reclamações por Status
+            </h5>
+            <div class="list-group list-group-flush">
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-circle text-warning me-2"></i> Pendentes</span>
+                    <span class="badge bg-warning rounded-pill"><%= stats.pendingComplaints %></span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-circle text-success me-2"></i> Resolvidas</span>
+                    <span class="badge bg-success rounded-pill"><%= stats.resolvedComplaints %></span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-circle text-secondary me-2"></i> Total</span>
+                    <span class="badge bg-secondary rounded-pill"><%= stats.totalComplaints %></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="table-card">
+            <h5 class="mb-4">
+                <i class="fas fa-info-circle"></i>
+                Links Úteis
+            </h5>
+            <div class="list-group list-group-flush">
+                <a href="/portal-passageiro" class="list-group-item list-group-item-action" target="_blank">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    Ver Site Público do Portal
+                </a>
+                <a href="/portal-passageiro/admin/rights" class="list-group-item list-group-item-action">
+                    <i class="fas fa-gavel me-2"></i>
+                    Gerenciar Direitos
+                </a>
+                <a href="/portal-passageiro/admin/faqs" class="list-group-item list-group-item-action">
+                    <i class="fas fa-question-circle me-2"></i>
+                    Gerenciar FAQs
+                </a>
+                <a href="/portal-passageiro/admin/guides" class="list-group-item list-group-item-action">
+                    <i class="fas fa-map me-2"></i>
+                    Gerenciar Guias
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
