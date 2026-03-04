@@ -4,359 +4,357 @@
 
 <!-- BREADCRUMB -->
 <section class="bg-light py-3" style="margin-top: 80px;">
-    <div class="container">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mb-0">
-          <li class="breadcrumb-item">
-            <a href="/portal-passageiro">Portal do Passageiro</a>
-          </li>
-          <li class="breadcrumb-item">
-            <a href="/portal-passageiro/simulador">Simulador</a>
-          </li>
-          <li class="breadcrumb-item active">Resultado</li>
-        </ol>
-      </nav>
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="/portal-passageiro">Portal do Passageiro</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="/portal-passageiro/simulador">Simulador</a>
+        </li>
+        <li class="breadcrumb-item active">Resultado</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- HERO COM IMAGEM DE FUNDO -->
+<section class="page-hero" style="background-image: url('/images/images1.jpg');">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <h1 class="hero-title">
+          <i class="fas fa-chart-line me-2"></i>Resultado da Simulação
+        </h1>
+        <p class="hero-subtitle">
+          Veja o resultado da sua simulação de direitos.
+        </p>
+      </div>
     </div>
-  </section>
-  
-  <!-- HERO COM IMAGEM DE FUNDO -->
-  <section class="page-hero" style="background-image: url('/images/images1.jpg');">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8">
-          <h1 class="hero-title">
-            <i class="fas fa-chart-line me-2"></i>Resultado da Simulação
-          </h1>
-          <p class="hero-subtitle">
-            Veja o resultado da sua simulação de direitos.
+  </div>
+</section>
+
+<!-- RESULTADO -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+
+        <!-- CARD PRINCIPAL -->
+        <div class="card-modern border-0 shadow-lg mb-4">
+
+          <!-- CABEÇALHO: TEM OU NÃO TEM DIREITO -->
+          <div class="card-header <%= resultado.tem_direito ? 'bg-success' : 'bg-warning' %> text-white py-4">
+            <div class="text-center">
+              <% if (resultado.tem_direito) { %>
+                <i class="fas fa-check-circle fa-4x mb-3"></i>
+                <h3 class="mb-0">Você TEM direito a compensação!</h3>
+              <% } else { %>
+                <i class="fas fa-info-circle fa-4x mb-3"></i>
+                <h3 class="mb-0">Você NÃO tem direito a compensação</h3>
+              <% } %>
+            </div>
+          </div>
+
+          <!-- CORPO DO CARD -->
+          <div class="card-body p-5">
+
+            <!-- DADOS DA SIMULAÇÃO -->
+            <h5 class="mb-4">
+              <i class="fas fa-list"></i> Dados da Simulação
+            </h5>
+            <div class="row mb-4">
+              <div class="col-md-4 mb-3">
+                <div class="p-3 bg-light rounded">
+                  <small class="text-muted d-block mb-1">Tipo de Problema</small>
+                  <strong class="text-capitalize">
+                    <%= resultado.tipo.replace(/_/g, ' ') %>
+                  </strong>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="p-3 bg-light rounded">
+                  <small class="text-muted d-block mb-1">Distância do Voo</small>
+                  <strong class="text-capitalize"><%= resultado.distancia %></strong>
+                </div>
+              </div>
+              <% if (resultado.atraso_horas) { %>
+                <div class="col-md-4 mb-3">
+                  <div class="p-3 bg-light rounded">
+                    <small class="text-muted d-block mb-1">Tempo de Atraso</small>
+                    <strong><%= resultado.atraso_horas %> horas</strong>
+                  </div>
+                </div>
+              <% } %>
+            </div>
+
+            <% if (resultado.tem_direito) { %>
+
+              <hr class="my-4">
+
+              <!-- VALOR ESTIMADO DE COMPENSAÇÃO -->
+              <div class="alert alert-success border-0 mb-4">
+                <h5 class="alert-heading">
+                  <i class="fas fa-money-bill-wave"></i> Valor Estimado de Compensação
+                </h5>
+                <div class="display-4 fw-bold text-success my-3">
+                  <%= resultado.compensacao.toLocaleString('pt-PT') %>
+                  <%= resultado.currency || 'MZN' %>
+                </div>
+                <p class="mb-0">
+                  <small>Este é um valor estimado baseado na regulamentação vigente. O valor final pode variar.</small>
+                </p>
+              </div>
+
+              <!-- REFERÊNCIA LEGAL -->
+              <% if (resultado.legal_reference) { %>
+                <div class="alert alert-secondary border-0 mb-4">
+                  <h6 class="alert-heading mb-1">
+                    <i class="fas fa-gavel me-2"></i>Base Legal Aplicável
+                  </h6>
+                  <p class="mb-0 small"><%= resultado.legal_reference %></p>
+                </div>
+              <% } %>
+
+              <!-- CONDIÇÕES -->
+              <% if (resultado.conditions) { %>
+                <div class="alert alert-light border mb-4">
+                  <h6 class="alert-heading mb-1">
+                    <i class="fas fa-info-circle me-2 text-info"></i>Condições de Aplicação
+                  </h6>
+                  <p class="mb-0 small"><%= resultado.conditions %></p>
+                </div>
+              <% } %>
+
+              <!-- DIREITO A ASSISTÊNCIA -->
+              <% if (resultado.assistencia && resultado.assistencia.length > 0) { %>
+                <h5 class="mb-3">
+                  <i class="fas fa-hands-helping"></i> Direito a Assistência
+                </h5>
+                <div class="list-group mb-4">
+                  <% resultado.assistencia.forEach(item => { %>
+                    <div class="list-group-item border-0 bg-light mb-2">
+                      <i class="fas fa-check text-success me-2"></i>
+                      <strong><%= item %></strong>
+                    </div>
+                  <% }) %>
+                </div>
+              <% } %>
+
+              <!-- RECOMENDAÇÕES -->
+              <% if (resultado.recomendacoes && resultado.recomendacoes.length > 0) { %>
+                <h5 class="mb-3">
+                  <i class="fas fa-lightbulb"></i> Recomendações
+                </h5>
+                <div class="alert alert-info border-0">
+                  <ul class="mb-0">
+                    <% resultado.recomendacoes.forEach(rec => { %>
+                      <li><%= rec %></li>
+                    <% }) %>
+                  </ul>
+                </div>
+              <% } %>
+
+            <% } else { %>
+
+              <hr class="my-4">
+
+              <!-- MOTIVO DE NÃO TER DIREITO -->
+              <div class="alert alert-warning border-0">
+                <h5 class="alert-heading">
+                  <i class="fas fa-info-circle"></i> Por que não tenho direito?
+                </h5>
+                <p class="mb-2">
+                  Baseado nas informações fornecidas, a sua situação não se enquadra nos critérios
+                  estabelecidos pela regulamentação para compensação financeira. No entanto, pode
+                  ainda ter direito a assistência ou reembolso.
+                </p>
+                <% if (resultado.recomendacoes && resultado.recomendacoes.length > 0) { %>
+                  <hr>
+                  <ul class="mb-0 small">
+                    <% resultado.recomendacoes.forEach(rec => { %>
+                      <li><%= rec %></li>
+                    <% }) %>
+                  </ul>
+                <% } %>
+              </div>
+
+            <% } %>
+
+            <hr class="my-4">
+
+            <!-- PRÓXIMOS PASSOS -->
+            <h5 class="mb-3">
+              <i class="fas fa-shoe-prints"></i> Próximos Passos
+            </h5>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="card border-primary h-100">
+                  <div class="card-body text-center p-4">
+                    <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
+                    <h6>Registar Reclamação</h6>
+                    <p class="small text-muted mb-3">Formalize a sua reclamação junto ao IACM</p>
+                    <a href="/portal-passageiro/reclamacoes" class="btn btn-primary">
+                      Registar Agora
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card border-info h-100">
+                  <div class="card-body text-center p-4">
+                    <i class="fas fa-book fa-3x text-info mb-3"></i>
+                    <h6>Conhecer os Seus Direitos</h6>
+                    <p class="small text-muted mb-3">Leia mais sobre os seus direitos</p>
+                    <a href="/portal-passageiro/direitos" class="btn btn-info">
+                      Ver Direitos
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- NOVA SIMULAÇÃO -->
+            <div class="text-center mt-5">
+              <a href="/portal-passageiro/simulador" class="btn btn-outline-secondary btn-lg">
+                <i class="fas fa-redo"></i> Fazer Nova Simulação
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- AVISO LEGAL -->
+        <div class="alert alert-light border">
+          <h6 class="alert-heading">
+            <i class="fas fa-exclamation-triangle text-warning"></i> Aviso Importante
+          </h6>
+          <p class="small mb-0">
+            Este simulador fornece apenas uma estimativa baseada nas informações fornecidas e nas
+            regras de compensação em vigor. O resultado não constitui uma garantia de compensação.
+            Para uma avaliação precisa do seu caso, recomendamos que registe uma reclamação formal
+            ou contacte o IACM.
           </p>
         </div>
+
       </div>
     </div>
-  </section>
-  
-  <!-- RESULTADO -->
-  <section class="py-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-  
-          <!-- CARD PRINCIPAL -->
-          <div class="card-modern border-0 shadow-lg mb-4">
-  
-            <!-- CABEÇALHO: TEM OU NÃO TEM DIREITO -->
-            <div class="card-header <%= resultado.tem_direito ? 'bg-success' : 'bg-warning' %> text-white py-4">
-              <div class="text-center">
-                <% if (resultado.tem_direito) { %>
-                  <i class="fas fa-check-circle fa-4x mb-3"></i>
-                  <h3 class="mb-0">Você TEM direito a compensação!</h3>
-                <% } else { %>
-                  <i class="fas fa-info-circle fa-4x mb-3"></i>
-                  <h3 class="mb-0">Você NÃO tem direito a compensação</h3>
-                <% } %>
-              </div>
-            </div>
-  
-            <!-- CORPO DO CARD -->
-            <div class="card-body p-5">
-  
-              <!-- DADOS DA SIMULAÇÃO -->
-              <h5 class="mb-4">
-                <i class="fas fa-list"></i> Dados da Simulação
-              </h5>
-              <div class="row mb-4">
-                <div class="col-md-4 mb-3">
-                  <div class="p-3 bg-light rounded">
-                    <small class="text-muted d-block mb-1">Tipo de Problema</small>
-                    <strong class="text-capitalize">
-                      <%= resultado.tipo.replace('_', ' ') %>
-                    </strong>
-                  </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <div class="p-3 bg-light rounded">
-                    <small class="text-muted d-block mb-1">Distância do Voo</small>
-                    <strong class="text-capitalize"><%= resultado.distancia %></strong>
-                  </div>
-                </div>
-                <% if (resultado.atraso_horas) { %>
-                  <div class="col-md-4 mb-3">
-                    <div class="p-3 bg-light rounded">
-                      <small class="text-muted d-block mb-1">Tempo de Atraso</small>
-                      <strong><%= resultado.atraso_horas %> horas</strong>
-                    </div>
-                  </div>
-                <% } %>
-              </div>
-  
-              <% if (resultado.tem_direito) { %>
-  
-                <hr class="my-4">
-  
-                <!-- VALOR ESTIMADO DE COMPENSAÇÃO -->
-                <div class="alert alert-success border-0 mb-4">
-                  <h5 class="alert-heading">
-                    <i class="fas fa-money-bill-wave"></i> Valor Estimado de Compensação
-                  </h5>
-                  <div class="display-4 fw-bold text-success my-3">
-                    <%= resultado.compensacao.toLocaleString('pt-PT') %> MT
-                  </div>
-                  <p class="mb-0">
-                    <small>Este é um valor estimado baseado na regulamentação. O valor final pode variar.</small>
-                  </p>
-                </div>
-  
-                <!-- DIREITO A ASSISTÊNCIA -->
-                <% if (resultado.assistencia && resultado.assistencia.length > 0) { %>
-                  <h5 class="mb-3">
-                    <i class="fas fa-hands-helping"></i> Direito a Assistência
-                  </h5>
-                  <div class="list-group mb-4">
-                    <% resultado.assistencia.forEach(item => { %>
-                      <div class="list-group-item border-0 bg-light mb-2">
-                        <i class="fas fa-check text-success me-2"></i>
-                        <strong><%= item %></strong>
-                      </div>
-                    <% }) %>
-                  </div>
-                <% } %>
-  
-                <!-- RECOMENDAÇÕES -->
-                <% if (resultado.recomendacoes && resultado.recomendacoes.length > 0) { %>
-                  <h5 class="mb-3">
-                    <i class="fas fa-lightbulb"></i> Recomendações
-                  </h5>
-                  <div class="alert alert-info border-0">
-                    <ul class="mb-0">
-                      <% resultado.recomendacoes.forEach(rec => { %>
-                        <li><%= rec %></li>
-                      <% }) %>
-                    </ul>
-                  </div>
-                <% } %>
-  
-              <% } else { %>
-  
-                <hr class="my-4">
-  
-                <!-- MOTIVO DE NÃO TER DIREITO -->
-                <div class="alert alert-warning border-0">
-                  <h5 class="alert-heading">
-                    <i class="fas fa-info-circle"></i> Por que não tenho direito?
-                  </h5>
-                  <p class="mb-0">
-                    Baseado nas informações fornecidas, sua situação não se enquadra nos critérios
-                    estabelecidos pela regulamentação para compensação financeira. No entanto, você
-                    ainda pode ter direitos a assistência ou reembolso.
-                  </p>
-                </div>
-  
-              <% } %>
-  
-              <hr class="my-4">
-  
-              <!-- PRÓXIMOS PASSOS -->
-              <h5 class="mb-3">
-                <i class="fas fa-shoe-prints"></i> Próximos Passos
-              </h5>
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <div class="card border-primary h-100">
-                    <div class="card-body text-center p-4">
-                      <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
-                      <h6>Registrar Reclamação</h6>
-                      <p class="small text-muted mb-3">Formalize sua reclamação conosco</p>
-                      <a href="/portal-passageiro/reclamacoes" class="btn btn-primary">
-                        Registrar Agora
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="card border-info h-100">
-                    <div class="card-body text-center p-4">
-                      <i class="fas fa-book fa-3x text-info mb-3"></i>
-                      <h6>Conhecer Seus Direitos</h6>
-                      <p class="small text-muted mb-3">Leia mais sobre seus direitos</p>
-                      <a href="/portal-passageiro/direitos" class="btn btn-info">
-                        Ver Direitos
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-  
-              <!-- NOVA SIMULAÇÃO -->
-              <div class="text-center mt-5">
-                <a href="/portal-passageiro/simulador" class="btn btn-outline-secondary btn-lg">
-                  <i class="fas fa-redo"></i> Fazer Nova Simulação
-                </a>
-              </div>
-  
-            </div>
-          </div>
-  
-          <!-- AVISO LEGAL -->
-          <div class="alert alert-light border">
-            <h6 class="alert-heading">
-              <i class="fas fa-exclamation-triangle text-warning"></i> Aviso Importante
-            </h6>
-            <p class="small mb-0">
-              Este simulador fornece apenas uma estimativa baseada nas informações fornecidas.
-              O resultado não constitui uma garantia de compensação. Para uma avaliação precisa
-              do seu caso, recomendamos que registre uma reclamação formal ou consulte um
-              profissional especializado em direitos dos passageiros aéreos.
-            </p>
-          </div>
-  
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- ESTILOS ESPECÍFICOS PARA ESTA PÁGINA -->
-  <style>
-    /* ================================================== */
-    /* HERO                                               */
-    /* ================================================== */
-    .page-hero {
-      height: 50vh;
-      min-height: 400px;
-      position: relative;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      display: flex;
-      align-items: center;
-      margin-top: 0;
-    }
-  
-    .page-hero .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(
-        90deg,
-        rgba(0, 45, 135, 0.85) 0%,
-        rgba(0, 86, 179, 0.75) 40%,
-        rgba(0, 86, 179, 0.5) 70%,
-        transparent 100%
-      );
-      z-index: 1;
-    }
-  
-    .page-hero .container {
-      position: relative;
-      z-index: 2;
-    }
-  
-    .page-hero .hero-title {
-      font-size: 3rem;
-      font-weight: 800;
-      color: white;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-    }
-  
-    .page-hero .hero-title i {
-      color: #D4AF37;
-    }
-  
-    .page-hero .hero-subtitle {
-      font-size: 1.25rem;
-      color: rgba(255, 255, 255, 0.95);
-      max-width: 600px;
-    }
-  
-    /* ================================================== */
-    /* RESULTADO                                          */
-    /* ================================================== */
-    .card-modern {
-      border-radius: 12px;
-      background: white;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-    }
-  
-    .card-header {
-      border-bottom: none;
-    }
-  
-    .card-header.bg-success {
-      background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%) !important;
-    }
-  
-    .card-header.bg-warning {
-      background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%) !important;
-    }
-  
-    .display-4 {
-      font-size: 2.5rem;
-      font-weight: 700;
-    }
-  
-    .btn-primary {
-      background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
-      border: none;
-      border-radius: 50px;
-      padding: 0.5rem 1.5rem;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-  
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 15px rgba(0, 86, 179, 0.25);
-    }
-  
-    .btn-info {
-      background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);
-      border: none;
-      color: white;
-      border-radius: 50px;
-      padding: 0.5rem 1.5rem;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-  
-    .btn-info:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 15px rgba(23, 162, 184, 0.25);
-    }
-  
-    .btn-outline-secondary {
-      border: 2px solid #6c757d;
-      color: #6c757d;
-      background: transparent;
-      border-radius: 50px;
-      padding: 0.75rem 1.5rem;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-  
-    .btn-outline-secondary:hover {
-      background: #6c757d;
-      color: white;
-      transform: translateY(-2px);
-    }
-  
-    /* ================================================== */
-    /* RESPONSIVIDADE                                     */
-    /* ================================================== */
-    @media (max-width: 768px) {
-      .page-hero .hero-title {
-        font-size: 2rem;
-      }
-  
-      .page-hero .hero-subtitle {
-        font-size: 1rem;
-      }
-  
-      .display-4 {
-        font-size: 2rem;
-      }
-    }
-  </style>
-  
+  </div>
+</section>
+
+<!-- ESTILOS -->
+<style>
+  .page-hero {
+    height: 50vh;
+    min-height: 400px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  .page-hero .overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 45, 135, 0.85) 0%,
+      rgba(0, 86, 179, 0.75) 40%,
+      rgba(0, 86, 179, 0.5) 70%,
+      transparent 100%
+    );
+    z-index: 1;
+  }
+
+  .page-hero .container { position: relative; z-index: 2; }
+
+  .page-hero .hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  }
+
+  .page-hero .hero-title i { color: #D4AF37; }
+
+  .page-hero .hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255,255,255,0.95);
+    max-width: 600px;
+  }
+
+  .card-modern {
+    border-radius: 12px;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+
+  .card-header { border-bottom: none; }
+
+  .card-header.bg-success {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%) !important;
+  }
+
+  .card-header.bg-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%) !important;
+  }
+
+  .display-4 { font-size: 2.5rem; font-weight: 700; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 86, 179, 0.25);
+  }
+
+  .btn-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);
+    border: none;
+    color: white;
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-info:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(23, 162, 184, 0.25);
+  }
+
+  .btn-outline-secondary {
+    border: 2px solid #6c757d;
+    color: #6c757d;
+    background: transparent;
+    border-radius: 50px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-secondary:hover {
+    background: #6c757d;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .page-hero .hero-title { font-size: 2rem; }
+    .page-hero .hero-subtitle { font-size: 1rem; }
+    .display-4 { font-size: 2rem; }
+  }
+</style>

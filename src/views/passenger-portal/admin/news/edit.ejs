@@ -1,0 +1,402 @@
+<!-- ================================================== -->
+<!-- PÁGINA: EDITAR NOTÍCIA DO PORTAL (ADMIN)           -->
+<!-- ================================================== -->
+
+<!-- CABEÇALHO -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">
+        <i class="fas fa-edit text-warning me-2"></i>
+        Editar Notícia
+      </h2>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a href="/portal-passageiro/admin">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="/portal-passageiro/admin/news">Notícias</a></li>
+          <li class="breadcrumb-item active">Editar #<%= noticia.id %></li>
+        </ol>
+      </nav>
+    </div>
+    <div class="d-flex gap-2">
+      <% if (noticia.is_published && noticia.slug) { %>
+        <a href="/portal-passageiro/noticias/<%= noticia.slug %>"
+           target="_blank"
+           class="btn btn-outline-success">
+          <i class="fas fa-external-link-alt me-2"></i> Ver no Portal
+        </a>
+      <% } %>
+      <a href="/portal-passageiro/admin/news" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i> Voltar
+      </a>
+    </div>
+  </div>
+  
+  <!-- FLASH MESSAGES -->
+  <% if (messages && messages.success && messages.success.length > 0) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="fas fa-check-circle me-2"></i> <%= messages.success[0] %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <% } %>
+  <% if (messages && messages.error && messages.error.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-circle me-2"></i> <%= messages.error[0] %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <% } %>
+  
+  <!-- FORMULÁRIO -->
+  <form action="/portal-passageiro/admin/news/<%= noticia.id %>/edit" method="POST" enctype="multipart/form-data" novalidate>
+  
+    <div class="row">
+  
+      <!-- COLUNA PRINCIPAL -->
+      <div class="col-lg-8">
+  
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-file-alt me-2 text-primary"></i>
+            Conteúdo da Notícia
+          </h5>
+  
+          <!-- TÍTULO -->
+          <div class="mb-3">
+            <label for="title" class="form-label fw-semibold">
+              Título <span class="text-danger">*</span>
+            </label>
+            <input type="text"
+                   id="title"
+                   name="title"
+                   class="form-control form-control-lg"
+                   value="<%= noticia.title %>"
+                   maxlength="255"
+                   required>
+            <div class="invalid-feedback">O título é obrigatório.</div>
+          </div>
+  
+          <!-- SLUG -->
+          <div class="mb-3">
+            <label for="slug" class="form-label fw-semibold">Slug (URL)</label>
+            <div class="input-group">
+              <span class="input-group-text text-muted">/portal-passageiro/noticias/</span>
+              <input type="text"
+                     id="slug"
+                     name="slug"
+                     class="form-control"
+                     value="<%= noticia.slug || '' %>"
+                     maxlength="255">
+            </div>
+            <div class="form-text">
+              URL pública:
+              <a href="/portal-passageiro/noticias/<%= noticia.slug %>" target="_blank" class="text-primary">
+                /portal-passageiro/noticias/<%= noticia.slug %>
+              </a>
+            </div>
+          </div>
+  
+          <!-- RESUMO -->
+          <div class="mb-3">
+            <label for="excerpt" class="form-label fw-semibold">Resumo / Excerto</label>
+            <textarea id="excerpt"
+                      name="excerpt"
+                      class="form-control"
+                      rows="3"
+                      maxlength="500"><%= noticia.excerpt || '' %></textarea>
+            <div class="d-flex justify-content-between">
+              <div class="form-text">Máximo 500 caracteres.</div>
+              <small class="text-muted" id="excerptCount"><%= (noticia.excerpt || '').length %>/500</small>
+            </div>
+          </div>
+  
+          <!-- CONTEÚDO COMPLETO -->
+          <div class="mb-3">
+            <label for="content" class="form-label fw-semibold">
+              Conteúdo Completo <span class="text-danger">*</span>
+            </label>
+            <textarea id="content"
+                      name="content"
+                      class="form-control"
+                      rows="15"
+                      required><%= noticia.content || '' %></textarea>
+            <div class="form-text">
+              Pode usar HTML básico: &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;a&gt;.
+            </div>
+            <div class="invalid-feedback">O conteúdo é obrigatório.</div>
+          </div>
+        </div>
+  
+        <!-- IMAGEM DE DESTAQUE -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-image me-2 text-success"></i>
+            Imagem de Destaque
+          </h5>
+  
+          <!-- IMAGEM ACTUAL -->
+          <% if (noticia.featured_image) { %>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Imagem Actual</label>
+              <div>
+                <img src="<%= noticia.featured_image %>"
+                     alt="Imagem actual"
+                     class="img-fluid rounded shadow-sm mb-2"
+                     style="max-height:200px; object-fit:cover;">
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="remove_image" name="remove_image" value="1">
+                <label class="form-check-label text-danger" for="remove_image">
+                  Remover imagem actual
+                </label>
+              </div>
+            </div>
+          <% } %>
+  
+          <!-- NOVA IMAGEM -->
+          <div class="mb-3">
+            <label for="featured_image" class="form-label fw-semibold">
+              <%= noticia.featured_image ? 'Substituir Imagem' : 'Carregar Imagem' %>
+            </label>
+            <input type="file"
+                   id="featured_image"
+                   name="featured_image"
+                   class="form-control"
+                   accept="image/jpeg,image/png,image/webp">
+            <div class="form-text">Formatos: JPG, PNG, WEBP. Tamanho máximo: 5 MB.</div>
+          </div>
+  
+          <!-- PRÉVIA DA NOVA IMAGEM -->
+          <div id="imagePreviewBox" style="display:none;">
+            <img id="imagePreview" src="" alt="Prévia"
+                 class="img-fluid rounded shadow-sm"
+                 style="max-height: 200px; object-fit: cover; width: 100%;">
+            <button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="clearImagePreview()">
+              <i class="fas fa-times me-1"></i> Cancelar nova imagem
+            </button>
+          </div>
+  
+          <!-- URL ALTERNATIVA -->
+          <div class="mt-3">
+            <label for="featured_image_url" class="form-label fw-semibold">Ou informe um URL de imagem</label>
+            <input type="url"
+                   id="featured_image_url"
+                   name="featured_image_url"
+                   class="form-control"
+                   value="<%= noticia.featured_image && noticia.featured_image.startsWith('http') ? noticia.featured_image : '' %>"
+                   placeholder="https://exemplo.com/imagem.jpg">
+          </div>
+        </div>
+  
+      </div><!-- /col-lg-8 -->
+  
+      <!-- COLUNA LATERAL -->
+      <div class="col-lg-4">
+  
+        <!-- METADADOS -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-info-circle me-2 text-info"></i>
+            Informações
+          </h5>
+          <div class="small text-muted">
+            <div class="d-flex justify-content-between py-2 border-bottom">
+              <span>ID</span>
+              <strong>#<%= noticia.id %></strong>
+            </div>
+            <div class="d-flex justify-content-between py-2 border-bottom">
+              <span>Criado em</span>
+              <strong>
+                <%= noticia.createdAt
+                      ? new Date(noticia.createdAt).toLocaleDateString('pt-PT')
+                      : '—' %>
+              </strong>
+            </div>
+            <div class="d-flex justify-content-between py-2">
+              <span>Última actualização</span>
+              <strong>
+                <%= noticia.updatedAt
+                      ? new Date(noticia.updatedAt).toLocaleDateString('pt-PT')
+                      : '—' %>
+              </strong>
+            </div>
+          </div>
+        </div>
+  
+        <!-- PUBLICAÇÃO -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-cog me-2 text-secondary"></i>
+            Publicação
+          </h5>
+  
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Estado</label>
+            <div class="form-check form-switch fs-5">
+              <input class="form-check-input" type="checkbox" id="is_published" name="is_published" value="1"
+                     <%= noticia.is_published ? 'checked' : '' %>>
+              <label class="form-check-label" for="is_published" id="publishedLabel">
+                <% if (noticia.is_published) { %>
+                  <span class="badge bg-success"><i class="fas fa-eye me-1"></i>Publicado</span>
+                <% } else { %>
+                  <span class="badge bg-secondary"><i class="fas fa-edit me-1"></i>Rascunho</span>
+                <% } %>
+              </label>
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="publishedAt" class="form-label fw-semibold">Data de Publicação</label>
+            <input type="datetime-local"
+                   id="publishedAt"
+                   name="publishedAt"
+                   class="form-control"
+                   value="<%= noticia.publishedAt
+                                ? new Date(noticia.publishedAt).toISOString().slice(0,16)
+                                : new Date().toISOString().slice(0,16) %>">
+          </div>
+  
+          <div class="mb-3">
+            <label for="author" class="form-label fw-semibold">Autor</label>
+            <input type="text"
+                   id="author"
+                   name="author"
+                   class="form-control"
+                   value="<%= noticia.author || 'DRETA' %>"
+                   maxlength="255">
+          </div>
+        </div>
+  
+        <!-- CLASSIFICAÇÃO -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-tags me-2 text-info"></i>
+            Classificação
+          </h5>
+  
+          <div class="mb-3">
+            <label for="category" class="form-label fw-semibold">Categoria</label>
+            <select id="category" name="category" class="form-select">
+              <option value="">Sem categoria</option>
+              <option value="direitos"     <%= noticia.category === 'direitos'     ? 'selected' : '' %>>📋 Direitos do Passageiro</option>
+              <option value="regulacao"    <%= noticia.category === 'regulacao'    ? 'selected' : '' %>>⚖️ Regulação</option>
+              <option value="avisos"       <%= noticia.category === 'avisos'       ? 'selected' : '' %>>📢 Avisos e Comunicados</option>
+              <option value="estatisticas" <%= noticia.category === 'estatisticas' ? 'selected' : '' %>>📊 Estatísticas</option>
+              <option value="geral"        <%= noticia.category === 'geral'        ? 'selected' : '' %>>🗞️ Geral</option>
+            </select>
+          </div>
+  
+          <div class="mb-3">
+            <label for="tags" class="form-label fw-semibold">Tags</label>
+            <input type="text"
+                   id="tags"
+                   name="tags"
+                   class="form-control"
+                   value="<%= noticia.tags || '' %>"
+                   placeholder="passageiro, direitos, atraso…">
+            <div class="form-text">Separe as tags por vírgula.</div>
+          </div>
+        </div>
+  
+        <!-- ACÇÕES -->
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-warning btn-lg">
+            <i class="fas fa-save me-2"></i> Guardar Alterações
+          </button>
+          <a href="/portal-passageiro/admin/news" class="btn btn-outline-secondary">
+            <i class="fas fa-times me-2"></i> Cancelar
+          </a>
+          <hr>
+          <button type="button" class="btn btn-outline-danger btn-sm"
+                  onclick="confirmDelete(<%= noticia.id %>)">
+            <i class="fas fa-trash-alt me-2"></i> Eliminar esta Notícia
+          </button>
+        </div>
+  
+      </div><!-- /col-lg-4 -->
+  
+    </div>
+  </form>
+  
+  <!-- MODAL DE ELIMINAÇÃO -->
+  <div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title text-danger">
+            <i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminação
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Tem a certeza que deseja eliminar a notícia:</p>
+          <p class="fw-bold"><%= noticia.title %></p>
+          <p class="text-muted small">Esta acção não pode ser revertida.</p>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <form action="/portal-passageiro/admin/news/<%= noticia.id %>/delete" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger">
+              <i class="fas fa-trash-alt me-1"></i> Eliminar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+  (function () {
+    // Toggle publicação
+    const publishToggle  = document.getElementById('is_published');
+    const publishedLabel = document.getElementById('publishedLabel');
+    publishToggle.addEventListener('change', function () {
+      publishedLabel.innerHTML = this.checked
+        ? '<span class="badge bg-success"><i class="fas fa-eye me-1"></i>Publicado</span>'
+        : '<span class="badge bg-secondary"><i class="fas fa-edit me-1"></i>Rascunho</span>';
+    });
+  
+    // Contador excerpt
+    const excerptArea  = document.getElementById('excerpt');
+    const excerptCount = document.getElementById('excerptCount');
+    excerptArea.addEventListener('input', function () {
+      excerptCount.textContent = this.value.length + '/500';
+      excerptCount.className   = this.value.length > 450 ? 'text-warning' : 'text-muted';
+    });
+  
+    // Prévia de imagem nova
+    const fileInput  = document.getElementById('featured_image');
+    const previewBox = document.getElementById('imagePreviewBox');
+    const previewImg = document.getElementById('imagePreview');
+    fileInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          previewImg.src = e.target.result;
+          previewBox.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  
+    // Validação Bootstrap
+    document.querySelector('form').addEventListener('submit', function (e) {
+      if (!this.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      this.classList.add('was-validated');
+    });
+  })();
+  
+  function clearImagePreview() {
+    document.getElementById('featured_image').value = '';
+    document.getElementById('imagePreviewBox').style.display = 'none';
+    document.getElementById('imagePreview').src = '';
+  }
+  
+  function confirmDelete(id) {
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+  }
+  </script>
+  

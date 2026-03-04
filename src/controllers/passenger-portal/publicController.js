@@ -1,5 +1,5 @@
 // controllers/passenger-portal/publicController.js
-const { PassengerRight, FAQ, TravelGuide, Complaint, PortalNews } = require('../../models');
+const { PassengerRight, FAQ, TravelGuide, Complaint, PortalNews, CompensationRule } = require('../../models');
 const { Op } = require('sequelize');
 
 // =============================================
@@ -99,11 +99,8 @@ exports.direitos = async (req, res) => {
       order: [['category', 'ASC'], ['display_order', 'ASC']]
     });
 
-    // Agrupar por categoria
     const groupedRights = rights.reduce((acc, right) => {
-      if (!acc[right.category]) {
-        acc[right.category] = [];
-      }
+      if (!acc[right.category]) acc[right.category] = [];
       acc[right.category].push(right);
       return acc;
     }, {});
@@ -113,7 +110,7 @@ exports.direitos = async (req, res) => {
       currentPage: 'direitos',
       user: req.session?.user || null,
       groupedRights,
-      categoryConfig, // ✅ ADICIONADO
+      categoryConfig,
       layout: 'passenger-portal/layouts/portal-main'
     });
   } catch (error) {
@@ -124,47 +121,32 @@ exports.direitos = async (req, res) => {
 };
 
 // =============================================
-// DIREITOS POR CATEGORIA - MELHORADO
+// DIREITOS POR CATEGORIA
 // =============================================
 exports.direitosByCategory = async (req, res) => {
   try {
     const { category } = req.params;
-    
+
     console.log('\n╔════════════════════════════════════════╗');
     console.log('║   DIREITOS POR CATEGORIA              ║');
     console.log('╚════════════════════════════════════════╝');
     console.log('📂 Categoria solicitada:', category);
-    
-    // Verificar se a categoria é válida
+
     if (!categoryConfig[category]) {
       console.log('❌ Categoria inválida:', category);
-      console.log('✅ Categorias válidas:', Object.keys(categoryConfig).join(', '));
       req.flash('error', 'Categoria não encontrada');
       return res.redirect('/portal-passageiro/direitos');
     }
-    
+
     const config = categoryConfig[category];
     console.log('✅ Configuração encontrada:', config.title);
-    console.log('   Ícone:', config.icon);
-    console.log('   Cor:', config.color);
-    
-    // Buscar direitos da categoria
+
     const rights = await PassengerRight.findAll({
-      where: { 
-        category: category,
-        is_published: true 
-      },
+      where: { category, is_published: true },
       order: [['display_order', 'ASC']]
     });
 
-    console.log(`✅ Encontrados ${rights.length} direito(s) para a categoria "${category}"`);
-    
-    if (rights.length > 0) {
-      console.log('📋 Direitos:');
-      rights.forEach((right, index) => {
-        console.log(`   ${index + 1}. ${right.title}`);
-      });
-    }
+    console.log(`✅ Encontrados ${rights.length} direito(s) para "${category}"`);
     console.log('════════════════════════════════════════\n');
 
     res.render('passenger-portal/public/direitos-category', {
@@ -172,40 +154,31 @@ exports.direitosByCategory = async (req, res) => {
       currentPage: 'direitos',
       user: req.session?.user || null,
       rights,
-      categoryTitle: config.title,
-      categorySlug: config.slug,
-      categoryIcon: config.icon,
-      categoryColor: config.color,
+      categoryTitle:       config.title,
+      categorySlug:        config.slug,
+      categoryIcon:        config.icon,
+      categoryColor:       config.color,
       categoryDescription: config.description,
       layout: 'passenger-portal/layouts/portal-main'
     });
   } catch (error) {
-    console.error('╔════════════════════════════════════════╗');
-    console.error('║   ❌ ERRO AO CARREGAR CATEGORIA       ║');
-    console.error('╚════════════════════════════════════════╝');
-    console.error('Erro:', error.message);
-    console.error('Stack:', error.stack);
-    console.error('════════════════════════════════════════\n');
-    
+    console.error('Erro ao carregar categoria:', error);
     const { category } = req.params;
     const config = categoryConfig[category] || {
-      title: 'Direitos',
-      slug: category,
-      icon: 'fas fa-info-circle',
-      color: 'primary',
+      title: 'Direitos', slug: category,
+      icon: 'fas fa-info-circle', color: 'primary',
       description: 'Conheça seus direitos.'
     };
-    
     req.flash('error', 'Erro ao carregar categoria');
     res.render('passenger-portal/public/direitos-category', {
       title: `${config.title} - Portal do Passageiro`,
       currentPage: 'direitos',
       user: req.session?.user || null,
       rights: [],
-      categoryTitle: config.title,
-      categorySlug: config.slug,
-      categoryIcon: config.icon,
-      categoryColor: config.color,
+      categoryTitle:       config.title,
+      categorySlug:        config.slug,
+      categoryIcon:        config.icon,
+      categoryColor:       config.color,
       categoryDescription: config.description,
       layout: 'passenger-portal/layouts/portal-main'
     });
@@ -218,13 +191,9 @@ exports.direitosByCategory = async (req, res) => {
 exports.antesViagem = async (req, res) => {
   try {
     const guides = await TravelGuide.findAll({
-      where: { 
-        phase: 'antes_viagem',
-        is_published: true 
-      },
+      where: { phase: 'antes_viagem', is_published: true },
       order: [['display_order', 'ASC']]
     });
-
     res.render('passenger-portal/public/antes-viagem', {
       title: 'Antes da Viagem',
       currentPage: 'guias',
@@ -245,13 +214,9 @@ exports.antesViagem = async (req, res) => {
 exports.aeroporto = async (req, res) => {
   try {
     const guides = await TravelGuide.findAll({
-      where: { 
-        phase: 'aeroporto',
-        is_published: true 
-      },
+      where: { phase: 'aeroporto', is_published: true },
       order: [['display_order', 'ASC']]
     });
-
     res.render('passenger-portal/public/aeroporto', {
       title: 'No Aeroporto',
       currentPage: 'guias',
@@ -272,13 +237,9 @@ exports.aeroporto = async (req, res) => {
 exports.duranteVoo = async (req, res) => {
   try {
     const guides = await TravelGuide.findAll({
-      where: { 
-        phase: 'durante_voo',
-        is_published: true 
-      },
+      where: { phase: 'durante_voo', is_published: true },
       order: [['display_order', 'ASC']]
     });
-
     res.render('passenger-portal/public/durante-voo', {
       title: 'Durante o Voo',
       currentPage: 'guias',
@@ -299,13 +260,9 @@ exports.duranteVoo = async (req, res) => {
 exports.destino = async (req, res) => {
   try {
     const guides = await TravelGuide.findAll({
-      where: { 
-        phase: 'destino',
-        is_published: true 
-      },
+      where: { phase: 'destino', is_published: true },
       order: [['display_order', 'ASC']]
     });
-
     res.render('passenger-portal/public/destino', {
       title: 'No Destino',
       currentPage: 'guias',
@@ -326,22 +283,16 @@ exports.destino = async (req, res) => {
 exports.faq = async (req, res) => {
   try {
     const { category } = req.query;
-    
     const whereClause = { is_published: true };
-    if (category) {
-      whereClause.category = category;
-    }
+    if (category) whereClause.category = category;
 
     const faqs = await FAQ.findAll({
       where: whereClause,
       order: [['category', 'ASC'], ['display_order', 'ASC']]
     });
 
-    // Agrupar por categoria
     const groupedFaqs = faqs.reduce((acc, faq) => {
-      if (!acc[faq.category]) {
-        acc[faq.category] = [];
-      }
+      if (!acc[faq.category]) acc[faq.category] = [];
       acc[faq.category].push(faq);
       return acc;
     }, {});
@@ -389,13 +340,11 @@ exports.submitReclamacao = async (req, res) => {
       description
     } = req.body;
 
-    // Validação básica
     if (!passenger_name || !passenger_email || !description) {
       req.flash('error', 'Por favor, preencha todos os campos obrigatórios');
       return res.redirect('/portal-passageiro/reclamacoes');
     }
 
-    // Validar email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(passenger_email)) {
       req.flash('error', 'Email inválido');
@@ -415,11 +364,7 @@ exports.submitReclamacao = async (req, res) => {
       priority: 'media'
     });
 
-    console.log('✅ Reclamação registrada:', {
-      tipo: complaint_type,
-      passageiro: passenger_name,
-      email: passenger_email
-    });
+    console.log('✅ Reclamação registrada:', { tipo: complaint_type, passageiro: passenger_name });
 
     req.flash('success', 'Reclamação registrada com sucesso! Entraremos em contato em breve.');
     res.redirect('/portal-passageiro/reclamacoes');
@@ -443,7 +388,7 @@ exports.simulador = (req, res) => {
 };
 
 // =============================================
-// CALCULAR DIREITOS (SIMULADOR)
+// CALCULAR DIREITOS (SIMULADOR) — usa BD
 // =============================================
 exports.calcularDireitos = async (req, res) => {
   try {
@@ -456,73 +401,102 @@ exports.calcularDireitos = async (req, res) => {
     console.log('📏 Distância:', distancia);
     console.log('⏰ Atraso (horas):', atraso_horas);
 
-    // Lógica de cálculo baseada nas regras
     const resultado = {
       tipo,
       distancia,
       atraso_horas,
-      tem_direito: false,
-      compensacao: 0,
-      assistencia: [],
-      recomendacoes: []
+      tem_direito:     false,
+      compensacao:     0,
+      currency:        'MZN',
+      legal_reference: null,
+      conditions:      null,
+      assistencia:     [],
+      recomendacoes:   []
     };
 
-    // Cálculo baseado no tipo de problema
-    if (tipo === 'atraso' && parseInt(atraso_horas) >= 3) {
-      resultado.tem_direito = true;
-      resultado.assistencia = ['Alimentação', 'Comunicação'];
-      
-      if (distancia === 'curta') resultado.compensacao = 5000;
-      else if (distancia === 'media') resultado.compensacao = 10000;
-      else if (distancia === 'longa') resultado.compensacao = 15000;
-      
+    // ─── Montar filtro para pesquisa na BD ───────────────────
+    const whereClause = {
+      rule_type:         tipo,
+      distance_category: distancia,
+      is_active:         true
+    };
+
+    // Para atraso: só aplicar regras cujo delay_hours mínimo
+    // seja <= ao atraso informado pelo passageiro
+    if (tipo === 'atraso' && atraso_horas) {
+      whereClause.delay_hours = { [Op.lte]: parseInt(atraso_horas) };
+    }
+
+    // Buscar a regra mais específica activa (maior delay_hours aplicável)
+    const rule = await CompensationRule.findOne({
+      where: whereClause,
+      order: [['delay_hours', 'DESC']]
+    });
+
+    console.log('🔍 Regra BD:', rule
+      ? `ID ${rule.id} — ${rule.compensation_amount} ${rule.currency}`
+      : 'Nenhuma regra encontrada');
+
+    if (rule) {
+      // ── TEM DIREITO — valores vêm da BD ──────────────────────
+      resultado.tem_direito    = true;
+      resultado.compensacao    = parseFloat(rule.compensation_amount);
+      resultado.currency       = rule.currency || 'MZN';
+      resultado.legal_reference = rule.legal_reference || null;
+      resultado.conditions     = rule.conditions || null;
+
+      // Assistência por tipo (lógica de negócio fixa)
+      const assistenciaMap = {
+        atraso:          ['Alimentação e bebidas', 'Comunicação (chamada ou e-mail)', 'Alojamento se necessário'],
+        cancelamento:    ['Reembolso integral da passagem', 'Reacomodação em voo alternativo', 'Alojamento e refeições se aplicável'],
+        recusa_embarque: ['Compensação financeira imediata', 'Reacomodação no próximo voo disponível', 'Refeições e comunicação'],
+        bagagem:         ['Kit de emergência (higiene básica)', 'Compensação por danos ou extravio', 'Reembolso de compras essenciais']
+      };
+
+      // Recomendações por tipo
+      const recomendacoesMap = {
+        atraso: [
+          'Guarde o cartão de embarque e todos os documentos de viagem',
+          'Fotografe o painel de informações com o atraso registado',
+          'Solicite declaração por escrito à companhia aérea',
+          'Registe a sua reclamação no Portal do Passageiro'
+        ],
+        cancelamento: [
+          'Exija reembolso integral ou reacomodação imediata',
+          'Solicite declaração escrita da companhia com o motivo',
+          'Não aceite vouchers sem garantias claras',
+          'Submeta reclamação formal ao IACM'
+        ],
+        recusa_embarque: [
+          'Não abandone o balcão sem documentação escrita',
+          'Exija compensação em numerário, não apenas vouchers',
+          'Documente tudo com fotografias e testemunhas',
+          'Registe reclamação formal no Portal do Passageiro'
+        ],
+        bagagem: [
+          'Reporte imediatamente ao balcão da companhia no aeroporto (PIR)',
+          'Guarde todos os recibos de compras de emergência',
+          'Faça o inventário detalhado dos itens em falta ou danificados',
+          'Submeta reclamação no prazo máximo de 7 dias'
+        ]
+      };
+
+      resultado.assistencia   = assistenciaMap[tipo]   || [];
+      resultado.recomendacoes = recomendacoesMap[tipo] || [];
+
+    } else {
+      // ── SEM DIREITO ou regra não configurada na BD ───────────
+      resultado.tem_direito   = false;
+      resultado.compensacao   = 0;
       resultado.recomendacoes = [
-        'Guarde todos os documentos de viagem',
-        'Tire fotos do painel de informações',
-        'Peça declaração por escrito da companhia aérea',
-        'Registre sua reclamação conosco'
-      ];
-    } else if (tipo === 'cancelamento') {
-      resultado.tem_direito = true;
-      resultado.assistencia = ['Reembolso integral', 'Reacomodação em outro voo'];
-      
-      if (distancia === 'curta') resultado.compensacao = 7500;
-      else if (distancia === 'media') resultado.compensacao = 12500;
-      else if (distancia === 'longa') resultado.compensacao = 20000;
-      
-      resultado.recomendacoes = [
-        'Exija reembolso ou reacomodação imediata',
-        'Solicite declaração da companhia aérea',
-        'Registre reclamação formal'
-      ];
-    } else if (tipo === 'recusa_embarque') {
-      resultado.tem_direito = true;
-      resultado.assistencia = ['Compensação imediata', 'Reacomodação'];
-      
-      if (distancia === 'curta') resultado.compensacao = 10000;
-      else if (distancia === 'media') resultado.compensacao = 15000;
-      else if (distancia === 'longa') resultado.compensacao = 25000;
-      
-      resultado.recomendacoes = [
-        'Não aceite vouchers sem garantias',
-        'Exija compensação em dinheiro',
-        'Documente tudo'
-      ];
-    } else if (tipo === 'bagagem') {
-      resultado.tem_direito = true;
-      resultado.assistencia = ['Kit de emergência', 'Compensação por danos'];
-      resultado.compensacao = 3000;
-      
-      resultado.recomendacoes = [
-        'Registre imediatamente com a companhia',
-        'Faça inventário dos itens',
-        'Guarde recibos de compras emergenciais'
+        'Consulte a página de Direitos do Passageiro para mais informações',
+        'Em caso de dúvida, submeta uma reclamação e a DRETA analisará o seu caso'
       ];
     }
 
     console.log('✅ Resultado calculado:');
     console.log('   Tem direito:', resultado.tem_direito ? 'SIM' : 'NÃO');
-    console.log('   Compensação: MT', resultado.compensacao);
+    console.log('   Compensação:', resultado.compensacao, resultado.currency);
     console.log('════════════════════════════════════════\n');
 
     res.render('passenger-portal/public/simulador-resultado', {
@@ -544,26 +518,26 @@ exports.calcularDireitos = async (req, res) => {
 // =============================================
 exports.glossario = (req, res) => {
   const termos = [
-    { termo: 'Atraso de Voo', definicao: 'Situação em que o voo parte após o horário programado, podendo gerar direito a compensação se superior a 3 horas.' },
-    { termo: 'Bagagem de Mão', definicao: 'Bagagem que o passageiro pode levar consigo na cabine do avião, com dimensões e peso limitados.' },
-    { termo: 'Boarding Pass', definicao: 'Cartão de embarque que autoriza o passageiro a entrar na aeronave.' },
-    { termo: 'Cancelamento de Voo', definicao: 'Quando o voo programado não é realizado, gerando direito a reembolso ou reacomodação.' },
-    { termo: 'Check-in', definicao: 'Procedimento de confirmação de presença no voo, realizado online ou no aeroporto.' },
-    { termo: 'Compensação', definicao: 'Valor em dinheiro devido ao passageiro em casos de atraso, cancelamento ou recusa de embarque.' },
-    { termo: 'Conexão', definicao: 'Trecho intermediário de uma viagem com múltiplos voos.' },
-    { termo: 'Franquia de Bagagem', definicao: 'Quantidade de bagagem que o passageiro pode despachar gratuitamente.' },
-    { termo: 'Gate', definicao: 'Portão de embarque no aeroporto.' },
-    { termo: 'No-show', definicao: 'Passageiro que não comparece ao embarque sem aviso prévio.' },
-    { termo: 'Overbooking', definicao: 'Prática de vender mais bilhetes que assentos disponíveis, podendo resultar em recusa de embarque.' },
-    { termo: 'Prioridade de Embarque', definicao: 'Direito de embarcar antes dos demais passageiros, concedido a certos grupos.' },
-    { termo: 'Reacomodação', definicao: 'Transferência do passageiro para outro voo quando o original é cancelado.' },
-    { termo: 'Recusa de Embarque', definicao: 'Negativa da companhia aérea em permitir embarque de passageiro com reserva confirmada.' },
-    { termo: 'Reembolso', definicao: 'Devolução do valor pago pela passagem em caso de cancelamento ou desistência.' },
-    { termo: 'Stopover', definicao: 'Parada programada durante uma viagem com pernoite.' },
-    { termo: 'Tarifa', definicao: 'Preço da passagem aérea, que pode incluir diferentes condições e serviços.' },
-    { termo: 'Upgrade', definicao: 'Melhoria da classe de viagem do passageiro (ex: de econômica para executiva).' },
-    { termo: 'Voo Doméstico', definicao: 'Voo realizado dentro do território nacional.' },
-    { termo: 'Voo Internacional', definicao: 'Voo que cruza fronteiras entre países diferentes.' }
+    { termo: 'Atraso de Voo',         definicao: 'Situação em que o voo parte após o horário programado, podendo gerar direito a compensação se superior a 3 horas.' },
+    { termo: 'Bagagem de Mão',        definicao: 'Bagagem que o passageiro pode levar consigo na cabine do avião, com dimensões e peso limitados.' },
+    { termo: 'Boarding Pass',         definicao: 'Cartão de embarque que autoriza o passageiro a entrar na aeronave.' },
+    { termo: 'Cancelamento de Voo',   definicao: 'Quando o voo programado não é realizado, gerando direito a reembolso ou reacomodação.' },
+    { termo: 'Check-in',              definicao: 'Procedimento de confirmação de presença no voo, realizado online ou no aeroporto.' },
+    { termo: 'Compensação',           definicao: 'Valor em dinheiro devido ao passageiro em casos de atraso, cancelamento ou recusa de embarque.' },
+    { termo: 'Conexão',               definicao: 'Trecho intermediário de uma viagem com múltiplos voos.' },
+    { termo: 'Franquia de Bagagem',   definicao: 'Quantidade de bagagem que o passageiro pode despachar gratuitamente.' },
+    { termo: 'Gate',                  definicao: 'Portão de embarque no aeroporto.' },
+    { termo: 'No-show',               definicao: 'Passageiro que não comparece ao embarque sem aviso prévio.' },
+    { termo: 'Overbooking',           definicao: 'Prática de vender mais bilhetes que assentos disponíveis, podendo resultar em recusa de embarque.' },
+    { termo: 'Prioridade de Embarque',definicao: 'Direito de embarcar antes dos demais passageiros, concedido a certos grupos.' },
+    { termo: 'Reacomodação',          definicao: 'Transferência do passageiro para outro voo quando o original é cancelado.' },
+    { termo: 'Recusa de Embarque',    definicao: 'Negativa da companhia aérea em permitir embarque de passageiro com reserva confirmada.' },
+    { termo: 'Reembolso',             definicao: 'Devolução do valor pago pela passagem em caso de cancelamento ou desistência.' },
+    { termo: 'Stopover',              definicao: 'Parada programada durante uma viagem com pernoite.' },
+    { termo: 'Tarifa',                definicao: 'Preço da passagem aérea, que pode incluir diferentes condições e serviços.' },
+    { termo: 'Upgrade',               definicao: 'Melhoria da classe de viagem do passageiro (ex: de econômica para executiva).' },
+    { termo: 'Voo Doméstico',         definicao: 'Voo realizado dentro do território nacional.' },
+    { termo: 'Voo Internacional',     definicao: 'Voo que cruza fronteiras entre países diferentes.' }
   ];
 
   res.render('passenger-portal/public/glossario', {
@@ -580,18 +554,16 @@ exports.glossario = (req, res) => {
 // =============================================
 exports.noticias = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = 9;
+    const page   = parseInt(req.query.page) || 1;
+    const limit  = 9;
     const offset = (page - 1) * limit;
 
     const { count, rows: news } = await PortalNews.findAndCountAll({
-      where: { is_published: true },
+      where:  { is_published: true },
       limit,
       offset,
-      order: [['publishedAt', 'DESC']]
+      order:  [['publishedAt', 'DESC']]
     });
-
-    const totalPages = Math.ceil(count / limit);
 
     res.render('passenger-portal/public/noticias', {
       title: 'Notícias do Portal',
@@ -599,7 +571,7 @@ exports.noticias = async (req, res) => {
       user: req.session?.user || null,
       news,
       paginationPage: page,
-      totalPages,
+      totalPages:     Math.ceil(count / limit),
       layout: 'passenger-portal/layouts/portal-main'
     });
   } catch (error) {
@@ -615,7 +587,7 @@ exports.noticias = async (req, res) => {
 exports.noticiaDetail = async (req, res) => {
   try {
     const { slug } = req.params;
-    
+
     const noticia = await PortalNews.findOne({
       where: { slug, is_published: true }
     });

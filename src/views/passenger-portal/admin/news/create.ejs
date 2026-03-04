@@ -1,0 +1,327 @@
+<!-- ================================================== -->
+<!-- PÁGINA: CRIAR NOTÍCIA DO PORTAL (ADMIN)            -->
+<!-- ================================================== -->
+
+<!-- CABEÇALHO -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">
+        <i class="fas fa-plus-circle text-primary me-2"></i>
+        Nova Notícia
+      </h2>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a href="/portal-passageiro/admin">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="/portal-passageiro/admin/news">Notícias</a></li>
+          <li class="breadcrumb-item active">Nova Notícia</li>
+        </ol>
+      </nav>
+    </div>
+    <a href="/portal-passageiro/admin/news" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-2"></i> Voltar
+    </a>
+  </div>
+  
+  <!-- FLASH MESSAGES -->
+  <% if (messages && messages.error && messages.error.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-circle me-2"></i> <%= messages.error[0] %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <% } %>
+  
+  <!-- FORMULÁRIO -->
+  <form action="/portal-passageiro/admin/news/create" method="POST" enctype="multipart/form-data" novalidate>
+  
+    <div class="row">
+  
+      <!-- COLUNA PRINCIPAL -->
+      <div class="col-lg-8">
+  
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-file-alt me-2 text-primary"></i>
+            Conteúdo da Notícia
+          </h5>
+  
+          <!-- TÍTULO -->
+          <div class="mb-3">
+            <label for="title" class="form-label fw-semibold">
+              Título <span class="text-danger">*</span>
+            </label>
+            <input type="text"
+                   id="title"
+                   name="title"
+                   class="form-control form-control-lg"
+                   placeholder="Título da notícia…"
+                   maxlength="255"
+                   required>
+            <div class="invalid-feedback">O título é obrigatório.</div>
+          </div>
+  
+          <!-- SLUG -->
+          <div class="mb-3">
+            <label for="slug" class="form-label fw-semibold">
+              Slug (URL)
+            </label>
+            <div class="input-group">
+              <span class="input-group-text text-muted">/portal-passageiro/noticias/</span>
+              <input type="text"
+                     id="slug"
+                     name="slug"
+                     class="form-control"
+                     placeholder="gerado-automaticamente"
+                     maxlength="255">
+            </div>
+            <div class="form-text">Deixe em branco para gerar automaticamente a partir do título.</div>
+          </div>
+  
+          <!-- RESUMO -->
+          <div class="mb-3">
+            <label for="excerpt" class="form-label fw-semibold">
+              Resumo / Excerto
+            </label>
+            <textarea id="excerpt"
+                      name="excerpt"
+                      class="form-control"
+                      rows="3"
+                      maxlength="500"
+                      placeholder="Breve descrição da notícia (aparece na listagem)…"></textarea>
+            <div class="d-flex justify-content-between">
+              <div class="form-text">Máximo 500 caracteres.</div>
+              <small class="text-muted" id="excerptCount">0/500</small>
+            </div>
+          </div>
+  
+          <!-- CONTEÚDO COMPLETO -->
+          <div class="mb-3">
+            <label for="content" class="form-label fw-semibold">
+              Conteúdo Completo <span class="text-danger">*</span>
+            </label>
+            <textarea id="content"
+                      name="content"
+                      class="form-control"
+                      rows="15"
+                      placeholder="Conteúdo completo da notícia…"
+                      required></textarea>
+            <div class="form-text">
+              Pode usar HTML básico: &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;a&gt;.
+            </div>
+            <div class="invalid-feedback">O conteúdo é obrigatório.</div>
+          </div>
+        </div>
+  
+        <!-- IMAGEM DE DESTAQUE -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-image me-2 text-success"></i>
+            Imagem de Destaque
+          </h5>
+  
+          <div class="mb-3">
+            <label for="featured_image" class="form-label fw-semibold">
+              Carregar Imagem
+            </label>
+            <input type="file"
+                   id="featured_image"
+                   name="featured_image"
+                   class="form-control"
+                   accept="image/jpeg,image/png,image/webp">
+            <div class="form-text">Formatos: JPG, PNG, WEBP. Tamanho máximo: 5 MB. Recomendado: 1200×630 px.</div>
+          </div>
+  
+          <!-- PRÉVIA DA IMAGEM -->
+          <div id="imagePreviewBox" style="display:none;">
+            <img id="imagePreview"
+                 src=""
+                 alt="Prévia"
+                 class="img-fluid rounded shadow-sm"
+                 style="max-height: 250px; object-fit: cover; width: 100%;">
+            <button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="clearImage()">
+              <i class="fas fa-times me-1"></i> Remover imagem
+            </button>
+          </div>
+  
+          <!-- URL ALTERNATIVA -->
+          <div class="mt-3">
+            <label for="featured_image_url" class="form-label fw-semibold">
+              Ou informe um URL de imagem
+            </label>
+            <input type="url"
+                   id="featured_image_url"
+                   name="featured_image_url"
+                   class="form-control"
+                   placeholder="https://exemplo.com/imagem.jpg">
+          </div>
+        </div>
+  
+      </div><!-- /col-lg-8 -->
+  
+      <!-- COLUNA LATERAL -->
+      <div class="col-lg-4">
+  
+        <!-- PUBLICAÇÃO -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-cog me-2 text-secondary"></i>
+            Publicação
+          </h5>
+  
+          <!-- ESTADO -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Estado</label>
+            <div class="form-check form-switch fs-5">
+              <input class="form-check-input" type="checkbox" id="is_published" name="is_published" value="1">
+              <label class="form-check-label" for="is_published" id="publishedLabel">
+                <span class="badge bg-secondary">Rascunho</span>
+              </label>
+            </div>
+            <div class="form-text">Notícias em rascunho não aparecem no portal.</div>
+          </div>
+  
+          <!-- DATA DE PUBLICAÇÃO -->
+          <div class="mb-3">
+            <label for="publishedAt" class="form-label fw-semibold">
+              Data de Publicação
+            </label>
+            <input type="datetime-local"
+                   id="publishedAt"
+                   name="publishedAt"
+                   class="form-control"
+                   value="<%= new Date().toISOString().slice(0,16) %>">
+            <div class="form-text">Deixe em branco para usar a data actual.</div>
+          </div>
+  
+          <!-- AUTOR -->
+          <div class="mb-3">
+            <label for="author" class="form-label fw-semibold">Autor</label>
+            <input type="text"
+                   id="author"
+                   name="author"
+                   class="form-control"
+                   placeholder="Ex: DRETA / IACM"
+                   maxlength="255"
+                   value="DRETA">
+          </div>
+        </div>
+  
+        <!-- CLASSIFICAÇÃO -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-tags me-2 text-info"></i>
+            Classificação
+          </h5>
+  
+          <!-- CATEGORIA -->
+          <div class="mb-3">
+            <label for="category" class="form-label fw-semibold">Categoria</label>
+            <select id="category" name="category" class="form-select">
+              <option value="">Sem categoria</option>
+              <option value="direitos">📋 Direitos do Passageiro</option>
+              <option value="regulacao">⚖️ Regulação</option>
+              <option value="avisos">📢 Avisos e Comunicados</option>
+              <option value="estatisticas">📊 Estatísticas</option>
+              <option value="geral">🗞️ Geral</option>
+            </select>
+          </div>
+  
+          <!-- TAGS -->
+          <div class="mb-3">
+            <label for="tags" class="form-label fw-semibold">Tags</label>
+            <input type="text"
+                   id="tags"
+                   name="tags"
+                   class="form-control"
+                   placeholder="passageiro, direitos, atraso…">
+            <div class="form-text">Separe as tags por vírgula.</div>
+          </div>
+        </div>
+  
+        <!-- ACÇÕES -->
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary btn-lg">
+            <i class="fas fa-save me-2"></i> Guardar Notícia
+          </button>
+          <button type="submit" name="save_and_publish" value="1" class="btn btn-success">
+            <i class="fas fa-paper-plane me-2"></i> Guardar e Publicar
+          </button>
+          <a href="/portal-passageiro/admin/news" class="btn btn-outline-secondary">
+            <i class="fas fa-times me-2"></i> Cancelar
+          </a>
+        </div>
+  
+      </div><!-- /col-lg-4 -->
+  
+    </div>
+  </form>
+  
+  <script>
+  (function () {
+    // Toggle publicação
+    const publishToggle  = document.getElementById('is_published');
+    const publishedLabel = document.getElementById('publishedLabel');
+  
+    publishToggle.addEventListener('change', function () {
+      publishedLabel.innerHTML = this.checked
+        ? '<span class="badge bg-success"><i class="fas fa-eye me-1"></i>Publicado</span>'
+        : '<span class="badge bg-secondary"><i class="fas fa-edit me-1"></i>Rascunho</span>';
+    });
+  
+    // Gerar slug a partir do título
+    const titleInput = document.getElementById('title');
+    const slugInput  = document.getElementById('slug');
+  
+    titleInput.addEventListener('blur', function () {
+      if (!slugInput.value) {
+        slugInput.value = this.value
+          .toLowerCase()
+          .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9\s-]/g, '')
+          .trim()
+          .replace(/\s+/g, '-');
+      }
+    });
+  
+    // Contador de caracteres do excerpt
+    const excerptArea  = document.getElementById('excerpt');
+    const excerptCount = document.getElementById('excerptCount');
+    excerptArea.addEventListener('input', function () {
+      excerptCount.textContent = this.value.length + '/500';
+      excerptCount.className   = this.value.length > 450 ? 'text-warning' : 'text-muted';
+    });
+  
+    // Prévia de imagem
+    const fileInput      = document.getElementById('featured_image');
+    const previewBox     = document.getElementById('imagePreviewBox');
+    const previewImg     = document.getElementById('imagePreview');
+  
+    fileInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          previewImg.src = e.target.result;
+          previewBox.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  
+    // Validação Bootstrap
+    document.querySelector('form').addEventListener('submit', function (e) {
+      if (!this.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      this.classList.add('was-validated');
+    });
+  })();
+  
+  function clearImage() {
+    document.getElementById('featured_image').value = '';
+    document.getElementById('imagePreviewBox').style.display = 'none';
+    document.getElementById('imagePreview').src = '';
+  }
+  </script>
+  

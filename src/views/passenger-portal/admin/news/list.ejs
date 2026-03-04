@@ -1,27 +1,316 @@
-<div class="row mb-4"></div>
-    <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center">
-            <h2>
-                <i class="fas fa-newspaper"></i>
-                Notícias do Portal
-            </h2>
-            <a href="/portal-passageiro/admin/news/create" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Nova Notícia
-            </a>
-        </div>
-    </div>
+<!-- ================================================== -->
+<!-- PÁGINA: LISTAGEM DE NOTÍCIAS DO PORTAL (ADMIN)     -->
+<!-- ================================================== -->
+
+<!-- CABEÇALHO -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="mb-1">
+      <i class="fas fa-newspaper text-primary me-2"></i>
+      Notícias do Portal
+    </h2>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="/portal-passageiro/admin">Dashboard</a></li>
+        <li class="breadcrumb-item active">Notícias</li>
+      </ol>
+    </nav>
+  </div>
+  <a href="/portal-passageiro/admin/news/create" class="btn btn-primary">
+    <i class="fas fa-plus-circle me-2"></i> Nova Notícia
+  </a>
 </div>
 
-<div class="table-card">
-    <div class="text-center py-5">
-        <i class="fas fa-tools fa-4x text-muted mb-3"></i>
-        <h4 class="text-muted">Funcionalidade em Desenvolvimento</h4>
-        <p class="text-muted">
-            O gerenciamento de notícias do portal será implementado em breve.
-            Por enquanto, você pode usar o sistema de notícias principal do IACM.
-        </p>
-        <a href="/admin/news" class="btn btn-outline-primary mt-3">
-            <i class="fas fa-newspaper"></i> Ir para Notícias Principais
-        </a>
+<!-- FLASH MESSAGES -->
+<% if (messages && messages.success && messages.success.length > 0) { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="fas fa-check-circle me-2"></i> <%= messages.success[0] %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+<% } %>
+<% if (messages && messages.error && messages.error.length > 0) { %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="fas fa-exclamation-circle me-2"></i> <%= messages.error[0] %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+<% } %>
+
+<!-- CARDS DE RESUMO -->
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="stats-card primary">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1"><%= stats.total %></h2>
+          <p class="text-muted mb-0">Total de Notícias</p>
+        </div>
+        <div class="icon"><i class="fas fa-newspaper"></i></div>
+      </div>
     </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stats-card success">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1"><%= stats.published %></h2>
+          <p class="text-muted mb-0">Publicadas</p>
+        </div>
+        <div class="icon"><i class="fas fa-check-circle"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stats-card warning">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1"><%= stats.drafts %></h2>
+          <p class="text-muted mb-0">Rascunhos</p>
+        </div>
+        <div class="icon"><i class="fas fa-file-alt"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stats-card danger">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1"><%= stats.thisMonth %></h2>
+          <p class="text-muted mb-0">Este Mês</p>
+        </div>
+        <div class="icon"><i class="fas fa-calendar-alt"></i></div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- FILTROS -->
+<div class="table-card mb-4">
+  <form method="GET" action="/portal-passageiro/admin/news" class="row g-3 align-items-end">
+    <div class="col-md-4">
+      <label class="form-label fw-semibold">Pesquisar</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-search"></i></span>
+        <input type="text"
+               name="search"
+               class="form-control"
+               placeholder="Título ou conteúdo…"
+               value="<%= filters.search || '' %>">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-semibold">Categoria</label>
+      <select name="category" class="form-select">
+        <option value="">Todas as categorias</option>
+        <option value="direitos"      <%= filters.category === 'direitos'      ? 'selected' : '' %>>Direitos do Passageiro</option>
+        <option value="regulacao"     <%= filters.category === 'regulacao'     ? 'selected' : '' %>>Regulação</option>
+        <option value="avisos"        <%= filters.category === 'avisos'        ? 'selected' : '' %>>Avisos e Comunicados</option>
+        <option value="estatisticas"  <%= filters.category === 'estatisticas'  ? 'selected' : '' %>>Estatísticas</option>
+        <option value="geral"         <%= filters.category === 'geral'         ? 'selected' : '' %>>Geral</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label fw-semibold">Estado</label>
+      <select name="is_published" class="form-select">
+        <option value="">Todos</option>
+        <option value="1" <%= filters.is_published === '1' ? 'selected' : '' %>>Publicado</option>
+        <option value="0" <%= filters.is_published === '0' ? 'selected' : '' %>>Rascunho</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="fas fa-filter me-1"></i> Filtrar
+      </button>
+    </div>
+    <div class="col-md-1">
+      <a href="/portal-passageiro/admin/news" class="btn btn-outline-secondary w-100" title="Limpar filtros">
+        <i class="fas fa-times"></i>
+      </a>
+    </div>
+  </form>
+</div>
+
+<!-- TABELA DE NOTÍCIAS -->
+<div class="table-card">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="mb-0">
+      <i class="fas fa-list me-2"></i>
+      Notícias Cadastradas
+      <span class="badge bg-secondary ms-2"><%= news.length %></span>
+    </h5>
+  </div>
+
+  <% if (news && news.length > 0) { %>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th style="width: 60px;">Imagem</th>
+            <th>Título</th>
+            <th>Categoria</th>
+            <th>Autor</th>
+            <th>Data de Publicação</th>
+            <th>Estado</th>
+            <th class="text-center">Acções</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% news.forEach(noticia => { %>
+            <%
+              const catLabels = {
+                direitos:     { label: 'Direitos',      cls: 'primary' },
+                regulacao:    { label: 'Regulação',     cls: 'info'    },
+                avisos:       { label: 'Avisos',        cls: 'warning' },
+                estatisticas: { label: 'Estatísticas',  cls: 'success' },
+                geral:        { label: 'Geral',         cls: 'secondary'}
+              };
+              const catInfo = catLabels[noticia.category] || { label: noticia.category || 'Geral', cls: 'secondary' };
+            %>
+            <tr>
+              <td>
+                <% if (noticia.featured_image) { %>
+                  <img src="<%= noticia.featured_image %>"
+                       alt="<%= noticia.title %>"
+                       style="width:50px; height:50px; object-fit:cover; border-radius:6px;">
+                <% } else { %>
+                  <div class="bg-light d-flex align-items-center justify-content-center rounded"
+                       style="width:50px; height:50px;">
+                    <i class="fas fa-image text-muted"></i>
+                  </div>
+                <% } %>
+              </td>
+              <td>
+                <div>
+                  <strong><%= noticia.title %></strong>
+                </div>
+                <% if (noticia.excerpt) { %>
+                  <small class="text-muted">
+                    <%= noticia.excerpt.length > 80
+                          ? noticia.excerpt.substring(0, 80) + '…'
+                          : noticia.excerpt %>
+                  </small>
+                <% } %>
+              </td>
+              <td>
+                <span class="badge bg-<%= catInfo.cls %>">
+                  <%= catInfo.label %>
+                </span>
+              </td>
+              <td>
+                <small class="text-muted">
+                  <%= noticia.author || '—' %>
+                </small>
+              </td>
+              <td>
+                <small>
+                  <%= noticia.publishedAt
+                        ? new Date(noticia.publishedAt).toLocaleDateString('pt-PT')
+                        : '—' %>
+                </small>
+              </td>
+              <td>
+                <% if (noticia.is_published) { %>
+                  <span class="badge bg-success">
+                    <i class="fas fa-eye me-1"></i>Publicado
+                  </span>
+                <% } else { %>
+                  <span class="badge bg-secondary">
+                    <i class="fas fa-edit me-1"></i>Rascunho
+                  </span>
+                <% } %>
+              </td>
+              <td class="text-center">
+                <div class="btn-group btn-group-sm">
+                  <a href="/portal-passageiro/noticias/<%= noticia.slug %>"
+                     target="_blank"
+                     class="btn btn-outline-success" title="Ver no Portal">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                  <a href="/portal-passageiro/admin/news/<%= noticia.id %>/edit"
+                     class="btn btn-outline-primary" title="Editar">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <button type="button"
+                          class="btn btn-outline-danger"
+                          title="Eliminar"
+                          onclick="confirmDelete(<%= noticia.id %>, '<%= noticia.title.replace(/'/g, "\\'") %>')">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PAGINAÇÃO -->
+    <% if (totalPages > 1) { %>
+      <nav aria-label="Paginação de notícias" class="mt-4">
+        <ul class="pagination justify-content-center">
+          <li class="page-item <%= currentPage <= 1 ? 'disabled' : '' %>">
+            <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= filters.search || '' %>&category=<%= filters.category || '' %>&is_published=<%= filters.is_published || '' %>">
+              <i class="fas fa-chevron-left"></i>
+            </a>
+          </li>
+          <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+              <a class="page-link" href="?page=<%= i %>&search=<%= filters.search || '' %>&category=<%= filters.category || '' %>&is_published=<%= filters.is_published || '' %>">
+                <%= i %>
+              </a>
+            </li>
+          <% } %>
+          <li class="page-item <%= currentPage >= totalPages ? 'disabled' : '' %>">
+            <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= filters.search || '' %>&category=<%= filters.category || '' %>&is_published=<%= filters.is_published || '' %>">
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    <% } %>
+
+  <% } else { %>
+    <div class="text-center py-5 text-muted">
+      <i class="fas fa-newspaper fa-4x mb-3 opacity-25"></i>
+      <h5>Nenhuma notícia encontrada</h5>
+      <p class="mb-4">Publique a primeira notícia do Portal do Passageiro.</p>
+      <a href="/portal-passageiro/admin/news/create" class="btn btn-primary">
+        <i class="fas fa-plus-circle me-2"></i> Criar Notícia
+      </a>
+    </div>
+  <% } %>
+</div>
+
+<!-- MODAL DE CONFIRMAÇÃO DE ELIMINAÇÃO -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title text-danger">
+          <i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminação
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Tem a certeza que deseja eliminar a notícia:</p>
+        <p class="fw-bold" id="deleteNewsTitle"></p>
+        <p class="text-muted small">Esta acção não pode ser revertida.</p>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form id="deleteForm" method="POST" style="display:inline;">
+          <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash-alt me-1"></i> Eliminar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function confirmDelete(id, title) {
+  document.getElementById('deleteNewsTitle').textContent = title;
+  document.getElementById('deleteForm').action = '/portal-passageiro/admin/news/' + id + '/delete';
+  new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>

@@ -103,7 +103,7 @@ const uploadLaws = multer({
   storage: storageLaws,
   fileFilter: fileFilterLaws,
   limits: {
-    fileSize: 20 * 1024 * 1024 // 20MB para leis/decretos
+    fileSize: 50 * 1024 * 1024 // 20MB para leis/decretos
   }
 });
 
@@ -137,7 +137,7 @@ const uploadForms = multer({
     }
   },
   limits: {
-    fileSize: 10 * 1024 * 1024 // 10MB
+    fileSize: 50 * 1024 * 1024 // 10MB
   }
 });
 
@@ -169,7 +169,7 @@ const uploadEconomicRegulations = multer({
     }
   },
   limits: {
-    fileSize: 10 * 1024 * 1024 // 10MB
+    fileSize: 50 * 1024 * 1024 // 10MB
   }
 });
 

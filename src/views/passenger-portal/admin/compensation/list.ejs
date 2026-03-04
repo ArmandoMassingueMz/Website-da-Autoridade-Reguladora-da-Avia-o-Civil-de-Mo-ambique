@@ -1,35 +1,290 @@
-<div class="row mb-4"></div>
-    <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center">
-            <h2>
-                <i class="fas fa-coins"></i>
-                Regras de Compensação
-            </h2>
-            <a href="/portal-passageiro/admin/compensation/create" class="btn btn-warning">
-                <i class="fas fa-plus"></i> Nova Regra
-            </a>
+<!-- ================================================== -->
+<!-- PÁGINA: LISTAGEM DE REGRAS DE COMPENSAÇÃO (ADMIN)  -->
+<!-- ================================================== -->
+
+<!-- BREADCRUMB -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="mb-1">
+      <i class="fas fa-money-bill-wave text-success me-2"></i>
+      Regras de Compensação
+    </h2>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="/portal-passageiro/admin">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Compensações</li>
+      </ol>
+    </nav>
+  </div>
+  <a href="/portal-passageiro/admin/compensation/create" class="btn btn-primary">
+    <i class="fas fa-plus-circle me-2"></i> Nova Regra
+  </a>
+</div>
+
+<!-- FLASH MESSAGES -->
+<% if (messages && messages.success && messages.success.length > 0) { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="fas fa-check-circle me-2"></i> <%= messages.success[0] %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+<% } %>
+<% if (messages && messages.error && messages.error.length > 0) { %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="fas fa-exclamation-circle me-2"></i> <%= messages.error[0] %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+<% } %>
+
+<!-- CARDS DE RESUMO -->
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="stats-card primary">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1"><%= stats.total %></h2>
+          <p class="text-muted mb-0">Total de Regras</p>
         </div>
+        <div class="icon"><i class="fas fa-list"></i></div>
+      </div>
     </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stats-card success">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1"><%= stats.active %></h2>
+          <p class="text-muted mb-0">Regras Activas</p>
+        </div>
+        <div class="icon"><i class="fas fa-check-circle"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stats-card warning">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1"><%= stats.inactive %></h2>
+          <p class="text-muted mb-0">Regras Inactivas</p>
+        </div>
+        <div class="icon"><i class="fas fa-pause-circle"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stats-card danger">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="mb-1"><%= stats.types %></h2>
+          <p class="text-muted mb-0">Tipos de Ocorrência</p>
+        </div>
+        <div class="icon"><i class="fas fa-tags"></i></div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="alert alert-info border-0">
-    <h5 class="alert-heading">
-        <i class="fas fa-info-circle"></i>
-        Sobre as Regras de Compensação
-    </h5>
-    <p class="mb-0">
-        Aqui você pode definir as regras de compensação financeira para diferentes situações 
-        (atraso, cancelamento, etc.) baseadas em critérios como distância do voo, tempo de atraso, 
-        e outras condições. Essas regras são usadas pelo simulador para calcular compensações.
-    </p>
+<!-- FILTROS -->
+<div class="table-card mb-4">
+  <form method="GET" action="/portal-passageiro/admin/compensation" class="row g-3 align-items-end">
+    <div class="col-md-3">
+      <label class="form-label fw-semibold">Tipo de Ocorrência</label>
+      <select name="rule_type" class="form-select">
+        <option value="">Todos os tipos</option>
+        <option value="atraso"       <%= filters.rule_type === 'atraso'          ? 'selected' : '' %>>Atraso de Voo</option>
+        <option value="cancelamento" <%= filters.rule_type === 'cancelamento'    ? 'selected' : '' %>>Cancelamento</option>
+        <option value="recusa_embarque" <%= filters.rule_type === 'recusa_embarque' ? 'selected' : '' %>>Recusa de Embarque</option>
+        <option value="bagagem"      <%= filters.rule_type === 'bagagem'         ? 'selected' : '' %>>Bagagem</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label fw-semibold">Distância</label>
+      <select name="distance_category" class="form-select">
+        <option value="">Todas as distâncias</option>
+        <option value="curta"  <%= filters.distance_category === 'curta'  ? 'selected' : '' %>>Curta (até 1.500 km)</option>
+        <option value="media"  <%= filters.distance_category === 'media'  ? 'selected' : '' %>>Média (1.500–3.500 km)</option>
+        <option value="longa"  <%= filters.distance_category === 'longa'  ? 'selected' : '' %>>Longa (+ 3.500 km)</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label fw-semibold">Estado</label>
+      <select name="is_active" class="form-select">
+        <option value="">Todos</option>
+        <option value="1" <%= filters.is_active === '1' ? 'selected' : '' %>>Activo</option>
+        <option value="0" <%= filters.is_active === '0' ? 'selected' : '' %>>Inactivo</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="fas fa-filter me-1"></i> Filtrar
+      </button>
+    </div>
+    <div class="col-md-2">
+      <a href="/portal-passageiro/admin/compensation" class="btn btn-outline-secondary w-100">
+        <i class="fas fa-times me-1"></i> Limpar
+      </a>
+    </div>
+  </form>
 </div>
 
+<!-- TABELA DE REGRAS -->
 <div class="table-card">
-    <div class="text-center py-5">
-        <i class="fas fa-tools fa-4x text-muted mb-3"></i>
-        <h4 class="text-muted">Funcionalidade em Desenvolvimento</h4>
-        <p class="text-muted">
-            O gerenciamento de regras de compensação será implementado em breve.
-        </p>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="mb-0">
+      <i class="fas fa-table me-2"></i>
+      Regras Cadastradas
+      <span class="badge bg-secondary ms-2"><%= rules.length %></span>
+    </h5>
+  </div>
+
+  <% if (rules && rules.length > 0) { %>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Tipo de Ocorrência</th>
+            <th>Distância</th>
+            <th>Atraso Mínimo</th>
+            <th>Compensação</th>
+            <th>Referência Legal</th>
+            <th>Estado</th>
+            <th class="text-center">Acções</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% rules.forEach(rule => { %>
+            <%
+              // Badge de tipo
+              const typeLabels = {
+                atraso:           { label: 'Atraso de Voo',      cls: 'warning' },
+                cancelamento:     { label: 'Cancelamento',        cls: 'danger'  },
+                recusa_embarque:  { label: 'Recusa de Embarque',  cls: 'info'    },
+                bagagem:          { label: 'Bagagem',             cls: 'success' }
+              };
+              const typeInfo = typeLabels[rule.rule_type] || { label: rule.rule_type, cls: 'secondary' };
+
+              // Badge de distância
+              const distLabels = {
+                curta: { label: 'Curta (≤ 1.500 km)', cls: 'primary' },
+                media: { label: 'Média (1.500–3.500 km)', cls: 'info' },
+                longa: { label: 'Longa (> 3.500 km)', cls: 'dark' }
+              };
+              const distInfo = distLabels[rule.distance_category] || { label: rule.distance_category, cls: 'secondary' };
+            %>
+            <tr>
+              <td><strong>#<%= rule.id %></strong></td>
+              <td>
+                <span class="badge bg-<%= typeInfo.cls %>">
+                  <%= typeInfo.label %>
+                </span>
+              </td>
+              <td>
+                <span class="badge bg-<%= distInfo.cls %> bg-opacity-75">
+                  <%= distInfo.label %>
+                </span>
+              </td>
+              <td>
+                <% if (rule.delay_hours) { %>
+                  <span class="text-muted">
+                    <i class="fas fa-clock me-1"></i><%= rule.delay_hours %>h
+                  </span>
+                <% } else { %>
+                  <span class="text-muted">—</span>
+                <% } %>
+              </td>
+              <td>
+                <strong class="text-success">
+                  <%= parseFloat(rule.compensation_amount || 0).toLocaleString('pt-PT') %> 
+                  <%= rule.currency || 'MZN' %>
+                </strong>
+              </td>
+              <td>
+                <% if (rule.legal_reference) { %>
+                  <small class="text-muted" title="<%= rule.legal_reference %>">
+                    <%= rule.legal_reference.length > 40 
+                        ? rule.legal_reference.substring(0, 40) + '...' 
+                        : rule.legal_reference %>
+                  </small>
+                <% } else { %>
+                  <span class="text-muted">—</span>
+                <% } %>
+              </td>
+              <td>
+                <% if (rule.is_active) { %>
+                  <span class="badge bg-success">
+                    <i class="fas fa-check me-1"></i>Activo
+                  </span>
+                <% } else { %>
+                  <span class="badge bg-secondary">
+                    <i class="fas fa-pause me-1"></i>Inactivo
+                  </span>
+                <% } %>
+              </td>
+              <td class="text-center">
+                <div class="btn-group btn-group-sm">
+                  <a href="/portal-passageiro/admin/compensation/<%= rule.id %>/edit"
+                     class="btn btn-outline-primary" title="Editar">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <button type="button"
+                          class="btn btn-outline-danger"
+                          title="Eliminar"
+                          onclick="confirmDelete(<%= rule.id %>, '<%= typeInfo.label %> – <%= distInfo.label %>')">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
     </div>
+
+  <% } else { %>
+    <div class="text-center py-5 text-muted">
+      <i class="fas fa-money-bill-wave fa-4x mb-3 opacity-25"></i>
+      <h5>Nenhuma regra de compensação cadastrada</h5>
+      <p class="mb-4">Adicione a primeira regra para configurar o simulador de direitos.</p>
+      <a href="/portal-passageiro/admin/compensation/create" class="btn btn-primary">
+        <i class="fas fa-plus-circle me-2"></i> Adicionar Regra
+      </a>
+    </div>
+  <% } %>
 </div>
+
+<!-- MODAL DE CONFIRMAÇÃO DE ELIMINAÇÃO -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title text-danger">
+          <i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminação
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Tem a certeza que deseja eliminar a regra:</p>
+        <p class="fw-bold" id="deleteRuleName"></p>
+        <p class="text-muted small">Esta acção não pode ser revertida.</p>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form id="deleteForm" method="POST" style="display:inline;">
+          <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash-alt me-1"></i> Eliminar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function confirmDelete(id, name) {
+  document.getElementById('deleteRuleName').textContent = name;
+  document.getElementById('deleteForm').action = '/portal-passageiro/admin/compensation/' + id + '/delete';
+  new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>

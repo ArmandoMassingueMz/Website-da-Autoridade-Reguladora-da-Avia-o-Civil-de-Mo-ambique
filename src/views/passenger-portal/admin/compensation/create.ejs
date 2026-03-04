@@ -1,0 +1,320 @@
+<!-- ================================================== -->
+<!-- PÁGINA: CRIAR REGRA DE COMPENSAÇÃO (ADMIN)         -->
+<!-- ================================================== -->
+
+<!-- CABEÇALHO -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">
+        <i class="fas fa-plus-circle text-primary me-2"></i>
+        Nova Regra de Compensação
+      </h2>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a href="/portal-passageiro/admin">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="/portal-passageiro/admin/compensation">Compensações</a></li>
+          <li class="breadcrumb-item active">Nova Regra</li>
+        </ol>
+      </nav>
+    </div>
+    <a href="/portal-passageiro/admin/compensation" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-2"></i> Voltar
+    </a>
+  </div>
+  
+  <!-- FLASH MESSAGES -->
+  <% if (messages && messages.error && messages.error.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-circle me-2"></i> <%= messages.error[0] %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <% } %>
+  
+  <!-- FORMULÁRIO -->
+  <form action="/portal-passageiro/admin/compensation/create" method="POST" novalidate>
+  
+    <div class="row">
+  
+      <!-- COLUNA PRINCIPAL -->
+      <div class="col-lg-8">
+  
+        <!-- IDENTIFICAÇÃO DA REGRA -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-tag me-2 text-primary"></i>
+            Identificação da Regra
+          </h5>
+  
+          <div class="row g-3">
+  
+            <!-- TIPO DE OCORRÊNCIA -->
+            <div class="col-md-6">
+              <label for="rule_type" class="form-label fw-semibold">
+                Tipo de Ocorrência <span class="text-danger">*</span>
+              </label>
+              <select id="rule_type" name="rule_type" class="form-select" required>
+                <option value="">Seleccione o tipo…</option>
+                <option value="atraso">✈️ Atraso de Voo</option>
+                <option value="cancelamento">❌ Cancelamento de Voo</option>
+                <option value="recusa_embarque">🚫 Recusa de Embarque</option>
+                <option value="bagagem">🧳 Problema com Bagagem</option>
+              </select>
+              <div class="invalid-feedback">Seleccione o tipo de ocorrência.</div>
+            </div>
+  
+            <!-- CATEGORIA DE DISTÂNCIA -->
+            <div class="col-md-6">
+              <label for="distance_category" class="form-label fw-semibold">
+                Categoria de Distância <span class="text-danger">*</span>
+              </label>
+              <select id="distance_category" name="distance_category" class="form-select" required>
+                <option value="">Seleccione a distância…</option>
+                <option value="curta">🛫 Curta — até 1.500 km</option>
+                <option value="media">✈️ Média — 1.500 a 3.500 km</option>
+                <option value="longa">🌍 Longa — mais de 3.500 km</option>
+              </select>
+              <div class="invalid-feedback">Seleccione a categoria de distância.</div>
+            </div>
+  
+            <!-- HORAS DE ATRASO MÍNIMO (condicional) -->
+            <div class="col-md-6" id="delayHoursGroup" style="display:none;">
+              <label for="delay_hours" class="form-label fw-semibold">
+                Horas de Atraso Mínimo
+              </label>
+              <div class="input-group">
+                <input type="number"
+                       id="delay_hours"
+                       name="delay_hours"
+                       class="form-control"
+                       min="1" max="24"
+                       placeholder="Ex: 3">
+                <span class="input-group-text">horas</span>
+              </div>
+              <div class="form-text">Atraso mínimo para a regra ser aplicável.</div>
+            </div>
+  
+            <!-- MOEDA -->
+            <div class="col-md-6" id="currencyGroup">
+              <label for="currency" class="form-label fw-semibold">Moeda</label>
+              <select id="currency" name="currency" class="form-select">
+                <option value="MZN" selected>MZN – Metical Moçambicano</option>
+                <option value="USD">USD – Dólar Americano</option>
+                <option value="EUR">EUR – Euro</option>
+              </select>
+            </div>
+  
+          </div>
+        </div>
+  
+        <!-- VALOR E CONDIÇÕES -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-money-bill-wave me-2 text-success"></i>
+            Valor e Condições
+          </h5>
+  
+          <div class="row g-3">
+  
+            <!-- VALOR DE COMPENSAÇÃO -->
+            <div class="col-md-6">
+              <label for="compensation_amount" class="form-label fw-semibold">
+                Valor de Compensação <span class="text-danger">*</span>
+              </label>
+              <div class="input-group">
+                <input type="number"
+                       id="compensation_amount"
+                       name="compensation_amount"
+                       class="form-control"
+                       min="0" step="0.01"
+                       placeholder="Ex: 5000.00"
+                       required>
+                <span class="input-group-text" id="currencyLabel">MZN</span>
+              </div>
+              <div class="invalid-feedback">Informe o valor de compensação.</div>
+            </div>
+  
+            <!-- REFERÊNCIA LEGAL -->
+            <div class="col-md-6">
+              <label for="legal_reference" class="form-label fw-semibold">
+                Referência Legal
+              </label>
+              <input type="text"
+                     id="legal_reference"
+                     name="legal_reference"
+                     class="form-control"
+                     maxlength="500"
+                     placeholder="Ex: Regulamento IACM n.º 01/2024, Art.º 12.º">
+              <div class="form-text">Diploma legal ou regulamento aplicável.</div>
+            </div>
+  
+            <!-- CONDIÇÕES DE APLICAÇÃO -->
+            <div class="col-12">
+              <label for="conditions" class="form-label fw-semibold">
+                Condições de Aplicação
+              </label>
+              <textarea id="conditions"
+                        name="conditions"
+                        class="form-control"
+                        rows="3"
+                        placeholder="Descreva as condições específicas de aplicação desta regra…"></textarea>
+              <div class="form-text">Ex: Aplica-se apenas a voos domésticos com atraso superior a 3 horas.</div>
+            </div>
+  
+            <!-- DESCRIÇÃO / NOTAS -->
+            <div class="col-12">
+              <label for="description" class="form-label fw-semibold">
+                Descrição / Notas Internas
+              </label>
+              <textarea id="description"
+                        name="description"
+                        class="form-control"
+                        rows="3"
+                        placeholder="Notas adicionais para uso interno da DRETA…"></textarea>
+            </div>
+  
+          </div>
+        </div>
+  
+      </div><!-- /col-lg-8 -->
+  
+      <!-- COLUNA LATERAL -->
+      <div class="col-lg-4">
+  
+        <!-- PUBLICAÇÃO -->
+        <div class="table-card mb-4">
+          <h5 class="mb-4">
+            <i class="fas fa-cog me-2 text-secondary"></i>
+            Configurações
+          </h5>
+  
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Estado da Regra</label>
+            <div class="form-check form-switch fs-5">
+              <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" checked>
+              <label class="form-check-label" for="is_active" id="activeLabel">
+                <span class="badge bg-success">Activo</span>
+              </label>
+            </div>
+            <div class="form-text">Regras inactivas não afectam o simulador.</div>
+          </div>
+  
+          <hr>
+  
+          <!-- PRÉVIA DO SIMULADOR -->
+          <div id="previewBox" class="p-3 bg-light rounded" style="display:none;">
+            <small class="text-muted d-block mb-2 fw-semibold">
+              <i class="fas fa-eye me-1"></i> Prévia no Simulador
+            </small>
+            <div class="d-flex justify-content-between">
+              <span class="small text-muted">Tipo:</span>
+              <span class="small fw-bold" id="prevType">—</span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="small text-muted">Distância:</span>
+              <span class="small fw-bold" id="prevDist">—</span>
+            </div>
+            <div class="d-flex justify-content-between mt-1">
+              <span class="small text-muted">Compensação:</span>
+              <span class="small fw-bold text-success" id="prevAmount">—</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- GUIA RÁPIDO -->
+        <div class="table-card mb-4">
+          <h5 class="mb-3">
+            <i class="fas fa-info-circle me-2 text-info"></i>
+            Guia de Referência
+          </h5>
+          <div class="small text-muted">
+            <p class="mb-2"><strong>Atraso de Voo:</strong> Compensação devida quando o atraso é superior a 3 horas na chegada.</p>
+            <p class="mb-2"><strong>Cancelamento:</strong> Passageiro tem direito a reembolso integral ou reacomodação.</p>
+            <p class="mb-2"><strong>Recusa de Embarque:</strong> Compensação imediata em caso de overbooking.</p>
+            <p class="mb-0"><strong>Bagagem:</strong> Indemnização por extravio, dano ou atraso na entrega de bagagem.</p>
+          </div>
+        </div>
+  
+        <!-- BOTÕES DE ACÇÃO -->
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary btn-lg">
+            <i class="fas fa-save me-2"></i> Guardar Regra
+          </button>
+          <a href="/portal-passageiro/admin/compensation" class="btn btn-outline-secondary">
+            <i class="fas fa-times me-2"></i> Cancelar
+          </a>
+        </div>
+  
+      </div><!-- /col-lg-4 -->
+  
+    </div>
+  </form>
+  
+  <script>
+  (function () {
+    // Mostrar/ocultar campo de horas de atraso
+    const ruleTypeSelect    = document.getElementById('rule_type');
+    const delayHoursGroup   = document.getElementById('delayHoursGroup');
+    const currencySelect    = document.getElementById('currency');
+    const currencyLabel     = document.getElementById('currencyLabel');
+    const activeToggle      = document.getElementById('is_active');
+    const activeLabel       = document.getElementById('activeLabel');
+    const amountInput       = document.getElementById('compensation_amount');
+    const distSelect        = document.getElementById('distance_category');
+    const previewBox        = document.getElementById('previewBox');
+  
+    const typeNames = {
+      atraso: 'Atraso de Voo', cancelamento: 'Cancelamento',
+      recusa_embarque: 'Recusa de Embarque', bagagem: 'Bagagem'
+    };
+    const distNames = {
+      curta: 'Curta (≤ 1.500 km)', media: 'Média (1.500–3.500 km)', longa: 'Longa (> 3.500 km)'
+    };
+  
+    function updatePreview() {
+      const t = ruleTypeSelect.value;
+      const d = distSelect.value;
+      const a = amountInput.value;
+      const c = currencySelect.value;
+      if (t || d || a) {
+        previewBox.style.display = 'block';
+        document.getElementById('prevType').textContent   = typeNames[t] || '—';
+        document.getElementById('prevDist').textContent   = distNames[d] || '—';
+        document.getElementById('prevAmount').textContent = a ? parseFloat(a).toLocaleString('pt-PT') + ' ' + c : '—';
+      } else {
+        previewBox.style.display = 'none';
+      }
+    }
+  
+    ruleTypeSelect.addEventListener('change', function () {
+      delayHoursGroup.style.display = this.value === 'atraso' ? 'flex' : 'none';
+      if (this.value !== 'atraso') {
+        document.getElementById('delay_hours').value = '';
+      }
+      updatePreview();
+    });
+  
+    currencySelect.addEventListener('change', function () {
+      currencyLabel.textContent = this.value;
+      updatePreview();
+    });
+  
+    activeToggle.addEventListener('change', function () {
+      activeLabel.innerHTML = this.checked
+        ? '<span class="badge bg-success">Activo</span>'
+        : '<span class="badge bg-secondary">Inactivo</span>';
+    });
+  
+    amountInput.addEventListener('input', updatePreview);
+    distSelect.addEventListener('change', updatePreview);
+  
+    // Validação Bootstrap
+    document.querySelector('form').addEventListener('submit', function (e) {
+      if (!this.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      this.classList.add('was-validated');
+    });
+  })();
+  </script>
+  

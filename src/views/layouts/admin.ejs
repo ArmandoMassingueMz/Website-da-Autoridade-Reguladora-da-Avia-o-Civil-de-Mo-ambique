@@ -7,13 +7,19 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
     <link href="/css/admin.css" rel="stylesheet">
-    
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
     <style>
-        .navbar-admin {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        /* Compensar o fixed-top da navbar pública */
+        body {
+            padding-top: 56px;
         }
+
         .sidebar {
             background: #f8f9fa;
             border-right: 1px solid #dee2e6;
@@ -51,38 +57,28 @@
             background: #f5f7fb;
             min-height: calc(100vh - 56px);
         }
+        .stat-card {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="/admin">
-                <i class="fas fa-plane me-2"></i>IACM Admin
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="adminNavbar">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-1"></i><%= user.name %>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="/admin/profile"><i class="fas fa-user me-2"></i>Perfil</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/auth/logout"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+
+    <!-- Navbar Pública do Site -->
+    <%- include('../partials/header') %>
 
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
+
+            <!-- Sidebar Admin -->
             <div class="col-lg-2 col-md-3 sidebar p-0">
                 <div class="p-3">
                     <nav class="nav flex-column">
@@ -179,7 +175,11 @@
     </div><!-- /container-fluid -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="/js/main.js"></script>
     <script>
+        AOS.init({ duration: 1000, once: true, offset: 100 });
+
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         tooltipTriggerList.map(function(el) { return new bootstrap.Tooltip(el); });
 
