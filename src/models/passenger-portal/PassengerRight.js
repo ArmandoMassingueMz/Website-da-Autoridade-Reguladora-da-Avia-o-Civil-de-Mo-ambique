@@ -43,6 +43,12 @@ const PassengerRight = sequelize.define('PassengerRight', {
     type: DataTypes.BOOLEAN,
     defaultValue: true
   },
+  // ✅ CAMPO ADICIONADO
+  attachment_url: {
+    type: DataTypes.STRING(500),
+    allowNull: true,
+    defaultValue: null
+  },
   authorId: {
     type: DataTypes.INTEGER,
     allowNull: true,

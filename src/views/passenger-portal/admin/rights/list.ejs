@@ -21,6 +21,7 @@
                         <th>ID</th>
                         <th>Título</th>
                         <th>Categoria</th>
+                        <th>Anexo</th>
                         <th>Ordem</th>
                         <th>Status</th>
                         <th>Autor</th>
@@ -40,6 +41,20 @@
                                 <span class="badge bg-secondary">
                                     <%= right.category.replace('_', ' ') %>
                                 </span>
+                            </td>
+                            <td>
+                                <% if (right.attachment_url) { %>
+                                    <a href="<%= right.attachment_url %>" 
+                                       target="_blank" 
+                                       class="btn btn-outline-info btn-sm"
+                                       title="Ver anexo">
+                                        <i class="fas fa-file-pdf"></i> Ver
+                                    </a>
+                                <% } else { %>
+                                    <span class="text-muted small">
+                                        <i class="fas fa-minus"></i> Sem anexo
+                                    </span>
+                                <% } %>
                             </td>
                             <td><%= right.display_order %></td>
                             <td>

@@ -12,7 +12,8 @@ const { requireAuth, requireRole } = require('../../middleware/auth');
 // =============================================
 const portalUploadsBase = path.join(__dirname, '../../public/uploads/passenger-portal');
 
-['news', 'rights'].forEach(sub => {
+// Criar directórios necessários se não existirem
+['news', 'rights', 'guides'].forEach(sub => {
   const dir = path.join(portalUploadsBase, sub);
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 });
@@ -44,6 +45,27 @@ const uploadRightsDoc = multer({
     }
   }),
   limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ].includes(file.mimetype)
+      ? cb(null, true)
+      : cb(new Error('Apenas PDF, DOC e DOCX são permitidos'));
+  }
+});
+
+// ✅ NOVO: Documentos para guias de viagem (PDF, DOC, DOCX) — opcional
+const uploadGuidesDoc = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => cb(null, path.join(portalUploadsBase, 'guides')),
+    filename:    (req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      cb(null, `guide-${Date.now()}-${Math.round(Math.random() * 1e6)}${ext}`);
+    }
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     [
       'application/pdf',
@@ -90,13 +112,14 @@ router.post('/faqs/:id/delete', adminController.deleteFaq);
 
 // =============================================
 // GUIAS DE VIAGEM
-// — form simples sem enctype, sem ficheiros
+// ✅ CORRIGIDO: adicionado uploadGuidesDoc para processar enctype="multipart/form-data"
+// O ficheiro "attachment" é opcional — se não for enviado, req.file será undefined
 // =============================================
 router.get('/guides',             adminController.listGuides);
 router.get('/guides/create',      adminController.createGuideForm);
-router.post('/guides/create',     adminController.createGuide);
+router.post('/guides/create',     uploadGuidesDoc.single('attachment'), adminController.createGuide);
 router.get('/guides/:id/edit',    adminController.editGuideForm);
-router.post('/guides/:id/edit',   adminController.updateGuide);
+router.post('/guides/:id/edit',   uploadGuidesDoc.single('attachment'), adminController.updateGuide);
 router.post('/guides/:id/delete', adminController.deleteGuide);
 
 // =============================================

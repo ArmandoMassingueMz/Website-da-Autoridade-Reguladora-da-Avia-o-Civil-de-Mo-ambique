@@ -22,19 +22,17 @@ function generateSlug(text) {
 exports.dashboard = async (req, res) => {
   try {
     const stats = {
-      totalRights: await PassengerRight.count(),
-      totalFaqs: await FAQ.count(),
-      totalGuides: await TravelGuide.count(),
-      pendingComplaints: await Complaint.count({ where: { status: 'pendente' } }),
-      totalComplaints: await Complaint.count(),
+      totalRights:        await PassengerRight.count(),
+      totalFaqs:          await FAQ.count(),
+      totalGuides:        await TravelGuide.count(),
+      pendingComplaints:  await Complaint.count({ where: { status: 'pendente' } }),
+      totalComplaints:    await Complaint.count(),
       resolvedComplaints: await Complaint.count({ where: { status: 'resolvida' } })
     };
-
     const recentComplaints = await Complaint.findAll({
       limit: 5,
       order: [['createdAt', 'DESC']]
     });
-
     res.render('passenger-portal/admin/dashboard', {
       title: 'Dashboard - Portal do Passageiro',
       currentPage: 'dashboard',
@@ -59,7 +57,6 @@ exports.listRights = async (req, res) => {
       include: [{ model: User, as: 'author', attributes: ['name'], required: false }],
       order: [['category', 'ASC'], ['display_order', 'ASC']]
     });
-
     res.render('passenger-portal/admin/rights/list', {
       title: 'Gerenciar Direitos',
       currentPage: 'rights',
@@ -87,11 +84,26 @@ exports.createRightForm = (req, res) => {
 };
 
 // =============================================
-// DIREITOS - CRIAR
+// DIREITOS - CRIAR  ✅ CORRIGIDO
 // =============================================
 exports.createRight = async (req, res) => {
   try {
-    const { category, title, description, content, compensation_info, legal_basis, icon, display_order, is_published } = req.body;
+    const {
+      category, title, description, content,
+      compensation_info, legal_basis, icon,
+      display_order, is_published
+    } = req.body;
+
+    if (!category || !title || !description) {
+      req.flash('error', 'Categoria, Título e Descrição são obrigatórios.');
+      return res.redirect('/portal-passageiro/admin/rights/create');
+    }
+
+    // Tratar ficheiro anexo (opcional)
+    let attachmentUrl = null;
+    if (req.file) {
+      attachmentUrl = `/uploads/passenger-portal/rights/${req.file.filename}`;
+    }
 
     await PassengerRight.create({
       category,
@@ -103,6 +115,7 @@ exports.createRight = async (req, res) => {
       icon: icon || 'fa-info-circle',
       display_order: display_order || 0,
       is_published: is_published === 'true',
+      attachment_url: attachmentUrl,
       authorId: req.session?.user?.id || null
     });
 
@@ -121,12 +134,10 @@ exports.createRight = async (req, res) => {
 exports.editRightForm = async (req, res) => {
   try {
     const right = await PassengerRight.findByPk(req.params.id);
-    
     if (!right) {
       req.flash('error', 'Direito não encontrado');
       return res.redirect('/portal-passageiro/admin/rights');
     }
-
     res.render('passenger-portal/admin/rights/edit', {
       title: 'Editar Direito',
       currentPage: 'rights',
@@ -142,18 +153,32 @@ exports.editRightForm = async (req, res) => {
 };
 
 // =============================================
-// DIREITOS - ATUALIZAR
+// DIREITOS - ATUALIZAR  ✅ CORRIGIDO
 // =============================================
 exports.updateRight = async (req, res) => {
   try {
     const right = await PassengerRight.findByPk(req.params.id);
-    
     if (!right) {
       req.flash('error', 'Direito não encontrado');
       return res.redirect('/portal-passageiro/admin/rights');
     }
 
-    const { category, title, description, content, compensation_info, legal_basis, icon, display_order, is_published } = req.body;
+    const {
+      category, title, description, content,
+      compensation_info, legal_basis, icon,
+      display_order, is_published
+    } = req.body;
+
+    if (!category || !title || !description) {
+      req.flash('error', 'Categoria, Título e Descrição são obrigatórios.');
+      return res.redirect(`/portal-passageiro/admin/rights/${req.params.id}/edit`);
+    }
+
+    // Tratar ficheiro anexo — mantém o existente se não for enviado novo
+    let attachmentUrl = right.attachment_url || null;
+    if (req.file) {
+      attachmentUrl = `/uploads/passenger-portal/rights/${req.file.filename}`;
+    }
 
     await right.update({
       category,
@@ -162,9 +187,10 @@ exports.updateRight = async (req, res) => {
       content,
       compensation_info,
       legal_basis,
-      icon,
+      icon: icon || right.icon,
       display_order,
-      is_published: is_published === 'true'
+      is_published: is_published === 'true',
+      attachment_url: attachmentUrl
     });
 
     req.flash('success', 'Direito atualizado com sucesso!');
@@ -182,12 +208,10 @@ exports.updateRight = async (req, res) => {
 exports.deleteRight = async (req, res) => {
   try {
     const right = await PassengerRight.findByPk(req.params.id);
-    
     if (!right) {
       req.flash('error', 'Direito não encontrado');
       return res.redirect('/portal-passageiro/admin/rights');
     }
-
     await right.destroy();
     req.flash('success', 'Direito deletado com sucesso!');
     res.redirect('/portal-passageiro/admin/rights');
@@ -207,7 +231,6 @@ exports.listFaqs = async (req, res) => {
       include: [{ model: User, as: 'author', attributes: ['name'], required: false }],
       order: [['category', 'ASC'], ['display_order', 'ASC']]
     });
-
     res.render('passenger-portal/admin/faqs/list', {
       title: 'Gerenciar FAQs',
       currentPage: 'faqs',
@@ -240,7 +263,6 @@ exports.createFaqForm = (req, res) => {
 exports.createFaq = async (req, res) => {
   try {
     const { category, question, answer, display_order, is_published } = req.body;
-
     await FAQ.create({
       category,
       question,
@@ -249,7 +271,6 @@ exports.createFaq = async (req, res) => {
       is_published: is_published === 'true',
       authorId: req.session?.user?.id || null
     });
-
     req.flash('success', 'FAQ criado com sucesso!');
     res.redirect('/portal-passageiro/admin/faqs');
   } catch (error) {
@@ -265,12 +286,10 @@ exports.createFaq = async (req, res) => {
 exports.editFaqForm = async (req, res) => {
   try {
     const faq = await FAQ.findByPk(req.params.id);
-    
     if (!faq) {
       req.flash('error', 'FAQ não encontrado');
       return res.redirect('/portal-passageiro/admin/faqs');
     }
-
     res.render('passenger-portal/admin/faqs/edit', {
       title: 'Editar FAQ',
       currentPage: 'faqs',
@@ -291,14 +310,11 @@ exports.editFaqForm = async (req, res) => {
 exports.updateFaq = async (req, res) => {
   try {
     const faq = await FAQ.findByPk(req.params.id);
-    
     if (!faq) {
       req.flash('error', 'FAQ não encontrado');
       return res.redirect('/portal-passageiro/admin/faqs');
     }
-
     const { category, question, answer, display_order, is_published } = req.body;
-
     await faq.update({
       category,
       question,
@@ -306,7 +322,6 @@ exports.updateFaq = async (req, res) => {
       display_order,
       is_published: is_published === 'true'
     });
-
     req.flash('success', 'FAQ atualizado com sucesso!');
     res.redirect('/portal-passageiro/admin/faqs');
   } catch (error) {
@@ -322,12 +337,10 @@ exports.updateFaq = async (req, res) => {
 exports.deleteFaq = async (req, res) => {
   try {
     const faq = await FAQ.findByPk(req.params.id);
-    
     if (!faq) {
       req.flash('error', 'FAQ não encontrado');
       return res.redirect('/portal-passageiro/admin/faqs');
     }
-
     await faq.destroy();
     req.flash('success', 'FAQ deletado com sucesso!');
     res.redirect('/portal-passageiro/admin/faqs');
@@ -345,21 +358,18 @@ exports.listComplaints = async (req, res) => {
   try {
     const { status, priority } = req.query;
     const whereClause = {};
-    
-    if (status) whereClause.status = status;
+    if (status)   whereClause.status   = status;
     if (priority) whereClause.priority = priority;
-
     const complaints = await Complaint.findAll({
       where: whereClause,
       order: [['createdAt', 'DESC']]
     });
-
     res.render('passenger-portal/admin/complaints/list', {
       title: 'Gerenciar Reclamações',
       currentPage: 'complaints',
       user: req.session?.user || null,
       complaints,
-      selectedStatus: status,
+      selectedStatus:   status,
       selectedPriority: priority,
       layout: 'passenger-portal/layouts/portal-admin'
     });
@@ -376,12 +386,10 @@ exports.listComplaints = async (req, res) => {
 exports.viewComplaint = async (req, res) => {
   try {
     const complaint = await Complaint.findByPk(req.params.id);
-    
     if (!complaint) {
       req.flash('error', 'Reclamação não encontrada');
       return res.redirect('/portal-passageiro/admin/complaints');
     }
-
     res.render('passenger-portal/admin/complaints/view', {
       title: `Reclamação #${complaint.id}`,
       currentPage: 'complaints',
@@ -402,20 +410,15 @@ exports.viewComplaint = async (req, res) => {
 exports.updateComplaintStatus = async (req, res) => {
   try {
     const complaint = await Complaint.findByPk(req.params.id);
-    
     if (!complaint) {
       req.flash('error', 'Reclamação não encontrada');
       return res.redirect('/portal-passageiro/admin/complaints');
     }
-
     const { status, priority } = req.body;
-    
     const updateData = { status };
     if (priority) updateData.priority = priority;
     if (status === 'resolvida') updateData.resolved_at = new Date();
-
     await complaint.update(updateData);
-
     req.flash('success', 'Status atualizado com sucesso!');
     res.redirect(`/portal-passageiro/admin/complaints/${complaint.id}`);
   } catch (error) {
@@ -431,15 +434,12 @@ exports.updateComplaintStatus = async (req, res) => {
 exports.addComplaintNote = async (req, res) => {
   try {
     const complaint = await Complaint.findByPk(req.params.id);
-    
     if (!complaint) {
       req.flash('error', 'Reclamação não encontrada');
       return res.redirect('/portal-passageiro/admin/complaints');
     }
-
     const { admin_notes } = req.body;
     await complaint.update({ admin_notes });
-
     req.flash('success', 'Nota adicionada com sucesso!');
     res.redirect(`/portal-passageiro/admin/complaints/${complaint.id}`);
   } catch (error) {
@@ -455,12 +455,10 @@ exports.addComplaintNote = async (req, res) => {
 exports.deleteComplaint = async (req, res) => {
   try {
     const complaint = await Complaint.findByPk(req.params.id);
-    
     if (!complaint) {
       req.flash('error', 'Reclamação não encontrada');
       return res.redirect('/portal-passageiro/admin/complaints');
     }
-
     await complaint.destroy();
     req.flash('success', 'Reclamação deletada com sucesso!');
     res.redirect('/portal-passageiro/admin/complaints');
@@ -480,7 +478,6 @@ exports.listGuides = async (req, res) => {
       include: [{ model: User, as: 'author', attributes: ['name'], required: false }],
       order: [['phase', 'ASC'], ['display_order', 'ASC']]
     });
-
     res.render('passenger-portal/admin/guides/list', {
       title: 'Gerenciar Guias',
       currentPage: 'guides',
@@ -508,22 +505,35 @@ exports.createGuideForm = (req, res) => {
 };
 
 // =============================================
-// GUIAS - CRIAR
+// GUIAS - CRIAR  ✅ CORRIGIDO
 // =============================================
 exports.createGuide = async (req, res) => {
   try {
     const { phase, title, content, icon, display_order, is_published } = req.body;
-    
-    const slug = title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+
+    if (!title || !phase) {
+      req.flash('error', 'Fase e Título são obrigatórios.');
+      return res.redirect('/portal-passageiro/admin/guides/create');
+    }
+
+    const slug = generateSlug(title);
+    const existing = await TravelGuide.findOne({ where: { slug } });
+    const finalSlug = existing ? `${slug}-${Date.now()}` : slug;
+
+    let attachmentUrl = null;
+    if (req.file) {
+      attachmentUrl = `/uploads/passenger-portal/guides/${req.file.filename}`;
+    }
 
     await TravelGuide.create({
       phase,
       title,
-      slug,
+      slug: finalSlug,
       content,
       icon: icon || 'fa-plane',
       display_order: display_order || 0,
       is_published: is_published === 'true',
+      attachment_url: attachmentUrl,
       authorId: req.session?.user?.id || null
     });
 
@@ -542,12 +552,10 @@ exports.createGuide = async (req, res) => {
 exports.editGuideForm = async (req, res) => {
   try {
     const guide = await TravelGuide.findByPk(req.params.id);
-    
     if (!guide) {
       req.flash('error', 'Guia não encontrado');
       return res.redirect('/portal-passageiro/admin/guides');
     }
-
     res.render('passenger-portal/admin/guides/edit', {
       title: 'Editar Guia',
       currentPage: 'guides',
@@ -563,28 +571,43 @@ exports.editGuideForm = async (req, res) => {
 };
 
 // =============================================
-// GUIAS - ATUALIZAR
+// GUIAS - ATUALIZAR  ✅ CORRIGIDO
 // =============================================
 exports.updateGuide = async (req, res) => {
   try {
     const guide = await TravelGuide.findByPk(req.params.id);
-    
     if (!guide) {
       req.flash('error', 'Guia não encontrado');
       return res.redirect('/portal-passageiro/admin/guides');
     }
 
     const { phase, title, content, icon, display_order, is_published } = req.body;
-    const slug = title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+
+    if (!title || !phase) {
+      req.flash('error', 'Fase e Título são obrigatórios.');
+      return res.redirect(`/portal-passageiro/admin/guides/${req.params.id}/edit`);
+    }
+
+    const slug = generateSlug(title);
+    const existing = await TravelGuide.findOne({
+      where: { slug, id: { [Op.ne]: guide.id } }
+    });
+    const finalSlug = existing ? `${slug}-${Date.now()}` : slug;
+
+    let attachmentUrl = guide.attachment_url || null;
+    if (req.file) {
+      attachmentUrl = `/uploads/passenger-portal/guides/${req.file.filename}`;
+    }
 
     await guide.update({
       phase,
       title,
-      slug,
+      slug: finalSlug,
       content,
-      icon,
+      icon: icon || guide.icon,
       display_order,
-      is_published: is_published === 'true'
+      is_published: is_published === 'true',
+      attachment_url: attachmentUrl
     });
 
     req.flash('success', 'Guia atualizado com sucesso!');
@@ -602,12 +625,10 @@ exports.updateGuide = async (req, res) => {
 exports.deleteGuide = async (req, res) => {
   try {
     const guide = await TravelGuide.findByPk(req.params.id);
-    
     if (!guide) {
       req.flash('error', 'Guia não encontrado');
       return res.redirect('/portal-passageiro/admin/guides');
     }
-
     await guide.destroy();
     req.flash('success', 'Guia deletado com sucesso!');
     res.redirect('/portal-passageiro/admin/guides');
@@ -624,20 +645,16 @@ exports.deleteGuide = async (req, res) => {
 exports.listCompensation = async (req, res) => {
   try {
     const { rule_type, distance_category, is_active } = req.query;
-
     const where = {};
     if (rule_type)         where.rule_type         = rule_type;
     if (distance_category) where.distance_category = distance_category;
     if (is_active !== undefined && is_active !== '') {
       where.is_active = is_active === '1';
     }
-
     const rules = await CompensationRule.findAll({
       where,
       order: [['rule_type', 'ASC'], ['distance_category', 'ASC']]
     });
-
-    // Stats sem filtros aplicados
     const allRules = await CompensationRule.findAll();
     const stats = {
       total:    allRules.length,
@@ -645,7 +662,6 @@ exports.listCompensation = async (req, res) => {
       inactive: allRules.filter(r => !r.is_active).length,
       types:    [...new Set(allRules.map(r => r.rule_type))].length
     };
-
     res.render('passenger-portal/admin/compensation/list', {
       title: 'Regras de Compensação',
       currentPage: 'compensation',
@@ -680,15 +696,9 @@ exports.createCompensationForm = (req, res) => {
 exports.createCompensation = async (req, res) => {
   try {
     const {
-      rule_type,
-      distance_category,
-      delay_hours,
-      compensation_amount,
-      currency,
-      description,
-      conditions,
-      legal_reference,
-      is_active
+      rule_type, distance_category, delay_hours,
+      compensation_amount, currency, description,
+      conditions, legal_reference, is_active
     } = req.body;
 
     if (!rule_type || !distance_category || !compensation_amount) {
@@ -701,9 +711,9 @@ exports.createCompensation = async (req, res) => {
       distance_category,
       delay_hours:         delay_hours ? parseInt(delay_hours) : null,
       compensation_amount: parseFloat(compensation_amount),
-      currency:            currency || 'MZN',
-      description:         description || null,
-      conditions:          conditions  || null,
+      currency:            currency       || 'MZN',
+      description:         description   || null,
+      conditions:          conditions    || null,
       legal_reference:     legal_reference || null,
       is_active:           is_active === '1',
       authorId:            req.session?.user?.id || null
@@ -724,12 +734,10 @@ exports.createCompensation = async (req, res) => {
 exports.editCompensationForm = async (req, res) => {
   try {
     const rule = await CompensationRule.findByPk(req.params.id);
-
     if (!rule) {
       req.flash('error', 'Regra não encontrada');
       return res.redirect('/portal-passageiro/admin/compensation');
     }
-
     res.render('passenger-portal/admin/compensation/edit', {
       title: `Editar Regra #${rule.id}`,
       currentPage: 'compensation',
@@ -750,22 +758,15 @@ exports.editCompensationForm = async (req, res) => {
 exports.updateCompensation = async (req, res) => {
   try {
     const rule = await CompensationRule.findByPk(req.params.id);
-
     if (!rule) {
       req.flash('error', 'Regra não encontrada');
       return res.redirect('/portal-passageiro/admin/compensation');
     }
 
     const {
-      rule_type,
-      distance_category,
-      delay_hours,
-      compensation_amount,
-      currency,
-      description,
-      conditions,
-      legal_reference,
-      is_active
+      rule_type, distance_category, delay_hours,
+      compensation_amount, currency, description,
+      conditions, legal_reference, is_active
     } = req.body;
 
     if (!rule_type || !distance_category || !compensation_amount) {
@@ -778,9 +779,9 @@ exports.updateCompensation = async (req, res) => {
       distance_category,
       delay_hours:         delay_hours ? parseInt(delay_hours) : null,
       compensation_amount: parseFloat(compensation_amount),
-      currency:            currency || 'MZN',
-      description:         description || null,
-      conditions:          conditions  || null,
+      currency:            currency       || 'MZN',
+      description:         description   || null,
+      conditions:          conditions    || null,
       legal_reference:     legal_reference || null,
       is_active:           is_active === '1'
     });
@@ -800,12 +801,10 @@ exports.updateCompensation = async (req, res) => {
 exports.deleteCompensation = async (req, res) => {
   try {
     const rule = await CompensationRule.findByPk(req.params.id);
-
     if (!rule) {
       req.flash('error', 'Regra não encontrada');
       return res.redirect('/portal-passageiro/admin/compensation');
     }
-
     await rule.destroy();
     req.flash('success', 'Regra de compensação eliminada com sucesso!');
     res.redirect('/portal-passageiro/admin/compensation');
@@ -845,7 +844,6 @@ exports.listNews = async (req, res) => {
       offset
     });
 
-    // Stats gerais (sem filtros)
     const allNews = await PortalNews.findAll({ attributes: ['is_published', 'createdAt'] });
     const now = new Date();
     const stats = {
@@ -866,7 +864,7 @@ exports.listNews = async (req, res) => {
       stats,
       filters: { search, category, is_published },
       paginationPage: page,
-      totalPages:  Math.ceil(count / limit),
+      totalPages: Math.ceil(count / limit),
       layout: 'passenger-portal/layouts/portal-admin'
     });
   } catch (error) {
@@ -894,16 +892,8 @@ exports.createNewsForm = (req, res) => {
 exports.createNews = async (req, res) => {
   try {
     let {
-      title,
-      slug,
-      excerpt,
-      content,
-      category,
-      tags,
-      author,
-      publishedAt,
-      featured_image_url,
-      is_published
+      title, slug, excerpt, content, category,
+      tags, author, publishedAt, featured_image_url, is_published
     } = req.body;
 
     if (!title || !content) {
@@ -911,33 +901,26 @@ exports.createNews = async (req, res) => {
       return res.redirect('/portal-passageiro/admin/news/create');
     }
 
-    // Gerar slug se não fornecido
-    if (!slug) {
-      slug = generateSlug(title);
-    }
-
-    // Garantir slug único
+    if (!slug) slug = generateSlug(title);
     const existing = await PortalNews.findOne({ where: { slug } });
     if (existing) slug = `${slug}-${Date.now()}`;
 
-    // Imagem: ficheiro tem prioridade sobre URL
     let featuredImage = featured_image_url || null;
     if (req.file) {
       featuredImage = `/uploads/passenger-portal/news/${req.file.filename}`;
     }
 
     const publish = is_published === 'true' || is_published === '1';
-
     await PortalNews.create({
       title,
       slug,
-      excerpt:        excerpt        || null,
+      excerpt:        excerpt     || null,
       content,
-      category:       category       || null,
-      tags:           tags           || null,
-      author:         author         || 'DRETA',
+      category:       category    || null,
+      tags:           tags        || null,
+      author:         author      || 'DRETA',
       featured_image: featuredImage,
-      publishedAt:    publishedAt    ? new Date(publishedAt) : new Date(),
+      publishedAt:    publishedAt ? new Date(publishedAt) : new Date(),
       is_published:   publish
     });
 
@@ -956,12 +939,10 @@ exports.createNews = async (req, res) => {
 exports.editNewsForm = async (req, res) => {
   try {
     const noticia = await PortalNews.findByPk(req.params.id);
-
     if (!noticia) {
       req.flash('error', 'Notícia não encontrada');
       return res.redirect('/portal-passageiro/admin/news');
     }
-
     res.render('passenger-portal/admin/news/edit', {
       title: `Editar: ${noticia.title}`,
       currentPage: 'news',
@@ -982,24 +963,15 @@ exports.editNewsForm = async (req, res) => {
 exports.updateNews = async (req, res) => {
   try {
     const noticia = await PortalNews.findByPk(req.params.id);
-
     if (!noticia) {
       req.flash('error', 'Notícia não encontrada');
       return res.redirect('/portal-passageiro/admin/news');
     }
 
     let {
-      title,
-      slug,
-      excerpt,
-      content,
-      category,
-      tags,
-      author,
-      publishedAt,
-      featured_image_url,
-      is_published,
-      remove_image
+      title, slug, excerpt, content, category,
+      tags, author, publishedAt, featured_image_url,
+      is_published, remove_image
     } = req.body;
 
     if (!title || !content) {
@@ -1008,14 +980,11 @@ exports.updateNews = async (req, res) => {
     }
 
     if (!slug) slug = generateSlug(title);
-
-    // Garantir slug único (excluindo o registo actual)
     const existing = await PortalNews.findOne({
       where: { slug, id: { [Op.ne]: noticia.id } }
     });
     if (existing) slug = `${slug}-${Date.now()}`;
 
-    // Gestão de imagem
     let featuredImage = noticia.featured_image;
     if (remove_image === '1') featuredImage = null;
     if (req.file) {
@@ -1052,18 +1021,14 @@ exports.updateNews = async (req, res) => {
 exports.deleteNews = async (req, res) => {
   try {
     const noticia = await PortalNews.findByPk(req.params.id);
-
     if (!noticia) {
       req.flash('error', 'Notícia não encontrada');
       return res.redirect('/portal-passageiro/admin/news');
     }
-
-    // Remover ficheiro de imagem local se existir
     if (noticia.featured_image && noticia.featured_image.startsWith('/uploads/')) {
       const filePath = path.join(__dirname, '../../public', noticia.featured_image);
       if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     }
-
     await noticia.destroy();
     req.flash('success', 'Notícia eliminada com sucesso!');
     res.redirect('/portal-passageiro/admin/news');

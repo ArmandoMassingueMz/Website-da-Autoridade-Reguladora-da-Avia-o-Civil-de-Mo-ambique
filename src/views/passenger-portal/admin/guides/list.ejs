@@ -1,4 +1,4 @@
-<div class="row mb-4"></div>
+<div class="row mb-4">
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center">
             <h2>
@@ -21,6 +21,7 @@
                         <th>ID</th>
                         <th>Título</th>
                         <th>Fase</th>
+                        <th>Anexo</th>
                         <th>Ordem</th>
                         <th>Status</th>
                         <th>Autor</th>
@@ -37,7 +38,7 @@
                                 <%= guide.title %>
                             </td>
                             <td>
-                                <% 
+                                <%
                                 let phaseBadge = 'secondary';
                                 let phaseText = guide.phase;
                                 if (guide.phase === 'antes_viagem') {
@@ -58,6 +59,16 @@
                                     <%= phaseText %>
                                 </span>
                             </td>
+                            <td>
+                                <% if (guide.attachment_url) { %>
+                                    <a href="<%= guide.attachment_url %>" target="_blank"
+                                       class="btn btn-outline-secondary btn-sm" title="Ver anexo">
+                                        <i class="fas fa-file-alt me-1"></i> Ver
+                                    </a>
+                                <% } else { %>
+                                    <span class="text-muted small">—</span>
+                                <% } %>
+                            </td>
                             <td><%= guide.display_order %></td>
                             <td>
                                 <% if (guide.is_published) { %>
@@ -74,11 +85,11 @@
                             </td>
                             <td>
                                 <div class="btn-group btn-group-sm">
-                                    <a href="/portal-passageiro/admin/guides/<%= guide.id %>/edit" 
+                                    <a href="/portal-passageiro/admin/guides/<%= guide.id %>/edit"
                                        class="btn btn-outline-primary">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form method="POST" 
+                                    <form method="POST"
                                           action="/portal-passageiro/admin/guides/<%= guide.id %>/delete"
                                           class="d-inline"
                                           onsubmit="return confirmDelete('Tem certeza que deseja deletar este guia?')">

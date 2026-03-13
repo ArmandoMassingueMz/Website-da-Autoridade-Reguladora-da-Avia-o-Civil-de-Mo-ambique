@@ -22,7 +22,7 @@ const TravelGuide = sequelize.define('TravelGuide', {
   },
   content: {
     type: DataTypes.TEXT('long'),
-    allowNull: false
+    allowNull: true  // ✅ Permite conteúdo vazio
   },
   icon: {
     type: DataTypes.STRING(50),
@@ -34,7 +34,13 @@ const TravelGuide = sequelize.define('TravelGuide', {
   },
   is_published: {
     type: DataTypes.BOOLEAN,
-    defaultValue: true
+    defaultValue: false  // ✅ CORRIGIDO: default false, só publica quando explícito
+  },
+  // ✅ NOVO: coluna para guardar o caminho do ficheiro anexo
+  attachment_url: {
+    type: DataTypes.STRING(500),
+    allowNull: true,
+    defaultValue: null
   },
   authorId: {
     type: DataTypes.INTEGER,
