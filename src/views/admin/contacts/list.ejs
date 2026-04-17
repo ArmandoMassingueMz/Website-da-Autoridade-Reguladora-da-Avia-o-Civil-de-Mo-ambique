@@ -1,4 +1,3 @@
-<!-- src/views/admin/contacts/list.ejs -->
 <%- layout('layouts/admin') %>
 
 <div class="container-fluid py-4">
@@ -27,7 +26,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="card-title mb-0">Total</h6>
-                            <h2 class="mb-0"><%= stats?.total || 0 %></h2>
+                            <h2 class="mb-0"><%= statusCounts?.all || 0 %></h2>
                         </div>
                         <i class="fas fa-envelope fa-2x opacity-50"></i>
                     </div>
@@ -40,7 +39,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="card-title mb-0">Novos</h6>
-                            <h2 class="mb-0"><%= stats?.novos || 0 %></h2>
+                            <h2 class="mb-0"><%= statusCounts?.novo || 0 %></h2>
                         </div>
                         <i class="fas fa-bell fa-2x opacity-50"></i>
                     </div>
@@ -53,7 +52,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="card-title mb-0">Não Lidos</h6>
-                            <h2 class="mb-0"><%= stats?.naoLidos || 0 %></h2>
+                            <h2 class="mb-0"><%= statusCounts?.unread || 0 %></h2>
                         </div>
                         <i class="fas fa-envelope-open fa-2x opacity-50"></i>
                     </div>
@@ -66,7 +65,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="card-title mb-0">Respondidos</h6>
-                            <h2 class="mb-0"><%= stats?.respondidos || 0 %></h2>
+                            <h2 class="mb-0"><%= statusCounts?.respondido || 0 %></h2>
                         </div>
                         <i class="fas fa-check-circle fa-2x opacity-50"></i>
                     </div>
@@ -83,26 +82,26 @@
                     <label class="form-label">Status</label>
                     <select name="status" class="form-select">
                         <option value="">Todos</option>
-                        <option value="novo" <%= filters.status === 'novo' ? 'selected' : '' %>>Novo</option>
-                        <option value="em_analise" <%= filters.status === 'em_analise' ? 'selected' : '' %>>Em Análise</option>
-                        <option value="respondido" <%= filters.status === 'respondido' ? 'selected' : '' %>>Respondido</option>
-                        <option value="arquivado" <%= filters.status === 'arquivado' ? 'selected' : '' %>>Arquivado</option>
+                        <option value="novo" <%= currentStatus === 'novo' ? 'selected' : '' %>>Novo</option>
+                        <option value="em_analise" <%= currentStatus === 'em_analise' ? 'selected' : '' %>>Em Análise</option>
+                        <option value="respondido" <%= currentStatus === 'respondido' ? 'selected' : '' %>>Respondido</option>
+                        <option value="arquivado" <%= currentStatus === 'arquivado' ? 'selected' : '' %>>Arquivado</option>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Assunto</label>
                     <select name="assunto" class="form-select">
                         <option value="">Todos</option>
-                        <option value="servicos" <%= filters.assunto === 'servicos' ? 'selected' : '' %>>Serviços</option>
-                        <option value="informacao" <%= filters.assunto === 'informacao' ? 'selected' : '' %>>Informação</option>
-                        <option value="reclamacao" <%= filters.assunto === 'reclamacao' ? 'selected' : '' %>>Reclamação</option>
-                        <option value="sugestao" <%= filters.assunto === 'sugestao' ? 'selected' : '' %>>Sugestão</option>
-                        <option value="outro" <%= filters.assunto === 'outro' ? 'selected' : '' %>>Outro</option>
+                        <option value="servicos" <%= filters?.assunto === 'servicos' ? 'selected' : '' %>>Serviços</option>
+                        <option value="informacao" <%= filters?.assunto === 'informacao' ? 'selected' : '' %>>Informação</option>
+                        <option value="reclamacao" <%= filters?.assunto === 'reclamacao' ? 'selected' : '' %>>Reclamação</option>
+                        <option value="sugestao" <%= filters?.assunto === 'sugestao' ? 'selected' : '' %>>Sugestão</option>
+                        <option value="outro" <%= filters?.assunto === 'outro' ? 'selected' : '' %>>Outro</option>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Pesquisar</label>
-                    <input type="text" name="search" class="form-control" placeholder="Nome, email ou mensagem..." value="<%= filters.search || '' %>">
+                    <input type="text" name="search" class="form-control" placeholder="Nome, email ou mensagem..." value="<%= searchQuery %>">
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">
@@ -111,6 +110,13 @@
                 </div>
             </form>
         </div>
+    </div>
+
+    <!-- Botão Marcar todas como lidas -->
+    <div class="d-flex justify-content-end mb-3">
+        <button id="markAllReadListBtn" class="btn btn-outline-success btn-sm">
+            <i class="fas fa-check-double me-1"></i> Marcar todas como lidas
+        </button>
     </div>
 
     <!-- Lista de Contactos -->
@@ -175,19 +181,17 @@
                                         <span class="badge bg-<%= statusColors[contact.status] %>">
                                             <%= statusLabels[contact.status] %>
                                         </span>
-                                    </td>
+                                     </td>
                                     <td><%= new Date(contact.createdAt).toLocaleDateString('pt-PT') %></td>
                                     <td>
                                         <a href="/admin/contacts/<%= contact.id %>" class="btn btn-sm btn-primary" title="Ver Detalhes">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <form method="POST" action="/admin/contacts/<%= contact.id %>/delete" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja deletar este contacto?')">
-                                            <button type="submit" class="btn btn-sm btn-danger" title="Deletar">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
+                                        <button class="btn btn-sm btn-danger delete-contact-btn" data-id="<%= contact.id %>" title="Deletar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                     </td>
+                                 </tr>
                             <% }); %>
                         </tbody>
                     </table>
@@ -198,7 +202,7 @@
                     <nav aria-label="Navegação de páginas">
                         <ul class="pagination justify-content-center mb-0">
                             <li class="page-item <%= !pagination.hasPrev ? 'disabled' : '' %>">
-                                <a class="page-link" href="?page=<%= pagination.current - 1 %><%= filters.status ? '&status=' + filters.status : '' %><%= filters.assunto ? '&assunto=' + filters.assunto : '' %><%= filters.search ? '&search=' + filters.search : '' %>">
+                                <a class="page-link" href="?page=<%= pagination.current - 1 %><%= currentStatus ? '&status=' + currentStatus : '' %><%= searchQuery ? '&search=' + searchQuery : '' %>">
                                     Anterior
                                 </a>
                             </li>
@@ -206,7 +210,7 @@
                                 <span class="page-link"><%= pagination.current %> de <%= pagination.total %></span>
                             </li>
                             <li class="page-item <%= !pagination.hasNext ? 'disabled' : '' %>">
-                                <a class="page-link" href="?page=<%= pagination.current + 1 %><%= filters.status ? '&status=' + filters.status : '' %><%= filters.assunto ? '&assunto=' + filters.assunto : '' %><%= filters.search ? '&search=' + filters.search : '' %>">
+                                <a class="page-link" href="?page=<%= pagination.current + 1 %><%= currentStatus ? '&status=' + currentStatus : '' %><%= searchQuery ? '&search=' + searchQuery : '' %>">
                                     Próximo
                                 </a>
                             </li>
@@ -217,3 +221,47 @@
         </div>
     </div>
 </div>
+
+<script>
+// Marcar todas como lidas
+document.getElementById('markAllReadListBtn')?.addEventListener('click', async function() {
+    if (!confirm('Marcar todas as mensagens como lidas?')) return;
+    try {
+        const res = await fetch('/admin/contacts/mark-all-read', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+            alert(data.message);
+            location.reload();
+        } else {
+            alert('Erro: ' + (data.message || 'tente novamente'));
+        }
+    } catch (err) {
+        alert('Erro ao marcar todas como lidas');
+    }
+});
+
+// Deletar contacto (método DELETE)
+document.querySelectorAll('.delete-contact-btn').forEach(btn => {
+    btn.addEventListener('click', async function(e) {
+        e.preventDefault();
+        const id = this.dataset.id;
+        if (!confirm('Tem certeza que deseja deletar este contacto permanentemente?')) return;
+        try {
+            const res = await fetch(`/admin/contacts/${id}`, { 
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await res.json();
+            if (data.success) {
+                this.closest('tr').remove();
+                // Opcional: recarregar a página para atualizar contadores
+                setTimeout(() => location.reload(), 500);
+            } else {
+                alert('Erro: ' + (data.message || 'Não foi possível deletar'));
+            }
+        } catch (err) {
+            alert('Erro ao deletar contacto');
+        }
+    });
+});
+</script>

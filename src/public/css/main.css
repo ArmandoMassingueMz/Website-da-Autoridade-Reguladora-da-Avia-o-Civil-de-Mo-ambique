@@ -55,6 +55,7 @@
     z-index: 1000;
   }
   
+
   .navbar-scrolled {
     background: rgba(255, 255, 255, 0.98) !important;
     backdrop-filter: blur(30px) saturate(200%);
@@ -70,7 +71,7 @@
   
   .logo {
     height: 55px;
-    margin-right: 12px;
+    margin-right: 8px;
     transition: var(--transition);
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
   }

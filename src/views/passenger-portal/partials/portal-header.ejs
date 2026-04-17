@@ -1,35 +1,33 @@
-<header class="portal-header"></header>
-<!-- No header.ejs ou layout principal -->
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+<header class="portal-header">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="portalNavbar">
         <div class="container">
-            <!-- Logo IACM -->
+            <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center" href="/portal-passageiro">
                 <img src="/images/iacmlogopreview.png" alt="IACM Logo" class="portal-logo me-2">
                 <div class="brand-info">
-                   
                     <small class="text-muted d-none d-md-block">Portal do Passageiro</small>
                 </div>
             </a>
 
             <!-- Toggle Mobile -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#portalNav">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#portalNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <!-- Menu -->
             <div class="collapse navbar-collapse" id="portalNav">
                 <ul class="navbar-nav mx-auto">
+
                     <li class="nav-item">
                         <a class="nav-link <%= currentPage === 'home' ? 'active' : '' %>" href="/portal-passageiro">
                             <i class="fas fa-home"></i>
                             <span>Início</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle <%= currentPage === 'direitos' ? 'active' : '' %>" 
-                           href="#" 
+                        <a class="nav-link dropdown-toggle <%= currentPage === 'direitos' ? 'active' : '' %>"
+                           href="#"
                            data-bs-toggle="dropdown">
                             <i class="fas fa-gavel"></i>
                             <span>Direitos</span>
@@ -37,57 +35,73 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/portal-passageiro/direitos">Todos os Direitos</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/atraso">Atraso de Voo</a></li>
-                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/cancelamento">Cancelamento</a></li>
-                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/recusa_embarque">Recusa de Embarque</a></li>
-                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/bagagem">Bagagem</a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/atraso">
+                                <i class="fas fa-clock me-2"></i>Atraso de Voo
+                            </a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/cancelamento">
+                                <i class="fas fa-times-circle me-2"></i>Cancelamento
+                            </a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/recusa_embarque">
+                                <i class="fas fa-ban me-2"></i>Recusa de Embarque
+                            </a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/direitos/bagagem">
+                                <i class="fas fa-suitcase me-2"></i>Bagagem
+                            </a></li>
                         </ul>
                     </li>
-                    
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                             <i class="fas fa-map-marked-alt"></i>
                             <span>Guias</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/portal-passageiro/antes-viagem">Antes da Viagem</a></li>
-                            <li><a class="dropdown-item" href="/portal-passageiro/aeroporto">No Aeroporto</a></li>
-                            <li><a class="dropdown-item" href="/portal-passageiro/durante-voo">Durante o Voo</a></li>
-                            <li><a class="dropdown-item" href="/portal-passageiro/destino">No Destino</a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/antes-viagem">
+                                <i class="fas fa-suitcase-rolling me-2"></i>Antes da Viagem
+                            </a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/aeroporto">
+                                <i class="fas fa-plane-departure me-2"></i>No Aeroporto
+                            </a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/durante-voo">
+                                <i class="fas fa-plane me-2"></i>Durante o Voo
+                            </a></li>
+                            <li><a class="dropdown-item" href="/portal-passageiro/destino">
+                                <i class="fas fa-map-marker-alt me-2"></i>No Destino
+                            </a></li>
                         </ul>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link <%= currentPage === 'faq' ? 'active' : '' %>" href="/portal-passageiro/faq">
                             <i class="fas fa-question-circle"></i>
                             <span>FAQ</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link <%= currentPage === 'simulador' ? 'active' : '' %>" href="/portal-passageiro/simulador">
                             <i class="fas fa-calculator"></i>
                             <span>Simulador</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link <%= currentPage === 'glossario' ? 'active' : '' %>" href="/portal-passageiro/glossario">
                             <i class="fas fa-book"></i>
                             <span>Glossário</span>
                         </a>
                     </li>
+
                 </ul>
-                
+
                 <!-- Botões de Ação -->
-                <div class="d-flex gap-2">
-                    <a href="/portal-passageiro/reclamacoes" class="btn btn-primary">
-                        <i class="fas fa-exclamation-triangle"></i>
+                <div class="d-flex gap-2 align-items-center">
+                    <a href="/portal-passageiro/reclamacoes" class="btn btn-portal-primary">
+                        <i class="fas fa-exclamation-triangle me-1"></i>
                         <span class="d-none d-lg-inline">Reclamar</span>
                     </a>
-                    
-                    <a href="/" class="btn btn-outline-secondary">
-                        <i class="fas fa-arrow-left"></i>
+                    <a href="/" class="btn btn-portal-outline">
+                        <i class="fas fa-arrow-left me-1"></i>
                         <span class="d-none d-lg-inline">IACM</span>
                     </a>
                 </div>
@@ -97,70 +111,267 @@
 </header>
 
 <style>
-    .portal-header {
-        margin-bottom: 80px;
+    /* ===== VARIÁVEIS (herdadas do site principal) ===== */
+    :root {
+        --primary-blue:    #0056b3;
+        --dark-blue:       #003366;
+        --accent-gold:     #ffd700;
+        --text-dark:       #2d3748;
+        --glass-border:    rgba(255, 255, 255, 0.2);
+        --gradient-blue:   linear-gradient(135deg, #0056b3 0%, #003366 100%);
+        --gradient-gold:   linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+        --shadow-soft:     0 8px 32px rgba(0, 0, 0, 0.1);
+        --transition:      all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    
+
+    /* ===== NAVBAR — idêntica ao site principal ===== */
+    .portal-header .navbar {
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid var(--glass-border);
+        padding: 1rem 0;
+        transition: var(--transition);
+    }
+
+    .portal-header .navbar.navbar-scrolled {
+        background: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: blur(30px) saturate(200%);
+        box-shadow: var(--shadow-soft);
+        padding: 0.7rem 0;
+    }
+
+    /* ===== LOGO ===== */
     .portal-logo {
         height: 50px;
         width: auto;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        transition: var(--transition);
     }
-    
-    .brand-info .brand-text {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #0056b3;
-        line-height: 1;
+
+    .portal-header .navbar-brand:hover .portal-logo {
+        transform: scale(1.05);
     }
-    
-    .brand-info small {
+
+    .portal-header .brand-info small {
         font-size: 0.7rem;
         line-height: 1;
+        color: #888;
     }
-    
-    .portal-header .nav-link {
-        padding: 0.5rem 1rem;
-        transition: all 0.3s;
-        border-radius: 8px;
-        margin: 0 0.2rem;
+
+    /* ===== LINKS DE NAVEGAÇÃO ===== */
+    .portal-header .navbar-nav .nav-link {
+        font-weight: 600;
+        color: var(--text-dark) !important;
+        transition: var(--transition);
+        margin: 0 6px;
+        padding: 8px 14px !important;
+        border-radius: 25px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.92rem;
     }
-    
-    .portal-header .nav-link i {
-        margin-right: 0.3rem;
+
+    /* Sublinhado dourado animado */
+    .portal-header .navbar-nav .nav-link::before {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--gradient-gold);
+        transition: var(--transition);
+        transform: translateX(-50%);
+        border-radius: 2px;
     }
-    
-    .portal-header .nav-link:hover,
-    .portal-header .nav-link.active {
-        background-color: #f8f9fa;
-        color: #0056b3;
+
+    .portal-header .navbar-nav .nav-link:hover::before,
+    .portal-header .navbar-nav .nav-link.active::before {
+        width: 70%;
     }
-    
+
+    .portal-header .navbar-nav .nav-link:hover,
+    .portal-header .navbar-nav .nav-link.active {
+        color: var(--primary-blue) !important;
+        background: rgba(0, 86, 179, 0.06);
+        transform: translateY(-2px);
+    }
+
+    .portal-header .navbar-nav .nav-link i {
+        font-size: 0.85rem;
+        opacity: 0.75;
+        transition: var(--transition);
+    }
+
+    .portal-header .navbar-nav .nav-link:hover i,
+    .portal-header .navbar-nav .nav-link.active i {
+        opacity: 1;
+        color: var(--primary-blue);
+    }
+
+    /* ===== DROPDOWN MENU ===== */
     .portal-header .dropdown-menu {
         border: none;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        border-radius: 8px;
-        margin-top: 0.5rem;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+        border-radius: 14px;
+        margin-top: 0.6rem;
+        padding: 0.5rem;
+        min-width: 210px;
+        animation: dropIn 0.2s ease-out;
     }
-    
+
+    @keyframes dropIn {
+        from { opacity: 0; transform: translateY(-8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
     .portal-header .dropdown-item {
-        padding: 0.7rem 1.2rem;
-        transition: all 0.3s;
+        padding: 0.6rem 1rem;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
     }
-    
+
+    .portal-header .dropdown-item i {
+        width: 18px;
+        color: var(--primary-blue);
+        opacity: 0.7;
+        font-size: 0.8rem;
+    }
+
     .portal-header .dropdown-item:hover {
-        background-color: #0056b3;
-        color: white;
-        padding-left: 1.5rem;
+        background: rgba(0, 86, 179, 0.08);
+        color: var(--primary-blue);
+        padding-left: 1.3rem;
     }
-    
+
+    .portal-header .dropdown-item:hover i {
+        opacity: 1;
+    }
+
+    .portal-header .dropdown-divider {
+        margin: 0.3rem 0.5rem;
+        opacity: 0.15;
+    }
+
+    /* ===== BOTÃO RECLAMAR (dourado — destaque) ===== */
+    .btn-portal-primary {
+        background: var(--gradient-gold);
+        color: var(--dark-blue) !important;
+        padding: 9px 20px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 0.88rem;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: var(--transition);
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+    }
+
+    .btn-portal-primary::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: left 0.5s;
+    }
+
+    .btn-portal-primary:hover::before { left: 100%; }
+
+    .btn-portal-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        color: var(--dark-blue) !important;
+    }
+
+    /* ===== BOTÃO VOLTAR AO IACM (outline) ===== */
+    .btn-portal-outline {
+        border: 2px solid rgba(0, 86, 179, 0.3);
+        color: var(--primary-blue) !important;
+        background: transparent;
+        padding: 8px 18px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.88rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+
+    .btn-portal-outline:hover {
+        background: var(--primary-blue);
+        color: #fff !important;
+        border-color: var(--primary-blue);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(0, 86, 179, 0.25);
+    }
+
+    /* ===== MOBILE ===== */
     @media (max-width: 991px) {
         .portal-header .navbar-nav {
-            margin-top: 1rem;
+            padding: 0.5rem 0;
         }
-        
-        .portal-header .nav-link {
-            margin: 0.2rem 0;
+
+        .portal-header .navbar-nav .nav-link {
+            margin: 2px 0;
+            border-radius: 10px;
+            padding: 10px 14px !important;
+        }
+
+        .portal-header .navbar-nav .nav-link::before {
+            display: none;
+        }
+
+        .portal-header .navbar-nav .nav-link:hover {
+            transform: none;
+            padding-left: 20px !important;
+        }
+
+        .portal-header .dropdown-menu {
+            box-shadow: none;
+            border-radius: 10px;
+            background: rgba(0, 86, 179, 0.04);
+            margin-top: 0;
+        }
+
+        .d-flex.gap-2 {
+            margin-top: 0.75rem;
+            flex-direction: column;
+        }
+
+        .btn-portal-primary,
+        .btn-portal-outline {
+            width: 100%;
+            justify-content: center;
         }
     }
+
+    /* ===== SCROLL EFFECT via JS ===== */
+    /* Activa a classe .navbar-scrolled no scroll — ver script abaixo */
 </style>
-<!-- No header.ejs ou layout principal -->
+
+<script>
+    // Efeito scroll igual ao navbar principal
+    (function () {
+        const nav = document.getElementById('portalNavbar');
+        if (!nav) return;
+        window.addEventListener('scroll', function () {
+            nav.classList.toggle('navbar-scrolled', window.scrollY > 50);
+        }, { passive: true });
+    })();
+</script>

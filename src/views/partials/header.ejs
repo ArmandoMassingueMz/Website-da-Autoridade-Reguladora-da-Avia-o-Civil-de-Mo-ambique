@@ -62,47 +62,7 @@
                         </a>
                     </li>
 
-                    <% if (user) { %>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <%= user.name %>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!-- APENAS Portal Admin para passenger_admin/passenger_editor -->
-                                <% if (user.role === 'passenger_admin' || user.role === 'passenger_editor') { %>
-                                    <li>
-                                        <a class="dropdown-item" href="/portal-passageiro/admin/dashboard">
-                                            <i class="fas fa-plane"></i> Admin Portal Passageiro
-                                        </a>
-                                    </li>
-                                <% } %>
-                                
-                                <!-- APENAS Admin Web para admin/super_admin/editor -->
-                                <% if (user.role === 'admin' || user.role === 'super_admin' || user.role === 'editor') { %>
-                                    <li>
-                                        <a class="dropdown-item" href="/admin/dashboard">
-                                            <i class="fas fa-tachometer-alt"></i> Painel de Controlo
-                                        </a>
-                                    </li>
-                                <% } %>
-                                
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form method="POST" action="/auth/logout" class="d-inline">
-                                        <button type="submit" class="dropdown-item">
-                                            <i class="fas fa-sign-out-alt"></i> Sair
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    <% } else { %>
-                        <li class="nav-item">
-                            <a class="nav-link <%= currentPage === 'login' ? 'active' : '' %>" href="/auth/login">
-                                Entrar
-                            </a>
-                        </li>
-                    <% } %>
+                    
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
@@ -122,6 +82,7 @@
                             </li>
                         </ul>
                     </li>
+                    
                 </ul>
             </div>
         </div>

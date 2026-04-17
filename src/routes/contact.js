@@ -221,14 +221,13 @@ router.post('/:id/toggle-read', requireAuth, requireRole(['admin', 'editor']), a
     }
 
     // Alternar o status de leitura
-    await contact.update({
-      isRead: !contact.isRead
-    });
+    const newReadStatus = !contact.isRead;
+    await contact.update({ isRead: newReadStatus });
 
     res.json({
       success: true,
-      isRead: contact.isRead,
-      message: `Contacto marcado como ${contact.isRead ? 'lido' : 'não lido'}`
+      isRead: newReadStatus,
+      message: `Contacto marcado como ${newReadStatus ? 'lido' : 'não lido'}`
     });
 
   } catch (error) {
@@ -267,7 +266,31 @@ router.post('/:id/reply', requireAuth, requireRole(['admin', 'editor']), async (
   }
 });
 
-// DELETE /admin/contacts/:id - Eliminar contacto
+// =============================================
+// 🆕 ROTA: MARCAR TODAS COMO LIDAS (POST)
+// =============================================
+router.post('/mark-all-read', requireAuth, requireRole(['admin', 'editor']), async (req, res) => {
+  try {
+    const [updatedCount] = await Contact.update(
+      { isRead: true },
+      { where: { isRead: false } }
+    );
+
+    res.json({
+      success: true,
+      message: `${updatedCount} contacto(s) marcado(s) como lido(s)`,
+      count: updatedCount
+    });
+  } catch (error) {
+    console.error('Erro ao marcar todas como lidas:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro ao marcar mensagens como lidas'
+    });
+  }
+});
+
+// DELETE /admin/contacts/:id - Eliminar contacto (método DELETE)
 router.delete('/:id', requireAuth, requireRole(['admin']), async (req, res) => {
   try {
     const contact = await Contact.findByPk(req.params.id);
@@ -354,7 +377,7 @@ router.post('/bulk-action', requireAuth, requireRole(['admin', 'editor']), async
 // API - OBTER CONTAGEM DE NÃO LIDOS
 // =============================================
 
-// GET /admin/contacts/api/unread - Contador de não lidos
+// GET /admin/contacts/api/unread - Contador de não lidos (público, sem auth)
 router.get('/api/unread', async (req, res) => {
   try {
     const count = await Contact.count({
@@ -375,7 +398,7 @@ router.get('/api/unread', async (req, res) => {
   }
 });
 
-// GET /admin/contacts/api/stats - Estatísticas gerais
+// GET /admin/contacts/api/stats - Estatísticas gerais (requer auth)
 router.get('/api/stats', requireAuth, async (req, res) => {
   try {
     const stats = {

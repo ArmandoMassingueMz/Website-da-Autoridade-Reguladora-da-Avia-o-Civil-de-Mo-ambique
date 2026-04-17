@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
 
 <!-- Hero Section Sobre -->
-<section class="page-hero-section">
+<section class="page-hero-section sobre-hero">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6" data-aos="fade-right">
@@ -45,7 +45,7 @@
                         <i class="fas fa-bullseye"></i>
                     </div>
                     <h3>Missão</h3>
-                    <p>Regular e supervisionar com qualidade e sustentabilidade, garantindo as seguranças operacional e contra actos ilicitos na aviação civil.</p>
+                    <p>Regular e supervisionar com qualidade e sustentabilidade, garantindo a segurança operacional e contra actos ilicitos na aviação civil.</p>
                 </div>
             </div>
             <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
@@ -222,17 +222,15 @@
     background: white;
     border-radius: 15px;
     padding: 25px 20px;
-    height: auto;
     min-height: 320px;
-    max-height: 320px; /* ALTURA FIXA IGUAL PARA TODOS */
+    height: auto;
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
     border: 1px solid #e6f0ff;
     box-shadow: 0 8px 25px rgba(0, 57, 166, 0.08);
     position: relative;
-    overflow: hidden;
-    margin-bottom: 25px;
+    overflow: visible; /* ALTERADO */
 }
 
 /* Barra superior no hover - ALINHAMENTO CORRIGIDO */
@@ -690,6 +688,63 @@
         }
     }
     </style>
+
+<!-- ÚNICO CSS ADICIONADO — corrige o hero no mobile -->
+<style>
+.sobre-hero {
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 120px 0 70px !important;
+}
+
+@media (max-width: 991px) {
+    .sobre-hero {
+        padding: 100px 0 50px !important;
+        text-align: center;
+    }
+    .sobre-hero .hero-subtitle {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .sobre-hero .col-lg-6:last-child {
+        margin-top: 2rem;
+    }
+    .sobre-hero .hero-image img {
+        max-width: 260px !important;
+    }
+    /* Stats — wrap em vez de overflow */
+    .sobre-hero .about-stats {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem !important;
+    }
+    .sobre-hero .about-stats .stat-item {
+        flex: 0 0 auto;
+        min-width: 80px;
+    }
+}
+
+@media (max-width: 575px) {
+    .sobre-hero {
+        padding: 90px 0 45px !important;
+    }
+    .sobre-hero .hero-title {
+        font-size: 1.85rem !important;
+    }
+    .sobre-hero .hero-subtitle {
+        font-size: 0.93rem !important;
+    }
+    .sobre-hero .about-stats {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem !important;
+    }
+    .sobre-hero .hero-image img {
+        max-width: 195px !important;
+    }
+}
+</style>
     
 <!-- Adicionar FontAwesome se necessário -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

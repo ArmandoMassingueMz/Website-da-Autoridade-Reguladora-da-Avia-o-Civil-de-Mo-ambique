@@ -3,7 +3,9 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Criar diretórios de uploads se não existirem
+// =============================================
+// CRIAR DIRETÓRIOS DE UPLOADS SE NÃO EXISTIREM
+// =============================================
 const createUploadDirs = () => {
   const dirs = [
     '../public/uploads',
@@ -15,13 +17,16 @@ const createUploadDirs = () => {
     '../public/uploads/accidents',
     '../public/uploads/cooperations',
     '../public/uploads/staff',
-    '../public/uploads/general'
+    '../public/uploads/general',
+    '../public/uploads/other-services', // ✅ PASTA EM FALTA - ADICIONADA
+    '../public/uploads/team'             // ✅ PASTA EM FALTA - ADICIONADA
   ];
   
   dirs.forEach(dir => {
     const fullPath = path.join(__dirname, dir);
     if (!fs.existsSync(fullPath)) {
       fs.mkdirSync(fullPath, { recursive: true });
+      console.log(`📁 Pasta criada: ${fullPath}`);
     }
   });
 };
@@ -29,7 +34,7 @@ const createUploadDirs = () => {
 createUploadDirs();
 
 // =============================================
-// CONFIGURAÇÃO GERAL PARA NOTÍCIAS (IMAGENS)
+// CONFIGURAÇÃO PARA NOTÍCIAS (IMAGENS)
 // =============================================
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -54,7 +59,7 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 50 * 1024 * 1024 // 5MB
+    fileSize: 50 * 1024 * 1024
   }
 });
 
@@ -64,24 +69,19 @@ const upload = multer({
 const storageLaws = multer.diskStorage({
   destination: function (req, file, cb) {
     const dir = path.join(__dirname, '../public/uploads/laws');
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     cb(null, dir);
   },
   filename: function (req, file, cb) {
-    // Gerar nome único preservando informações úteis
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const extension = path.extname(file.originalname).toLowerCase();
     const originalName = path.basename(file.originalname, path.extname(file.originalname));
     const safeName = originalName.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚàèìòùÀÈÌÒÙãõÃÕâêîôûÂÊÎÔÛçÇ\s-]/g, '');
-    const finalName = `${safeName.substring(0, 50)}-${uniqueSuffix}${extension}`;
-    cb(null, finalName);
+    cb(null, `${safeName.substring(0, 50)}-${uniqueSuffix}${extension}`);
   }
 });
 
 const fileFilterLaws = (req, file, cb) => {
-  // Aceitar PDF, DOC e DOCX
   const allowedMimes = [
     'application/pdf',
     'application/msword',
@@ -102,9 +102,7 @@ const fileFilterLaws = (req, file, cb) => {
 const uploadLaws = multer({
   storage: storageLaws,
   fileFilter: fileFilterLaws,
-  limits: {
-    fileSize: 50 * 1024 * 1024 // 20MB para leis/decretos
-  }
+  limits: { fileSize: 50 * 1024 * 1024 }
 });
 
 // =============================================
@@ -113,9 +111,7 @@ const uploadLaws = multer({
 const storageForms = multer.diskStorage({
   destination: function (req, file, cb) {
     const dir = path.join(__dirname, '../public/uploads/forms');
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     cb(null, dir);
   },
   filename: function (req, file, cb) {
@@ -136,9 +132,7 @@ const uploadForms = multer({
       cb(new Error('Apenas arquivos PDF são permitidos para formulários!'), false);
     }
   },
-  limits: {
-    fileSize: 50 * 1024 * 1024 // 10MB
-  }
+  limits: { fileSize: 50 * 1024 * 1024 }
 });
 
 // =============================================
@@ -147,9 +141,7 @@ const uploadForms = multer({
 const storageEconomicRegulations = multer.diskStorage({
   destination: function (req, file, cb) {
     const dir = path.join(__dirname, '../public/uploads/economic-regulations');
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     cb(null, dir);
   },
   filename: function (req, file, cb) {
@@ -168,9 +160,7 @@ const uploadEconomicRegulations = multer({
       cb(new Error('Apenas arquivos PDF são permitidos!'), false);
     }
   },
-  limits: {
-    fileSize: 50 * 1024 * 1024 // 10MB
-  }
+  limits: { fileSize: 50 * 1024 * 1024 }
 });
 
 // =============================================
@@ -179,9 +169,7 @@ const uploadEconomicRegulations = multer({
 const storageGeneral = multer.diskStorage({
   destination: function (req, file, cb) {
     const dir = path.join(__dirname, '../public/uploads/general');
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     cb(null, dir);
   },
   filename: function (req, file, cb) {
@@ -193,9 +181,35 @@ const storageGeneral = multer.diskStorage({
 
 const uploadGeneral = multer({
   storage: storageGeneral,
-  limits: {
-    fileSize: 50 * 1024 * 1024 // 50MB
+  limits: { fileSize: 50 * 1024 * 1024 }
+});
+
+// =============================================
+// CONFIGURAÇÃO PARA OTHER-SERVICES (PDF) ✅ NOVO
+// =============================================
+const storageOtherServices = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const dir = path.join(__dirname, '../public/uploads/other-services');
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    cb(null, dir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const extension = path.extname(file.originalname);
+    cb(null, 'service-' + uniqueSuffix + extension);
   }
+});
+
+const uploadOtherServices = multer({
+  storage: storageOtherServices,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(new Error('Apenas arquivos PDF são permitidos!'), false);
+    }
+  },
+  limits: { fileSize: 50 * 1024 * 1024 }
 });
 
 // =============================================
@@ -206,6 +220,7 @@ module.exports.uploadLaws = uploadLaws;
 module.exports.uploadForms = uploadForms;
 module.exports.uploadEconomicRegulations = uploadEconomicRegulations;
 module.exports.uploadGeneral = uploadGeneral;
+module.exports.uploadOtherServices = uploadOtherServices; // ✅ NOVO
 
 // Função auxiliar para verificar se um arquivo existe
 module.exports.fileExists = (filePath) => {

@@ -2,7 +2,7 @@
 
 <style>
 /* ===========================================
-   CARROSSEL HERO - DESTAQUE PRINCIPAL
+   CARROSSEL HERO - IMAGEM FULL WIDTH COM CONTEÚDO LATERAL SOBREPOSTO
    =========================================== */
 
 .hero-carousel-section {
@@ -12,107 +12,74 @@
     margin: 0;
 }
 
-/* Card do Carrossel Hero - LAYOUT 50/50 */
-.hero-carousel-card {
-    display: flex;
-    align-items: stretch;
-    min-height: 70vh;
+/* Altura fixa para todo o carrossel */
+.hero-carousel-section .carousel,
+.hero-carousel-section .carousel-inner,
+.hero-carousel-section .carousel-item {
+    height: 70vh;          /* ajuste conforme preferir */
+    min-height: 520px;
 }
 
-/* METADE ESQUERDA - Imagem */
-.hero-image-wrapper {
+/* Cada slide com imagem de fundo que preenche toda largura */
+.hero-carousel-section .carousel-item {
     position: relative;
-    width: 50%;
-    min-height: 70vh;
-    overflow: hidden;
-    flex-shrink: 0;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transition: transform 0.6s ease-in-out;
 }
 
-.hero-carousel-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    display: block;
-}
-
-.hero-image-overlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to right, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 100%);
-    z-index: 1;
-}
-
-/* Badge Flutuante */
-.hero-badge {
-    position: absolute;
-    top: 30px;
-    left: 30px;
-    z-index: 3;
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px;
-    background: rgba(255,255,255,0.97);
-    color: #0066cc;
-    font-size: 0.8rem;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    border-radius: 30px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    border-left: 4px solid #D4AF37;
-    animation: floatBadge 3s ease-in-out infinite;
-}
-
-.hero-badge.event-badge {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-    color: white;
-    border-left: 4px solid #D4AF37;
-}
-
-@keyframes floatBadge {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
-
-/* METADE DIREITA - Conteúdo */
-.hero-carousel-content {
-    width: 50%;
-    padding: 55px 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: #f0f2f5;
-    color: #1a1a2e;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Linha decorativa dourada à esquerda */
-.hero-carousel-content::before {
+/* Overlay escuro para contraste do texto */
+.hero-carousel-section .carousel-item::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 6px;
-    height: 100%;
-    background: linear-gradient(180deg, #D4AF37 0%, #0066cc 50%, #D4AF37 100%);
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%);
+    z-index: 1;
 }
 
-/* Padrão geométrico subtil no fundo */
-.hero-carousel-content::after {
-    content: '';
+/* Conteúdo sobreposto - layout lado a lado (info esquerda, botões direita) */
+.hero-overlay-container {
     position: absolute;
-    bottom: -60px;
-    right: -60px;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,102,204,0.08) 0%, transparent 70%);
-    pointer-events: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 5%;
+    gap: 30px;
 }
 
-/* Etiqueta de tipo de conteúdo */
+/* Lado esquerdo: informações (título, subtítulo, datas) */
+.hero-info-side {
+    flex: 1.2;
+    color: white;
+    text-align: left;
+    backdrop-filter: blur(3px);
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.3);
+    border-left: 5px solid #D4AF37;
+}
+
+/* Lado direito: botões */
+.hero-buttons-side {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+/* Etiqueta de tipo (notícia/evento) */
 .hero-content-label {
     display: inline-flex;
     align-items: center;
@@ -120,14 +87,14 @@
     background: linear-gradient(135deg, #0066cc 0%, #004d99 100%);
     color: white;
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    padding: 7px 16px;
-    border-radius: 20px;
-    margin-bottom: 22px;
+    padding: 6px 18px;
+    border-radius: 40px;
+    margin-bottom: 20px;
     width: fit-content;
-    box-shadow: 0 4px 15px rgba(0,102,204,0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .hero-content-label i {
@@ -136,175 +103,175 @@
 
 /* Título */
 .hero-carousel-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 800;
-    color: #0f2027;
-    margin-bottom: 18px;
-    line-height: 1.3;
+    margin-bottom: 15px;
+    line-height: 1.2;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
     position: relative;
-    padding-bottom: 18px;
+    padding-bottom: 15px;
 }
 
-/* Linha dourada abaixo do título */
 .hero-carousel-title::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 60px;
+    width: 70px;
     height: 3px;
-    background: linear-gradient(90deg, #D4AF37, #0066cc);
+    background: linear-gradient(90deg, #D4AF37, #FFD700);
     border-radius: 2px;
 }
 
-/* Excerpt */
+/* Excerpt / descrição */
 .hero-carousel-excerpt {
     font-size: 1rem;
-    color: #444;
-    line-height: 1.75;
-    margin-bottom: 28px;
-    margin-top: 18px;
+    line-height: 1.5;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    opacity: 0.95;
 }
 
-/* Datas do Evento */
+/* Bloco de datas do evento */
 .hero-event-dates {
-    background: white;
-    padding: 18px 22px;
-    border-radius: 12px;
-    border: 1px solid #dde3ec;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    padding: 15px 20px;
+    border-radius: 16px;
     border-left: 4px solid #D4AF37;
-    margin-bottom: 28px;
-    margin-top: 18px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    margin: 20px 0;
 }
 
 .hero-date-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 8px 0;
-    color: #333;
-    font-size: 0.95rem;
-}
-
-.hero-date-item + .hero-date-item {
-    border-top: 1px solid #eef0f4;
+    padding: 6px 0;
+    color: white;
+    font-size: 0.9rem;
 }
 
 .hero-date-item i {
-    width: 20px;
-    flex-shrink: 0;
-    color: #0066cc;
+    width: 22px;
+    color: #D4AF37;
 }
 
 .hero-date-item strong {
     font-weight: 700;
-    color: #0f2027;
     margin-right: 5px;
 }
 
-/* Botões */
+/* Botões do lado direito */
 .hero-btn-group {
     display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
 }
 
 .btn-hero-primary {
-    padding: 13px 28px;
+    padding: 14px 28px;
     background: linear-gradient(135deg, #0066cc 0%, #004d99 100%);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 50px;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 1rem;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 12px;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 18px rgba(0,102,204,0.35);
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.3);
+    width: 100%;
+    text-align: center;
 }
 
 .btn-hero-primary::after {
     content: '';
     position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; height: 3px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
     background: #D4AF37;
+    border-radius: 0 0 50px 50px;
 }
 
 .btn-hero-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 28px rgba(0,102,204,0.5);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
     color: white;
 }
 
 .btn-hero-secondary {
-    padding: 13px 28px;
-    background: white;
-    color: #0066cc;
-    border: 2px solid #0066cc;
-    border-radius: 8px;
+    padding: 14px 28px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(5px);
+    color: white;
+    border: 2px solid white;
+    border-radius: 50px;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 1rem;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 12px;
     transition: all 0.3s ease;
+    width: 100%;
 }
 
 .btn-hero-secondary:hover {
-    background: #0066cc;
-    color: white;
+    background: white;
+    color: #0066cc;
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,102,204,0.3);
+    border-color: #D4AF37;
 }
 
 .btn-hero-event {
     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-    box-shadow: 0 5px 18px rgba(40,167,69,0.35);
-    border: none;
 }
 
-.btn-hero-event:hover {
-    box-shadow: 0 10px 28px rgba(40,167,69,0.5);
-    color: white;
-}
-
-/* Rodapé decorativo com logo/texto IACM */
-.hero-content-footer {
-    margin-top: auto;
-    padding-top: 24px;
-    display: flex;
+/* Badge flutuante (canto superior esquerdo da imagem) */
+.hero-badge {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    z-index: 3;
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
-    border-top: 1px solid #dde3ec;
-}
-
-.hero-content-footer img {
-    height: 32px;
-    opacity: 0.7;
-}
-
-.hero-content-footer span {
+    padding: 8px 20px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+    color: #D4AF37;
     font-size: 0.75rem;
-    font-weight: 600;
-    color: #888;
-    letter-spacing: 0.5px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
+    border-radius: 40px;
+    border-left: 3px solid #D4AF37;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.hero-badge i {
+    margin-right: 8px;
+}
+
+.hero-badge.event-badge {
+    background: rgba(40,167,69,0.85);
+    color: white;
 }
 
 /* Controles do Carrossel */
 .carousel-control-prev,
 .carousel-control-next {
-    width: 50px;
-    height: 50px;
-    background: rgba(0,102,204,0.7);
-    border: 2px solid rgba(212,175,55,0.6);
+    width: 48px;
+    height: 48px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid rgba(212,175,55,0.8);
     border-radius: 50%;
     top: 50%;
     transform: translateY(-50%);
@@ -314,7 +281,9 @@
 }
 
 .carousel:hover .carousel-control-prev,
-.carousel:hover .carousel-control-next { opacity: 1; }
+.carousel:hover .carousel-control-next {
+    opacity: 1;
+}
 
 .carousel-control-prev { left: 20px; }
 .carousel-control-next { right: 20px; }
@@ -328,7 +297,7 @@
 
 /* Indicadores */
 .carousel-indicators {
-    bottom: 18px;
+    bottom: 20px;
     z-index: 10;
 }
 
@@ -336,15 +305,15 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: rgba(255,255,255,0.5);
-    border: 2px solid white;
+    background-color: rgba(255,255,255,0.6);
+    border: 1px solid white;
     opacity: 1;
     transition: all 0.3s ease;
     margin: 0 6px;
 }
 
 .carousel-indicators button.active {
-    width: 35px;
+    width: 30px;
     border-radius: 20px;
     background-color: #D4AF37;
     border-color: #D4AF37;
@@ -352,7 +321,8 @@
 
 /* Estado Vazio */
 .empty-hero-state {
-    min-height: 70vh;
+    height: 70vh;
+    min-height: 520px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -363,24 +333,71 @@
 
 /* Responsividade */
 @media (max-width: 992px) {
-    .hero-carousel-card { flex-direction: column; min-height: auto; }
-    .hero-image-wrapper { width: 100%; min-height: 45vw; max-height: 350px; }
-    .hero-carousel-content { width: 100%; padding: 35px 30px; }
-    .hero-carousel-content::before { width: 100%; height: 5px; top: 0; left: 0; background: linear-gradient(90deg, #D4AF37 0%, #0066cc 50%, #D4AF37 100%); }
-    .hero-carousel-title { font-size: 1.7rem; }
-    .hero-content-footer { display: none; }
+    .hero-overlay-container {
+        flex-direction: column;
+        justify-content: center;
+        padding: 5%;
+        gap: 20px;
+    }
+    .hero-info-side, .hero-buttons-side {
+        width: 100%;
+        flex: none;
+        text-align: center;
+    }
+    .hero-info-side {
+        backdrop-filter: blur(5px);
+        padding: 20px;
+    }
+    .hero-buttons-side {
+        align-items: center;
+    }
+    .hero-carousel-title {
+        font-size: 2rem;
+    }
+    .hero-carousel-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .hero-content-label {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-carousel-section .carousel,
+    .hero-carousel-section .carousel-inner,
+    .hero-carousel-section .carousel-item {
+        height: 65vh;
+        min-height: 480px;
+    }
+    .hero-carousel-title {
+        font-size: 1.6rem;
+    }
+    .hero-carousel-excerpt {
+        font-size: 0.9rem;
+        display: none;
+    }
+    .hero-event-dates {
+        padding: 10px 15px;
+    }
+    .btn-hero-primary, .btn-hero-secondary {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 576px) {
-    .hero-image-wrapper { max-height: 250px; }
-    .hero-carousel-content { padding: 25px 20px; }
-    .hero-carousel-title { font-size: 1.4rem; }
-    .hero-btn-group { flex-direction: column; }
-    .btn-hero-primary, .btn-hero-secondary { justify-content: center; }
+    .hero-carousel-section .carousel,
+    .hero-carousel-section .carousel-inner,
+    .hero-carousel-section .carousel-item {
+        height: 70vh;
+        min-height: 550px;
+    }
 }
 </style>
 
-<!-- Carrossel Hero -->
+<!-- Carrossel Hero - Full width image com conteúdo lateral (info esquerda, botões direita) -->
 <section class="hero-carousel-section">
     <div class="container-fluid p-0">
         <% 
@@ -408,47 +425,38 @@
                 </div>
                 
                 <div class="carousel-inner">
-                    <% carouselItems.forEach((item, index) => { %>
-                        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
-                            <article class="hero-carousel-card">
-
-                                <!-- METADE ESQUERDA: Imagem -->
-                                <div class="hero-image-wrapper">
-                                    <% 
-                                    let imagePath = '/images/news-default.jpg';
-                                    if (item.featuredImage) {
-                                        imagePath = (item.featuredImage.startsWith('http') || item.featuredImage.startsWith('/'))
-                                            ? item.featuredImage
-                                            : '/uploads/' + item.featuredImage;
-                                    }
-                                    %>
-                                    <img src="<%= imagePath %>" 
-                                         class="hero-carousel-image" 
-                                         alt="<%= item.title || 'Imagem de destaque' %>"
-                                         onerror="this.onerror=null; this.src='/images/news-default.jpg';">
-                                    <div class="hero-image-overlay"></div>
-                                    <% if (item.type === 'event') { %>
-                                        <div class="hero-badge event-badge">
-                                            <i class="fas fa-calendar-check"></i>EVENTO EM DESTAQUE
-                                        </div>
-                                    <% } else { %>
-                                        <div class="hero-badge">
-                                            <i class="fas fa-newspaper" style="color:#D4AF37;"></i>NOTÍCIA EM DESTAQUE
-                                        </div>
-                                    <% } %>
+                    <% carouselItems.forEach((item, index) => { 
+                        let imagePath = '/images/news-default.jpg';
+                        if (item.featuredImage) {
+                            imagePath = (item.featuredImage.startsWith('http') || item.featuredImage.startsWith('/'))
+                                ? item.featuredImage
+                                : '/uploads/' + item.featuredImage;
+                        }
+                    %>
+                        <div class="carousel-item <%= index === 0 ? 'active' : '' %>" style="background-image: url('<%= imagePath %>'); background-size: cover; background-position: center;">
+                            
+                            <!-- Badge flutuante -->
+                            <% if (item.type === 'event') { %>
+                                <div class="hero-badge event-badge">
+                                    <i class="fas fa-calendar-check"></i> EVENTO DESTAQUE
                                 </div>
+                            <% } else { %>
+                                <div class="hero-badge">
+                                    <i class="fas fa-newspaper"></i> NOTÍCIA DESTAQUE
+                                </div>
+                            <% } %>
 
-                                <!-- METADE DIREITA: Informação -->
-                                <div class="hero-carousel-content">
-
-                                    <!-- Etiqueta de tipo -->
+                            <!-- Conteúdo sobreposto: info lado esquerdo, botões lado direito -->
+                            <div class="hero-overlay-container">
+                                <!-- Lado esquerdo: informações -->
+                                <div class="hero-info-side">
                                     <% if (item.type === 'event') { %>
                                         <div class="hero-content-label">
-                                            <i class="fas fa-calendar-alt"></i>Evento
+                                            <i class="fas fa-calendar-alt"></i> Evento
                                         </div>
                                     <% } else { %>
                                         <div class="hero-content-label">
-                                            <i class="fas fa-newspaper"></i>Notícia
+                                            <i class="fas fa-newspaper"></i> Notícia
                                         </div>
                                     <% } %>
 
@@ -475,6 +483,16 @@
                                             </div>
                                             <% } %>
                                         </div>
+                                    <% } else { %>
+                                        <% if (item.excerpt) { %>
+                                            <p class="hero-carousel-excerpt"><%= item.excerpt.substring(0, 180) %>...</p>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+
+                                <!-- Lado direito: botões -->
+                                <div class="hero-buttons-side">
+                                    <% if (item.type === 'event') { %>
                                         <div class="hero-btn-group">
                                             <a href="/eventos" class="btn-hero-primary btn-hero-event">
                                                 <span>Ver Evento</span><i class="fas fa-arrow-right"></i>
@@ -484,9 +502,6 @@
                                             </a>
                                         </div>
                                     <% } else { %>
-                                        <% if (item.excerpt) { %>
-                                            <p class="hero-carousel-excerpt"><%= item.excerpt.substring(0, 180) %>...</p>
-                                        <% } %>
                                         <div class="hero-btn-group">
                                             <a href="/noticias" class="btn-hero-primary">
                                                 <span>Ler Notícia</span><i class="fas fa-arrow-right"></i>
@@ -496,11 +511,8 @@
                                             </a>
                                         </div>
                                     <% } %>
-
-                                 
-
                                 </div>
-                            </article>
+                            </div>
                         </div>
                     <% }); %>
                 </div>
@@ -527,7 +539,7 @@
     </div>
 </section>
 
-<!-- Features Section -->
+<!-- Features Section (mantido exatamente igual) -->
 <section id="sobre" class="py-5 bg-white">
     <div class="container">
         <div class="row text-center mb-5">
@@ -570,7 +582,7 @@
     </div>
 </section>
 
-<!-- Stats Section -->
+<!-- Stats Section (mantido igual) -->
 <section class="py-5 bg-primary text-white">
     <div class="container">
         <div class="row text-center">

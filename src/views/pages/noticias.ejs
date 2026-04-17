@@ -1,6 +1,5 @@
 <%- include('../partials/header') %>
 
-<!-- Hero Section Notícias - PADRONIZADO -->
 <!-- Hero Section Notícias - REDUZIDO E CORRIGIDO -->
 <section class="page-hero-section">
     <div class="container">
@@ -9,14 +8,14 @@
                 <h1 class="hero-title">Notícias & Actualizações</h1>
                 <p class="hero-subtitle">Mantenha-se informado sobre as últimas novidades, eventos e desenvolvimentos na aviação civil moçambicana.</p>
                 
-                <!-- Barra de Pesquisa CORRIGIDA -->
+                <!-- Barra de Pesquisa CORRIGIDA (mobile: botão pequeno, input largo, texto visível) -->
                 <div class="news-search mt-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control search-input" 
+                    <div class="search-wrapper">
+                        <input type="text" class="search-input" 
                                placeholder="Pesquisar notícias..." 
                                id="newsSearchInput"
                                onkeyup="searchNews()">
-                        <button class="btn search-btn" 
+                        <button class="search-btn" 
                                 type="button"
                                 onclick="searchNews()">
                             <i class="fas fa-search"></i>
@@ -24,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            
+        
             <div class="col-lg-6 text-center" data-aos="fade-left" data-aos-delay="200">
                 <div class="hero-image">
                     <img src="/images/iacmlogopreview1.png" alt="Notícias IACM" class="img-fluid floating">
@@ -37,17 +36,17 @@
 <!-- Lista de Notícias - Grid 3 Colunas -->
 <section class="news-section py-5 bg-light">
     <div class="container">
-        <div class="row mb-4">
-            <div class="col-lg-6">
+        <div class="row mb-4 align-items-center">
+            <div class="col-md-6 mb-3 mb-md-0">
                 <h2 class="section-title h3 mb-0">Últimas Notícias</h2>
             </div>
-            <div class="col-lg-6 text-lg-end">
+            <div class="col-md-6 text-md-end">
                 <div class="dropdown">
                     <button class="btn btn-outline-primary dropdown-toggle" type="button" 
                             data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-filter me-2"></i>Filtrar por
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-md-end">
                         <li><a class="dropdown-item" href="#" onclick="filterNews('all')">Todas</a></li>
                         <li><a class="dropdown-item" href="#" onclick="filterNews('recent')">Mais Recentes</a></li>
                     </ul>
@@ -58,7 +57,7 @@
         <% if (news && news.length > 0) { %>
             <div class="row g-4" id="newsGrid">
                 <% news.forEach((item, index) => { %>
-                    <div class="col-lg-4 col-md-6 news-item" 
+                    <div class="col-sm-6 col-lg-4 news-item" 
                          data-news-id="<%= item.id %>"
                          data-title="<%= item.title.toLowerCase() %>"
                          data-content="<%= item.content.toLowerCase() %>">
@@ -78,7 +77,7 @@
                             </div>
                             
                             <div class="card-body d-flex flex-column p-4">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
                                     <span class="news-date text-muted small">
                                         <i class="fas fa-calendar me-1"></i>
                                         <%= new Date(item.createdAt).toLocaleDateString('pt-PT') %>
@@ -95,7 +94,7 @@
                                     <%= item.excerpt || item.content.substring(0, 150) + '...' %>
                                 </p>
                                 <div class="mt-auto">
-                                    <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                                         <button class="btn btn-primary btn-read-more" 
                                                 onclick="openNewsModal('<%= item.id %>')">
                                             Ler Mais <i class="fas fa-arrow-right ms-2"></i>
@@ -135,7 +134,7 @@
         <div class="row mt-5">
             <div class="col-lg-12 text-center">
                 <nav aria-label="Navegação de notícias">
-                    <ul class="pagination justify-content-center">
+                    <ul class="pagination justify-content-center flex-wrap">
                         <li class="page-item disabled">
                             <a class="page-link" href="#" tabindex="-1">
                                 <i class="fas fa-chevron-left me-1"></i> Anterior
@@ -170,7 +169,7 @@
 <%- JSON.stringify(news || []) %>
 </script>
 
-<!-- Estilos do Modal (Layout Jornal) -->
+<!-- Estilos do Modal (Layout Jornal) e Correções da Barra de Pesquisa -->
 <style>
 /* Cores IACM */
 :root {
@@ -225,44 +224,32 @@
     overflow-y: auto;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-}
-
-/* Layout de Jornal */
-.journal-layout {
-    display: grid;
-    grid-template-columns: 1.2fr 2fr;
-    gap: 50px;
-    padding: 50px;
-}
-
-.journal-left-column {
     position: relative;
 }
 
-.journal-right-column {
-    padding-top: 10px;
+/* Layout de Jornal - Responsivo */
+.journal-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 2fr;
+    gap: 40px;
+    padding: 40px;
 }
 
 /* Cabeçalho do Jornal */
 .journal-header {
     background: linear-gradient(135deg, var(--iacm-blue) 0%, var(--iacm-blue-dark) 100%);
     color: white;
-    padding: 30px 50px;
+    padding: 25px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
     position: sticky;
     top: 0;
     z-index: 100;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     border-bottom: 4px solid var(--iacm-gold);
-}
-
-.journal-logo {
-    height: 60px;
-    max-width: 100%;
-    object-fit: contain;
-    filter: brightness(0) invert(1);
 }
 
 .journal-header-subtitle {
@@ -276,8 +263,8 @@
 
 /* Metadados da Notícia */
 .journal-meta {
-    margin-bottom: 40px;
-    padding-bottom: 25px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
     border-bottom: 2px solid #e6f2ff;
 }
 
@@ -286,25 +273,21 @@
     color: var(--iacm-blue);
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 15px;
     font-weight: 500;
 }
 
-.journal-date i {
-    color: var(--iacm-blue);
-    font-size: 1.1rem;
-}
-
 /* Título da Notícia */
 .journal-title {
     font-family: 'Montserrat', sans-serif;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
     line-height: 1.2;
     color: var(--iacm-blue-dark);
-    margin-bottom: 30px;
-    padding-bottom: 20px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
     position: relative;
 }
 
@@ -322,7 +305,7 @@
 /* Imagem da Notícia */
 .journal-image-container {
     position: relative;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     overflow: hidden;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -330,42 +313,37 @@
 
 .journal-image {
     width: 100%;
-    height: 350px;
+    height: auto;
+    max-height: 350px;
     object-fit: cover;
     transition: transform 0.6s ease;
     border-radius: 15px;
 }
 
-.journal-image:hover {
-    transform: scale(1.02);
-}
-
 /* Conteúdo da Notícia */
 .journal-content {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     line-height: 1.8;
     color: #2d3748;
     text-align: justify;
-    font-weight: 400;
 }
 
 .journal-content p {
-    margin-bottom: 1.8rem;
-    position: relative;
+    margin-bottom: 1.5rem;
 }
 
 .journal-content p:first-of-type {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: var(--iacm-blue-dark);
-    padding-left: 20px;
+    padding-left: 15px;
     border-left: 4px solid var(--iacm-blue);
 }
 
 /* Sidebar do Jornal */
 .journal-sidebar {
     background: linear-gradient(180deg, #f0f8ff 0%, #e6f2ff 100%);
-    padding: 30px;
+    padding: 25px;
     border-radius: 15px;
     margin-top: 30px;
     border: 2px solid var(--iacm-blue);
@@ -374,10 +352,10 @@
 
 .journal-sidebar-title {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: var(--iacm-blue-dark);
-    margin-bottom: 25px;
-    padding-bottom: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
     border-bottom: 2px solid var(--iacm-blue);
     font-weight: 600;
     display: flex;
@@ -396,14 +374,10 @@
 }
 
 .journal-related-news li {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
     border-bottom: 1px solid #d9e7ff;
     transition: transform 0.3s ease;
-}
-
-.journal-related-news li:hover {
-    transform: translateX(10px);
 }
 
 .journal-related-news li:last-child {
@@ -424,18 +398,14 @@
     color: var(--iacm-blue);
 }
 
-.journal-related-news i {
-    color: var(--iacm-gold);
-    font-size: 0.9rem;
-    margin-top: 4px;
-}
-
 /* Barra de Ações */
 .journal-actions-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 25px 50px;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px 40px;
     background: linear-gradient(180deg, #f8fafc 0%, #e6f2ff 100%);
     border-top: 2px solid var(--iacm-blue);
     position: sticky;
@@ -446,6 +416,7 @@
 .journal-social-share {
     display: flex;
     gap: 12px;
+    flex-wrap: wrap;
 }
 
 .journal-social-btn {
@@ -468,18 +439,14 @@
 .journal-social-btn.whatsapp { background: linear-gradient(135deg, #25d366 0%, #1da851 100%); }
 .journal-social-btn.copy { background: linear-gradient(135deg, var(--iacm-blue) 0%, var(--iacm-blue-dark) 100%); }
 
-.journal-social-btn:hover {
-    transform: translateY(-5px) scale(1.1);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
-
 .journal-utility-btns {
     display: flex;
-    gap: 15px;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 .journal-btn {
-    padding: 10px 25px;
+    padding: 10px 20px;
     background: linear-gradient(135deg, var(--iacm-blue) 0%, var(--iacm-blue-dark) 100%);
     border: none;
     color: white;
@@ -487,33 +454,10 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 102, 204, 0.2);
-    position: relative;
-    overflow: hidden;
-}
-
-.journal-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-}
-
-.journal-btn:hover::before {
-    left: 100%;
-}
-
-.journal-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3);
-    background: linear-gradient(135deg, var(--iacm-blue-dark) 0%, var(--iacm-blue) 100%);
 }
 
 .journal-btn i {
@@ -523,15 +467,15 @@
 /* Botão Fechar */
 .journal-close-btn {
     position: absolute;
-    top: 25px;
-    right: 25px;
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.2);
+    top: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    background: rgba(0, 0, 0, 0.5);
     border: 2px solid var(--iacm-gold);
     border-radius: 50%;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -544,128 +488,180 @@
 .journal-close-btn:hover {
     background: var(--iacm-gold);
     color: var(--iacm-blue-dark);
-    transform: rotate(90deg) scale(1.1);
-    border-color: white;
+    transform: rotate(90deg);
 }
 
-/* Animações */
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(60px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideInRight {
-    from {
-        transform: translateX(30px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-/* Responsividade */
-@media (max-width: 1200px) {
-    .journal-layout {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        padding: 40px;
-    }
-    
-    .journal-content {
-        column-count: 1;
-    }
-    
-    .journal-title {
-        font-size: 2.2rem;
-    }
-    
-    .journal-header {
-        padding: 25px 40px;
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-    }
-    
-    .journal-header-logo-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-        margin-bottom: 10px;
-    }
+/* ========== RESPONSIVIDADE COMPLETA ========== */
+@media (max-width: 1024px) {
+    .journal-layout { gap: 30px; padding: 30px; }
+    .journal-title { font-size: 1.8rem; }
+    .journal-content { font-size: 1rem; }
 }
 
 @media (max-width: 768px) {
-    .journal-actions-bar {
-        flex-direction: column;
-        gap: 20px;
+    .journal-layout {
+        grid-template-columns: 1fr;
+        gap: 25px;
         padding: 20px;
     }
-    
-    .journal-social-share {
-        width: 100%;
-        justify-content: center;
+    .journal-left-column { order: 1; }
+    .journal-right-column { order: 2; }
+    .journal-header {
+        padding: 20px;
+        flex-direction: column;
+        text-align: center;
     }
-    
-    .journal-utility-btns {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    
     .journal-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        text-align: left;
     }
-    
-    .journal-content {
-        font-size: 1.05rem;
+    .journal-title::after { width: 60px; }
+    .journal-image { max-height: 250px; }
+    .journal-meta-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px;
     }
-    
-    .journal-logo {
-        height: 50px;
+    .journal-content p:first-of-type { font-size: 1.1rem; padding-left: 12px; }
+    .journal-sidebar { margin-top: 20px; padding: 20px; }
+    .journal-actions-bar {
+        padding: 20px;
+        flex-direction: column;
+        align-items: stretch;
     }
-    
-    .journal-layout {
-        padding: 30px 20px;
+    .journal-social-share { justify-content: center; }
+    .journal-utility-btns { justify-content: center; }
+    .journal-btn { justify-content: center; flex: 1; }
+    .journal-close-btn { top: 15px; right: 15px; width: 40px; height: 40px; font-size: 1.2rem; }
+    .pagination { gap: 5px; }
+    .page-link { padding: 8px 14px; font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+    .journal-layout { padding: 15px; gap: 20px; }
+    .journal-header { padding: 15px; }
+    .journal-header-subtitle { font-size: 0.75rem; }
+    .journal-title { font-size: 1.4rem; }
+    .journal-content { font-size: 0.95rem; line-height: 1.7; }
+    .journal-content p:first-of-type { font-size: 1rem; }
+    .journal-sidebar-title { font-size: 1.2rem; }
+    .journal-social-btn { width: 40px; height: 40px; font-size: 1rem; }
+    .journal-btn { padding: 8px 16px; font-size: 0.9rem; }
+    .news-card .card-body { padding: 1.25rem; }
+    .news-title { font-size: 1.1rem; }
+    .btn-read-more { padding: 6px 16px; font-size: 0.9rem; }
+}
+
+/* ===== BARRA DE PESQUISA CORRIGIDA (mobile: botão pequeno, input largo, texto visível) ===== */
+.news-search .search-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+    align-items: stretch;
+    gap: 0;
+    border-radius: 50px;
+    overflow: hidden;
+    border: 1px solid #ced4da;
+    background: #fff;
+}
+
+/* Input: ocupa todo espaço disponível, texto escuro, fundo branco */
+.news-search .search-input {
+    flex: 1;
+    min-width: 0; /* permite encolher se necessário, mas normalmente vai expandir */
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #212529; /* texto escuro visível */
+    background-color: #fff;
+    outline: none;
+}
+
+.news-search .search-input::placeholder {
+    color: #6c757d; /* placeholder cinza visível */
+}
+
+.news-search .search-input:focus {
+    box-shadow: none;
+    border: none;
+}
+
+/* Botão: largura automática, apenas o necessário, gradiente dourado */
+.news-search .search-btn {
+    flex-shrink: 0;
+    width: auto; /* largura automática, não força largura fixa */
+    min-width: 50px; /* largura mínima para conforto */
+    white-space: nowrap;
+    border: none;
+    background: linear-gradient(135deg, #D4AF37 0%, #B88C25 100%);
+    color: #212529;
+    font-weight: 600;
+    padding: 0 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.news-search .search-btn:hover {
+    background: linear-gradient(135deg, #E5C158 0%, #C99D2F 100%);
+    transform: translateY(-1px);
+}
+
+.news-search .search-btn:active {
+    transform: translateY(1px);
+}
+
+/* Responsividade da barra de pesquisa - garantindo que o botão não ocupe largura excessiva */
+@media (max-width: 768px) {
+    .news-search .search-wrapper {
+        max-width: 100%;
     }
-    
-    .journal-image {
-        height: 250px;
+    .news-search .search-input {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
     }
-    
-    .journal-close-btn {
-        top: 15px;
-        right: 15px;
-        width: 45px;
-        height: 45px;
+    .news-search .search-btn {
+        padding: 0 1rem;
+        font-size: 0.9rem;
+        min-width: 45px;
     }
 }
 
-/* Estilos para cards hover */
+@media (max-width: 576px) {
+    .news-search .search-wrapper {
+        border-radius: 12px;
+    }
+    .news-search .search-input {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    .news-search .search-btn {
+        padding: 0 0.8rem;
+        font-size: 0.85rem;
+        min-width: 42px;
+    }
+}
+
+/* Animações e outros estilos */
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(60px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(30px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
 .hover-lift {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid #e6f2ff;
 }
-
 .hover-lift:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 102, 204, 0.15) !important;
@@ -686,56 +682,20 @@
     transition: opacity 0.3s ease;
     border-radius: 0.375rem;
 }
+.news-card:hover .news-card-hover-overlay { opacity: 1; }
 
-.news-card:hover .news-card-hover-overlay {
-    opacity: 1;
-}
-
-.news-card-hover-overlay .hover-content {
-    color: white;
-    text-align: center;
-    padding: 20px;
-}
-
-.news-card-hover-overlay i {
-    margin-bottom: 15px;
-    color: var(--iacm-gold);
-}
-
-/* Scrollbar personalizada */
 .news-modal-content::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
-
 .news-modal-content::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 10px;
 }
-
 .news-modal-content::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, var(--iacm-blue) 0%, var(--iacm-blue-dark) 100%);
     border-radius: 10px;
 }
 
-.news-modal-content::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, var(--iacm-gold) 0%, var(--iacm-gold-dark) 100%);
-}
-
-/* Header logo container */
-.journal-header-logo-container {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-/* Texto do conteúdo com melhor espaçamento */
-.journal-content p {
-    line-height: 1.8;
-    margin-bottom: 1.8rem;
-    text-align: justify;
-}
-
-/* Estilo para filtro dropdown */
 .dropdown-menu {
     border: none;
     box-shadow: 0 10px 40px rgba(0, 102, 204, 0.15);
@@ -743,20 +703,16 @@
     padding: 10px 0;
     border: 2px solid var(--iacm-blue);
 }
-
 .dropdown-item {
     padding: 10px 20px;
     transition: all 0.3s ease;
     color: #2d3748;
 }
-
 .dropdown-item:hover {
     background: linear-gradient(90deg, #e6f2ff 0%, #cce0ff 100%);
     color: var(--iacm-blue);
     transform: translateX(5px);
 }
-
-/* Botão de filtro */
 .btn-outline-primary {
     border: 2px solid var(--iacm-blue);
     color: var(--iacm-blue);
@@ -765,15 +721,11 @@
     padding: 8px 20px;
     transition: all 0.3s ease;
 }
-
 .btn-outline-primary:hover {
     background: linear-gradient(135deg, var(--iacm-blue) 0%, var(--iacm-blue-dark) 100%);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
 }
-
-/* Botão Ler Mais nos cards */
 .btn-read-more {
     background: linear-gradient(135deg, var(--iacm-blue) 0%, var(--iacm-blue-dark) 100%);
     border: none;
@@ -781,73 +733,28 @@
     padding: 8px 20px;
     font-weight: 500;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
 }
-
-.btn-read-more::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
-    transition: left 0.5s;
-}
-
-.btn-read-more:hover::after {
-    left: 100%;
-}
-
 .btn-read-more:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
-    background: linear-gradient(135deg, var(--iacm-blue-dark) 0%, var(--iacm-blue) 100%);
 }
-
-/* Tags */
-.journal-tags {
-    margin-top: 40px;
-    padding-top: 25px;
-    border-top: 2px solid #e6f2ff;
-}
-
-.journal-tags .badge {
-    background: linear-gradient(135deg, #e6f2ff 0%, #cce0ff 100%);
-    color: var(--iacm-blue);
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-weight: 500;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #b3d1ff;
-    font-size: 0.9rem;
-}
-
-/* Data e hora */
 .journal-meta-info {
     background: #f0f8ff;
-    padding: 15px;
+    padding: 12px 20px;
     border-radius: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     display: flex;
     align-items: center;
     gap: 20px;
     flex-wrap: wrap;
     border-left: 4px solid var(--iacm-gold);
 }
-
 .journal-meta-info span {
     display: flex;
     align-items: center;
     gap: 8px;
     color: var(--iacm-blue);
     font-weight: 500;
-}
-
-.journal-meta-info i {
-    color: var(--iacm-gold);
 }
 </style>
 
@@ -867,26 +774,19 @@ class NewsSystem {
     loadData() {
         try {
             const newsDataElement = document.getElementById('newsData');
-            if (newsDataElement) {
+            if (newsDataElement && newsDataElement.textContent) {
                 this.newsData = JSON.parse(newsDataElement.textContent);
             }
         } catch (e) {
             console.error('Erro ao carregar dados das notícias:', e);
+            this.newsData = [];
         }
     }
 
     initEventListeners() {
-        // Fechar modal com ESC
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') this.closeNewsModal();
         });
-
-        // Fechar modal clicando fora
-        document.getElementById('newsModalOverlay')?.addEventListener('click', (e) => {
-            if (e.target.id === 'newsModalOverlay') this.closeNewsModal();
-        });
-
-        // Carregar bookmarks do localStorage
         const savedBookmarks = localStorage.getItem('newsBookmarks');
         if (savedBookmarks) {
             this.bookmarkedNews = new Set(JSON.parse(savedBookmarks));
@@ -900,7 +800,6 @@ class NewsSystem {
         const modal = document.getElementById('newsModalOverlay');
         const modalContent = document.getElementById('newsModalContent');
         
-        // Formatar data
         const date = new Date(news.createdAt);
         const formattedDate = date.toLocaleDateString('pt-PT', {
             weekday: 'long',
@@ -911,18 +810,14 @@ class NewsSystem {
             minute: '2-digit'
         });
 
-        // Gerar notícias relacionadas
         const relatedNews = this.getRelatedNews(newsId);
 
-        // Construir layout de jornal COM LOGO DO IACM
         modalContent.innerHTML = `
             <button class="journal-close-btn" onclick="newsSystem.closeNewsModal()">
                 <i class="fas fa-times"></i>
             </button>
-
             <div class="journal-header">
                 <div class="journal-header-logo-container">
-                   
                     <div class="journal-header-text">
                         <small class="journal-header-subtitle">AUTORIDADE REGULADORA DE AVIAÇÃO CIVIL DE MOÇAMBIQUE</small>
                     </div>
@@ -932,7 +827,6 @@ class NewsSystem {
                     <div class="text-white-75">${formattedDate}</div>
                 </div>
             </div>
-
             <div class="journal-layout">
                 <div class="journal-left-column">
                     <div class="journal-meta">
@@ -944,14 +838,12 @@ class NewsSystem {
                             </span>
                         </div>
                     </div>
-
                     <div class="journal-image-container">
                         <img src="${news.featuredImage || '/images/news-default.jpg'}" 
-                             alt="${news.title}" 
+                             alt="${news.title.replace(/"/g, '&quot;')}" 
                              class="journal-image"
                              onerror="this.src='/images/news-default.jpg'">
                     </div>
-
                     ${relatedNews.length > 0 ? `
                     <div class="journal-sidebar">
                         <h3 class="journal-sidebar-title">
@@ -970,43 +862,24 @@ class NewsSystem {
                     </div>
                     ` : ''}
                 </div>
-
                 <div class="journal-right-column">
-                    <h2 class="journal-title">${news.title}</h2>
-                    
+                    <h2 class="journal-title">${news.title.replace(/"/g, '&quot;')}</h2>
                     <div class="journal-meta-info">
-                        <span>
-                            <i class="fas fa-calendar-alt"></i>
-                            ${date.toLocaleDateString('pt-PT', { day: '2-digit', month: 'long', year: 'numeric' })}
-                        </span>
-                        <span>
-                            <i class="fas fa-clock"></i>
-                            ${Math.ceil(news.content.length / 1000)} minutos de leitura
-                        </span>
+                        <span><i class="fas fa-calendar-alt"></i> ${date.toLocaleDateString('pt-PT', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
+                        <span><i class="fas fa-clock"></i> ${Math.ceil(news.content.length / 1000)} minutos de leitura</span>
                     </div>
-
                     <div class="journal-content">
                         ${this.formatNewsContent(news.content)}
                     </div>
                 </div>
             </div>
-
             <div class="journal-actions-bar">
                 <div class="journal-social-share">
-                    <button class="journal-social-btn facebook" onclick="shareOnFacebook('${news.id}')">
-                        <i class="fab fa-facebook-f"></i>
-                    </button>
-                    <button class="journal-social-btn twitter" onclick="shareOnTwitter('${news.id}')">
-                        <i class="fab fa-twitter"></i>
-                    </button>
-                    <button class="journal-social-btn whatsapp" onclick="shareOnWhatsApp('${news.id}')">
-                        <i class="fab fa-whatsapp"></i>
-                    </button>
-                    <button class="journal-social-btn copy" onclick="copyNewsLink('${news.id}')">
-                        <i class="fas fa-link"></i>
-                    </button>
+                    <button class="journal-social-btn facebook" onclick="shareOnFacebook('${news.id}')"><i class="fab fa-facebook-f"></i></button>
+                    <button class="journal-social-btn twitter" onclick="shareOnTwitter('${news.id}')"><i class="fab fa-twitter"></i></button>
+                    <button class="journal-social-btn whatsapp" onclick="shareOnWhatsApp('${news.id}')"><i class="fab fa-whatsapp"></i></button>
+                    <button class="journal-social-btn copy" onclick="copyNewsLink('${news.id}')"><i class="fas fa-link"></i></button>
                 </div>
-
                 <div class="journal-utility-btns">
                     <button class="journal-btn" onclick="newsSystem.toggleBookmark('${news.id}', event, true)">
                         <i class="${this.bookmarkedNews.has(news.id) ? 'fas' : 'far'} fa-bookmark"></i>
@@ -1020,37 +893,27 @@ class NewsSystem {
         `;
         
         modal.classList.add('active');
-        document.body.classList.add('modal-open');
-        
-        // Animar entrada
-        setTimeout(() => {
-            modalContent.style.animation = 'fadeIn 0.6s ease-out';
-        }, 100);
+        document.body.style.overflow = 'hidden';
     }
 
     closeNewsModal() {
         const modal = document.getElementById('newsModalOverlay');
         modal.classList.remove('active');
-        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
     }
 
     formatNewsContent(content) {
-        // Dividir em parágrafos e formatar
         const paragraphs = content.split('\n').filter(p => p.trim());
-        return paragraphs.map(p => `<p>${p}</p>`).join('');
+        return paragraphs.map(p => `<p>${p.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`).join('');
     }
 
     getRelatedNews(currentId, limit = 3) {
         const currentNews = this.newsData.find(item => item.id == currentId);
         if (!currentNews) return [];
-        
-        // Filtrar notícias mais recentes, excluindo a atual
-        const related = this.newsData
+        return this.newsData
             .filter(item => item.id != currentId)
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .slice(0, limit);
-        
-        return related;
     }
 
     searchNews() {
@@ -1062,20 +925,15 @@ class NewsSystem {
         let visibleCount = 0;
         
         newsItems.forEach(item => {
-            const title = item.dataset.title;
-            const content = item.dataset.content;
-            
+            const title = item.dataset.title || '';
+            const content = item.dataset.content || '';
             if (title.includes(searchTerm) || content.includes(searchTerm)) {
                 item.style.display = 'block';
                 visibleCount++;
-                // Animação de destaque
-                item.style.animation = 'slideInRight 0.5s ease';
             } else {
                 item.style.display = 'none';
             }
         });
-        
-        // Mostrar mensagem se não houver resultados
         this.showSearchResults(visibleCount);
     }
 
@@ -1085,31 +943,17 @@ class NewsSystem {
             resultsMessage = document.createElement('div');
             resultsMessage.id = 'searchResultsMessage';
             resultsMessage.className = 'alert alert-info mt-3';
-            resultsMessage.style.cssText = `
-                background: linear-gradient(135deg, #e6f2ff 0%, #cce0ff 100%);
-                border: 2px solid #0066cc;
-                color: #0066cc;
-                border-radius: 12px;
-                box-shadow: 0 4px 15px rgba(0, 102, 204, 0.1);
-            `;
-            document.querySelector('.news-section .container').insertBefore(
-                resultsMessage,
-                document.getElementById('newsGrid')
-            );
+            const newsGrid = document.getElementById('newsGrid');
+            if (newsGrid && newsGrid.parentNode) {
+                newsGrid.parentNode.insertBefore(resultsMessage, newsGrid);
+            }
         }
-        
-        if (this.currentSearch) {
+        if (this.currentSearch && this.currentSearch.trim() !== '') {
             if (count === 0) {
-                resultsMessage.innerHTML = `
-                    <i class="fas fa-search me-2"></i>
-                    Nenhuma notícia encontrada para "<strong>${this.currentSearch}</strong>"
-                `;
+                resultsMessage.innerHTML = `<i class="fas fa-search me-2"></i>Nenhuma notícia encontrada para "<strong>${this.escapeHtml(this.currentSearch)}</strong>"`;
                 resultsMessage.style.display = 'block';
             } else {
-                resultsMessage.innerHTML = `
-                    <i class="fas fa-search me-2"></i>
-                    ${count} notícia(s) encontrada(s) para "<strong>${this.currentSearch}</strong>"
-                `;
+                resultsMessage.innerHTML = `<i class="fas fa-search me-2"></i>${count} notícia(s) encontrada(s) para "<strong>${this.escapeHtml(this.currentSearch)}</strong>"`;
                 resultsMessage.style.display = 'block';
             }
         } else {
@@ -1117,119 +961,81 @@ class NewsSystem {
         }
     }
 
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
     filterNews(filterType) {
         this.currentFilter = filterType;
         const newsItems = document.querySelectorAll('.news-item');
-        
         newsItems.forEach(item => {
             let shouldShow = true;
-            
-            switch (filterType) {
-                case 'recent':
-                    const newsDate = new Date(
-                        this.newsData.find(n => n.id == item.dataset.newsId)?.createdAt
-                    );
+            if (filterType === 'recent') {
+                const news = this.newsData.find(n => n.id == item.dataset.newsId);
+                if (news) {
+                    const newsDate = new Date(news.createdAt);
                     const oneMonthAgo = new Date();
                     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
                     shouldShow = newsDate >= oneMonthAgo;
-                    break;
+                }
             }
-            
-            if (shouldShow) {
-                item.style.display = 'block';
-                item.style.animation = 'fadeIn 0.5s ease';
-            } else {
-                item.style.display = 'none';
-            }
+            item.style.display = shouldShow ? 'block' : 'none';
         });
     }
 
     toggleBookmark(newsId, event, fromModal = false) {
         if (event) event.stopPropagation();
-        
         if (this.bookmarkedNews.has(newsId)) {
             this.bookmarkedNews.delete(newsId);
-            if (!fromModal) {
+            if (!fromModal && event && event.currentTarget) {
                 event.currentTarget.innerHTML = '<i class="far fa-bookmark"></i>';
-                event.currentTarget.classList.remove('btn-primary');
-                event.currentTarget.classList.add('btn-outline-secondary');
             }
             this.showNotification('Notícia removida dos favoritos', 'info');
         } else {
             this.bookmarkedNews.add(newsId);
-            if (!fromModal) {
+            if (!fromModal && event && event.currentTarget) {
                 event.currentTarget.innerHTML = '<i class="fas fa-bookmark"></i>';
-                event.currentTarget.classList.remove('btn-outline-secondary');
-                event.currentTarget.classList.add('btn-primary');
             }
             this.showNotification('Notícia guardada nos favoritos', 'success');
         }
-        
-        // Salvar no localStorage
-        localStorage.setItem('newsBookmarks', 
-            JSON.stringify(Array.from(this.bookmarkedNews)));
-        
-        // Atualizar botão no modal se aberto
+        localStorage.setItem('newsBookmarks', JSON.stringify(Array.from(this.bookmarkedNews)));
         if (fromModal) {
             const bookmarkBtn = document.querySelector('.journal-utility-btns .journal-btn:first-child');
             if (bookmarkBtn) {
                 const icon = bookmarkBtn.querySelector('i');
-                const text = bookmarkBtn.querySelector('span') || document.createElement('span');
-                
+                const textNode = bookmarkBtn.childNodes[bookmarkBtn.childNodes.length - 1];
                 if (this.bookmarkedNews.has(newsId)) {
-                    icon.className = 'fas fa-bookmark';
-                    text.textContent = 'Remover';
+                    if (icon) icon.className = 'fas fa-bookmark';
+                    if (textNode && textNode.nodeType === Node.TEXT_NODE) textNode.textContent = ' Remover';
                 } else {
-                    icon.className = 'far fa-bookmark';
-                    text.textContent = 'Guardar';
-                }
-                
-                if (!bookmarkBtn.contains(text)) {
-                    bookmarkBtn.appendChild(text);
+                    if (icon) icon.className = 'far fa-bookmark';
+                    if (textNode && textNode.nodeType === Node.TEXT_NODE) textNode.textContent = ' Guardar';
                 }
             }
         }
     }
 
     showNotification(message, type = 'info') {
-        // Remover notificação anterior
         const oldNotification = document.querySelector('.news-notification');
         if (oldNotification) oldNotification.remove();
-        
-        // Criar nova notificação
         const notification = document.createElement('div');
         notification.className = `news-notification alert alert-${type} alert-dismissible fade show`;
-        notification.innerHTML = `
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-        
-        // Estilos
+        notification.innerHTML = `${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
         const bgColor = type === 'success' ? '#28a745' : '#0066cc';
         const borderColor = type === 'success' ? '#1e7e34' : '#004999';
-        
         notification.style.cssText = `
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            z-index: 10000;
-            min-width: 300px;
-            background: linear-gradient(135deg, ${bgColor} 0%, ${borderColor} 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 15px 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            animation: slideInRight 0.3s ease;
-            border-left: 4px solid #FFD700;
+            position: fixed; top: 25px; right: 25px; z-index: 10000;
+            min-width: 280px; background: linear-gradient(135deg, ${bgColor} 0%, ${borderColor} 100%);
+            color: white; border: none; border-radius: 12px; padding: 12px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); animation: slideInRight 0.3s ease;
+            border-left: 4px solid #FFD700; font-size: 0.9rem;
         `;
-        
         document.body.appendChild(notification);
-        
-        // Remover automaticamente após 3 segundos
         setTimeout(() => {
             if (notification.parentNode) {
-                notification.classList.remove('show');
+                notification.style.animation = 'slideOutRight 0.3s ease';
                 setTimeout(() => notification.remove(), 300);
             }
         }, 3000);
@@ -1240,94 +1046,62 @@ class NewsSystem {
 function shareOnFacebook(newsId) {
     const news = newsSystem.newsData.find(item => item.id == newsId);
     if (!news) return;
-    
     const url = encodeURIComponent(window.location.href);
     const text = encodeURIComponent(`Notícia IACM: ${news.title}`);
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, 
-                '_blank', 'width=600,height=400');
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank', 'width=600,height=400');
 }
-
 function shareOnTwitter(newsId) {
     const news = newsSystem.newsData.find(item => item.id == newsId);
     if (!news) return;
-    
     const url = encodeURIComponent(window.location.href);
     const text = encodeURIComponent(`Notícia IACM: ${news.title}`);
-    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, 
-                '_blank', 'width=600,height=400');
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
 }
-
 function shareOnWhatsApp(newsId) {
     const news = newsSystem.newsData.find(item => item.id == newsId);
     if (!news) return;
-    
     const url = encodeURIComponent(window.location.href);
     const text = encodeURIComponent(`Leia esta notícia do IACM: ${news.title}\n\n${url}`);
     window.open(`https://wa.me/?text=${text}`, '_blank', 'width=600,height=400');
 }
-
 function copyNewsLink(newsId) {
     const url = `${window.location.origin}/noticias#${newsId}`;
     navigator.clipboard.writeText(url).then(() => {
         newsSystem.showNotification('Link copiado para a área de transferência!', 'success');
+    }).catch(() => {
+        newsSystem.showNotification('Erro ao copiar link', 'error');
     });
 }
-
 function printNews(newsId) {
     const news = newsSystem.newsData.find(item => item.id == newsId);
     if (!news) return;
-    
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
         <html>
-            <head>
-                <title>${news.title} - IACM</title>
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-                <style>
-                    @media print {
-                        @page { margin: 2cm; }
-                        body { font-family: 'Inter', sans-serif; }
-                        h1 { color: #0066cc; border-bottom: 3px solid #FFD700; }
-                        .print-header { text-align: center; margin-bottom: 2cm; }
-                        .print-meta { color: #666; margin-bottom: 1cm; }
-                        .print-content { line-height: 1.8; text-align: justify; }
-                        .print-footer { margin-top: 2cm; text-align: center; color: #666; }
-                        img { max-width: 100%; height: auto; margin: 1cm 0; border-radius: 10px; }
-                    }
-                    body { padding: 2cm; background: #f8fafc; }
-                    .print-logo { height: 60px; margin-bottom: 20px; }
-                </style>
-            </head>
+            <head><title>${news.title.replace(/"/g, '&quot;')} - IACM</title>
+            <style>body { font-family: 'Inter', sans-serif; padding: 2cm; }
+            h1 { color: #0066cc; border-bottom: 3px solid #FFD700; }
+            .print-meta { color: #666; margin-bottom: 1cm; }
+            .print-content { line-height: 1.6; text-align: justify; }
+            img { max-width: 100%; height: auto; margin: 1cm 0; }
+            @media print { body { padding: 0; } }</style></head>
             <body>
-                <div class="print-header">
-                    <h1>Autoridade reguladora de aviação civil de Moçambique - IACM</h1>
-                    <h2>Notícia Oficial</h2>
-                </div>
-                <div class="print-meta">
-                    <strong>Data:</strong> ${new Date(news.createdAt).toLocaleDateString('pt-PT')}<br>
-                </div>
-                <h1>${news.title}</h1>
-                ${news.featuredImage ? `<img src="${news.featuredImage}" alt="${news.title}">` : ''}
-                ${news.excerpt ? `<div class="lead"><strong>${news.excerpt}</strong></div>` : ''}
-                <div class="print-content">${news.content}</div>
-                <div class="print-footer">
-                    <hr>
-                    <p>Documento impresso de ${window.location.origin}<br>
-                    Data de impressão: ${new Date().toLocaleDateString('pt-PT')}</p>
-                </div>
+                <h1>${news.title.replace(/"/g, '&quot;')}</h1>
+                <div class="print-meta"><strong>Data:</strong> ${new Date(news.createdAt).toLocaleDateString('pt-PT')}<br></div>
+                ${news.featuredImage ? `<img src="${news.featuredImage}" alt="${news.title.replace(/"/g, '&quot;')}">` : ''}
+                <div class="print-content">${news.content.replace(/\n/g, '<br>')}</div>
+                <hr><small>Documento impresso de ${window.location.origin} em ${new Date().toLocaleString('pt-PT')}</small>
             </body>
         </html>
     `);
     printWindow.document.close();
-    setTimeout(() => printWindow.print(), 500);
+    printWindow.print();
 }
 
-// Inicializar sistema de notícias
+// Inicialização
 let newsSystem;
 document.addEventListener('DOMContentLoaded', () => {
     newsSystem = new NewsSystem();
-    
-    // Tornar funções globais disponíveis para onclick
     window.openNewsModal = (id) => newsSystem.openNewsModal(id);
     window.closeNewsModal = () => newsSystem.closeNewsModal();
     window.toggleBookmark = (id, e) => newsSystem.toggleBookmark(id, e);
@@ -1339,26 +1113,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 });
 
-// Estilos para notificações
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    
+// Estilos adicionais para animações
+const styleSheet = document.createElement("style");
+styleSheet.textContent = `
     @keyframes slideOutRight {
         from { transform: translateX(0); opacity: 1; }
         to { transform: translateX(100%); opacity: 0; }
     }
-    
-    .news-notification {
-        animation: slideInRight 0.3s ease;
-    }
-    
-    .news-notification.fade {
-        animation: slideOutRight 0.3s ease;
+    body.modal-open { overflow: hidden; }
+    @media (max-width: 576px) {
+        .news-card .card-body { padding: 1rem; }
+        .news-actions { margin-top: 0.5rem; }
+        .btn-read-more { font-size: 0.85rem; padding: 6px 12px; }
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(styleSheet);
 </script>

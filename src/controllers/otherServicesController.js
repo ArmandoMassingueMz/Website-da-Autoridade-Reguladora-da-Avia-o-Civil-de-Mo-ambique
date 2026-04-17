@@ -90,19 +90,16 @@ exports.store = async (req, res) => {
       isActive 
     } = req.body;
 
-    // Validação básica
     if (!serviceName || !title) {
       req.flash('error', 'Nome do serviço e título são obrigatórios');
       return res.redirect('/admin/other-services/create');
     }
 
-    // Processar upload de PDF se existir
     let pdfUrl = null;
     if (req.file) {
       pdfUrl = `/uploads/other-services/${req.file.filename}`;
     }
 
-    // Criar serviço
     await OtherService.create({
       serviceName,
       title,
@@ -196,7 +193,6 @@ exports.update = async (req, res) => {
       isActive 
     } = req.body;
 
-    // Validação básica
     if (!serviceName || !title) {
       req.flash('error', 'Nome do serviço e título são obrigatórios');
       return res.redirect(`/admin/other-services/${req.params.id}/edit`);
@@ -205,19 +201,24 @@ exports.update = async (req, res) => {
     // Processar novo arquivo se foi enviado
     let pdfUrl = service.pdfUrl;
     if (req.file) {
-      // Remover arquivo antigo se existir
+      // ✅ Remover arquivo antigo com verificação segura
       if (service.pdfUrl) {
-        const oldFilePath = path.join(__dirname, '..', 'public', service.pdfUrl);
+        const oldFilePath = path.join(process.cwd(), 'public', service.pdfUrl);
         try {
+          await fs.access(oldFilePath);
           await fs.unlink(oldFilePath);
+          console.log('✅ Arquivo antigo removido:', oldFilePath);
         } catch (err) {
-          console.log('Arquivo antigo não encontrado ou já removido');
+          if (err.code === 'ENOENT') {
+            console.log('ℹ️ Arquivo antigo não encontrado, continuando...');
+          } else {
+            console.error('⚠️ Erro ao remover arquivo antigo:', err.message);
+          }
         }
       }
       pdfUrl = `/uploads/other-services/${req.file.filename}`;
     }
 
-    // Atualizar serviço
     await service.update({
       serviceName,
       title,
@@ -251,17 +252,22 @@ exports.delete = async (req, res) => {
       return res.redirect('/admin/other-services');
     }
 
-    // Remover arquivo se existir
+    // ✅ Remover arquivo com verificação segura
     if (service.pdfUrl) {
-      const filePath = path.join(__dirname, '..', 'public', service.pdfUrl);
+      const filePath = path.join(process.cwd(), 'public', service.pdfUrl);
       try {
+        await fs.access(filePath);
         await fs.unlink(filePath);
+        console.log('✅ Arquivo removido:', filePath);
       } catch (err) {
-        console.log('Arquivo não encontrado ou já removido');
+        if (err.code === 'ENOENT') {
+          console.log('ℹ️ Arquivo não encontrado, continuando...');
+        } else {
+          console.error('⚠️ Erro ao remover arquivo:', err.message);
+        }
       }
     }
 
-    // Excluir serviço
     await service.destroy();
 
     req.flash('success', 'Serviço excluído com sucesso!');

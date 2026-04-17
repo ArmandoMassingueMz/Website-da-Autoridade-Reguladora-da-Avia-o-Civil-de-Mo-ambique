@@ -1,4 +1,3 @@
-<!-- src/views/admin/contacts/show.ejs -->
 <%- layout('layouts/admin') %>
 
 <div class="container-fluid py-4">
@@ -14,11 +13,9 @@
                     <p class="text-muted mb-0">ID: <%= contact.id %></p>
                 </div>
                 <div>
-                    <form method="POST" action="/admin/contacts/<%= contact.id %>/delete" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja deletar este contacto?')">
-                        <button type="submit" class="btn btn-danger">
-                            <i class="fas fa-trash me-2"></i>Deletar
-                        </button>
-                    </form>
+                    <button id="deleteContactBtn" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i>Deletar
+                    </button>
                 </div>
             </div>
         </div>
@@ -165,81 +162,80 @@
 
 <script>
 // Atualizar Status
-document.getElementById('statusForm').addEventListener('submit', async function(e) {
+document.getElementById('statusForm')?.addEventListener('submit', async function(e) {
     e.preventDefault();
-    
     const contactId = document.getElementById('statusContactId').value;
     const status = document.getElementById('contactStatus').value;
-    
     try {
         const response = await fetch(`/admin/contacts/${contactId}/status`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status })
         });
-        
         const result = await response.json();
-        
         if (result.success) {
             alert('Status atualizado com sucesso!');
             location.reload();
         } else {
-            alert('Erro ao atualizar status: ' + result.message);
+            alert('Erro: ' + (result.message || 'tente novamente'));
         }
     } catch (error) {
-        console.error('Erro:', error);
         alert('Erro ao atualizar status');
     }
 });
 
 // Salvar Notas
-document.getElementById('notesForm').addEventListener('submit', async function(e) {
+document.getElementById('notesForm')?.addEventListener('submit', async function(e) {
     e.preventDefault();
-    
     const contactId = document.getElementById('contactId').value;
     const adminNotes = document.getElementById('adminNotes').value;
-    const status = document.getElementById('contactStatus').value;
-    
     try {
         const response = await fetch(`/admin/contacts/${contactId}/status`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status, adminNotes })
+            body: JSON.stringify({ adminNotes })
         });
-        
         const result = await response.json();
-        
-        if (result.success) {
-            alert('Notas salvas com sucesso!');
-        } else {
-            alert('Erro ao salvar notas: ' + result.message);
-        }
+        if (result.success) alert('Notas salvas!');
+        else alert('Erro: ' + (result.message || 'tente novamente'));
     } catch (error) {
-        console.error('Erro:', error);
         alert('Erro ao salvar notas');
     }
 });
 
-// Toggle Read
-document.getElementById('toggleReadBtn').addEventListener('click', async function() {
+// Alternar lido/não lido
+document.getElementById('toggleReadBtn')?.addEventListener('click', async function() {
     const contactId = '<%= contact.id %>';
-    
     try {
         const response = await fetch(`/admin/contacts/${contactId}/toggle-read`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         });
-        
         const result = await response.json();
-        
-        if (result.success) {
-            location.reload();
-        } else {
-            alert('Erro ao alterar status de leitura');
-        }
+        if (result.success) location.reload();
+        else alert('Erro: ' + (result.message || 'tente novamente'));
     } catch (error) {
-        console.error('Erro:', error);
         alert('Erro ao alterar status de leitura');
+    }
+});
+
+// Deletar contacto (botão na página de detalhe)
+document.getElementById('deleteContactBtn')?.addEventListener('click', async function() {
+    const contactId = '<%= contact.id %>';
+    if (!confirm('Tem certeza que deseja deletar este contacto permanentemente?')) return;
+    try {
+        const res = await fetch(`/admin/contacts/${contactId}`, { 
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await res.json();
+        if (data.success) {
+            window.location.href = '/admin/contacts';
+        } else {
+            alert('Erro: ' + (data.message || 'Não foi possível deletar'));
+        }
+    } catch (err) {
+        alert('Erro ao deletar contacto');
     }
 });
 </script>

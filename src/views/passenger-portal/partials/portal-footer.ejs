@@ -1,367 +1,647 @@
 <footer class="portal-footer">
 
-    <!-- Wave Separator -->
-    <div class="footer-wave">
+  <!-- Wave Separator -->
+  <div class="portal-footer-wave">
       <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
-        <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
-        <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
+          <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="pf-shape"></path>
+          <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="pf-shape"></path>
+          <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="pf-shape"></path>
       </svg>
-    </div>
-  
-    <div class="container">
+  </div>
+
+  <div class="container position-relative" style="z-index:2;">
       <div class="row g-4">
-  
-        <!-- Logo e Sobre o Portal -->
-        <div class="col-lg-3 col-md-6">
-          <div class="footer-block">
-            <div class="footer-logo-section text-center text-md-start">
-              <div class="logo-container mb-3">
-                <img src="/images/iacmlogopreview.png" alt="IACM Logo" class="footer-logo-img">
+
+          <!-- COLUNA 1 — Logo + Sobre + Redes -->
+          <div class="col-lg-3 col-md-6">
+              <div class="pf-block">
+   
+
+                  <div class="pf-social mt-4">
+                      <h5 class="pf-social-title">Siga-nos</h5>
+                      <div class="pf-social-links">
+                          <a href="#" class="pf-social-link" data-tooltip="Facebook">
+                              <i class="fab fa-facebook-f"></i>
+                              <span class="pf-tooltip">Facebook</span>
+                          </a>
+                          <a href="#" class="pf-social-link" data-tooltip="Twitter">
+                              <i class="fab fa-twitter"></i>
+                              <span class="pf-tooltip">Twitter</span>
+                          </a>
+                          <a href="#" class="pf-social-link" data-tooltip="LinkedIn">
+                              <i class="fab fa-linkedin-in"></i>
+                              <span class="pf-tooltip">LinkedIn</span>
+                          </a>
+                          <a href="#" class="pf-social-link" data-tooltip="Instagram">
+                              <i class="fab fa-instagram"></i>
+                              <span class="pf-tooltip">Instagram</span>
+                          </a>
+                          <a href="#" class="pf-social-link" data-tooltip="YouTube">
+                              <i class="fab fa-youtube"></i>
+                              <span class="pf-tooltip">YouTube</span>
+                          </a>
+                      </div>
+                  </div>
               </div>
-              <div class="footer-brand">
-                <h4 class="mb-2">Portal do Passageiro</h4>
-                <p class="text-muted small">
-                  Conheça e exerça seus direitos como passageiro aéreo em Moçambique.
-                </p>
+          </div>
+
+          <!-- COLUNA 2 — Menu Portal -->
+          <div class="col-lg-2 col-md-6">
+              <div class="pf-block">
+                  <h5 class="pf-block-title">
+                      <i class="fas fa-plane-departure me-2"></i>Portal
+                  </h5>
+                  <ul class="pf-links list-unstyled">
+                      <li><a href="/portal-passageiro"><i class="fas fa-home"></i>Início</a></li>
+                      <li><a href="/portal-passageiro/direitos"><i class="fas fa-gavel"></i>Direitos</a></li>
+                      <li><a href="/portal-passageiro/faq"><i class="fas fa-question-circle"></i>FAQ</a></li>
+                      <li><a href="/portal-passageiro/simulador"><i class="fas fa-calculator"></i>Simulador</a></li>
+                      <li><a href="/portal-passageiro/reclamacoes"><i class="fas fa-exclamation-triangle"></i>Reclamações</a></li>
+                      <li><a href="/portal-passageiro/glossario"><i class="fas fa-book"></i>Glossário</a></li>
+                  </ul>
+              </div>
+          </div>
+
+          <!-- COLUNA 3 — Guias + IACM -->
+          <div class="col-lg-3 col-md-6">
+              <div class="pf-block">
+                  <h5 class="pf-block-title">
+                      <i class="fas fa-map-marked-alt me-2"></i>Guias de Viagem
+                  </h5>
+                  <ul class="pf-links list-unstyled">
+                      <li><a href="/portal-passageiro/antes-viagem"><i class="fas fa-suitcase-rolling"></i>Antes da Viagem</a></li>
+                      <li><a href="/portal-passageiro/aeroporto"><i class="fas fa-building"></i>No Aeroporto</a></li>
+                      <li><a href="/portal-passageiro/durante-voo"><i class="fas fa-plane"></i>Durante o Voo</a></li>
+                      <li><a href="/portal-passageiro/destino"><i class="fas fa-map-marker-alt"></i>No Destino</a></li>
+                  </ul>
+
+          
+                 
               </div>
             </div>
-  
-            <div class="footer-social mt-3">
-              <h6 class="mb-3">Siga-nos</h6>
-              <div class="social-links d-flex gap-2">
-                <a href="#" class="social-link" title="Facebook">
-                  <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="#" class="social-link" title="Twitter">
-                  <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="social-link" title="LinkedIn">
-                  <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="#" class="social-link" title="Instagram">
-                  <i class="fab fa-instagram"></i>
-                </a>
+          <!-- COLUNA 4 — Contactos + Emergência -->
+          <div class="col-lg-4 col-md-6">
+              <div class="pf-block">
+                  <h5 class="pf-block-title">
+                      <i class="fas fa-address-card me-2"></i>Contactos
+                  </h5>
+
+                  <ul class="pf-contact list-unstyled">
+                      <li>
+                          <div class="pf-contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                          <div class="pf-contact-info">
+                              <strong>Morada</strong>
+                              <span>Alameda do Aeroporto, Maputo Cidade</span>
+                          </div>
+                      </li>
+                      <li>
+                          <div class="pf-contact-icon"><i class="fas fa-phone"></i></div>
+                          <div class="pf-contact-info">
+                              <strong>Telefone</strong>
+                              <span>(+258) 21 468 900</span>
+                          </div>
+                      </li>
+                      <li>
+                          <div class="pf-contact-icon"><i class="fas fa-envelope"></i></div>
+                          <div class="pf-contact-info">
+                              <strong>Email</strong>
+                              <span>geral@iacm.gov.mz</span>
+                          </div>
+                      </li>
+                      <li>
+                          <div class="pf-contact-icon"><i class="fas fa-clock"></i></div>
+                          <div class="pf-contact-info">
+                              <strong>Horário</strong>
+                              <span>07:30 – 15:30 · Seg – Sex</span>
+                          </div>
+                      </li>
+                  </ul>
+
+                
               </div>
-            </div>
           </div>
-        </div>
-  
-        <!-- Menu Portal -->
-        <div class="col-lg-3 col-md-6">
-          <div class="footer-block">
-            <h5 class="footer-title">
-              <i class="fas fa-plane-departure me-2"></i>Portal do Passageiro
-            </h5>
-            <ul class="footer-links list-unstyled">
-              <li><a href="/portal-passageiro"><i class="fas fa-home me-2"></i>Início</a></li>
-              <li><a href="/portal-passageiro/direitos"><i class="fas fa-gavel me-2"></i>Direitos</a></li>
-              <li><a href="/portal-passageiro/faq"><i class="fas fa-question-circle me-2"></i>Perguntas Frequentes</a></li>
-              <li><a href="/portal-passageiro/simulador"><i class="fas fa-calculator me-2"></i>Simulador</a></li>
-              <li><a href="/portal-passageiro/reclamacoes"><i class="fas fa-exclamation-triangle me-2"></i>Reclamações</a></li>
-              <li><a href="/portal-passageiro/glossario"><i class="fas fa-book me-2"></i>Glossário</a></li>
-            </ul>
-          </div>
-        </div>
-  
-        <!-- Guias de Viagem -->
-        <div class="col-lg-3 col-md-6">
-          <div class="footer-block">
-            <h5 class="footer-title">
-              <i class="fas fa-map-marked-alt me-2"></i>Guias de Viagem
-            </h5>
-            <ul class="footer-links list-unstyled">
-              <li><a href="/portal-passageiro/antes-viagem"><i class="fas fa-clipboard-check me-2"></i>Antes da Viagem</a></li>
-              <li><a href="/portal-passageiro/aeroporto"><i class="fas fa-building me-2"></i>No Aeroporto</a></li>
-              <li><a href="/portal-passageiro/durante-voo"><i class="fas fa-plane me-2"></i>Durante o Voo</a></li>
-              <li><a href="/portal-passageiro/destino"><i class="fas fa-map-marker-alt me-2"></i>No Destino</a></li>
-            </ul>
-  
-            <div class="mt-4">
-              <h6 class="footer-title small">
-                <i class="fas fa-link me-2"></i>IACM
-              </h6>
-              <ul class="footer-links list-unstyled">
-                <li><a href="/"><i class="fas fa-arrow-left me-2"></i>Site Principal</a></li>
-                <li><a href="/sobre"><i class="fas fa-info-circle me-2"></i>Sobre o IACM</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Contactos + Urgência -->
-        <div class="col-lg-3 col-md-6">
-          <div class="footer-block">
-            <h5 class="footer-title">
-              <i class="fas fa-address-card me-2"></i>Contactos
-            </h5>
-            <ul class="footer-contact list-unstyled mb-4">
-              <li>
-                <i class="fas fa-map-marker-alt me-2"></i>
-                Alameda do Aeroporto<br>
-                <span class="ms-4">Maputo Cidade</span>
-              </li>
-              <li><i class="fas fa-phone me-2"></i>(+258) 21468900</li>
-              <li><i class="fas fa-envelope me-2"></i>geral@iacm.gov.mz</li>
-              <li><i class="fas fa-clock me-2"></i>7:30–15:30 Seg-Sex</li>
-            </ul>
-  
-            <!-- Linha de Emergência -->
-            <div class="emergency-box">
-              <div class="d-flex align-items-center mb-2">
-                <i class="fas fa-phone-volume fa-2x text-danger me-3"></i>
-                <div>
-                  <small class="d-block text-muted">Linha de Emergência</small>
-                  <strong class="d-block">1414</strong>
-                </div>
-              </div>
-              <small class="text-muted">Disponível 24/7</small>
-            </div>
-          </div>
-        </div>
-  
+
       </div>
-  
-      <!-- Footer Bottom -->
-      <div class="footer-bottom mt-5 pt-4 border-top">
-        <div class="row align-items-center">
-          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-            <p class="mb-0">
-              &copy; 2024 <strong>IACM</strong> - Autoridade de Aviação Civil de Moçambique.<br>
-              <small class="text-muted">Todos os direitos reservados.</small>
-            </p>
+
+      <!-- FOOTER BOTTOM -->
+      <div class="pf-bottom">
+          <div class="row align-items-center">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                  <p class="mb-0">
+                      &copy; 2026 <strong>IACM</strong> — Autoridade Reguladora de Aviação Civil de Moçambique.
+                      <br><small>Todos os direitos reservados.</small>
+                  </p>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                  <div class="pf-bottom-links">
+                      <a href="#">Política de Privacidade</a>
+                      <span>|</span>
+                      <a href="#">Termos de Uso</a>
+                      <span>|</span>
+                      <a href="#">Acessibilidade</a>
+                      <span>|</span>
+                      <a href="#">Mapa do Site</a>
+                  </div>
+              </div>
           </div>
-          <div class="col-md-6 text-center text-md-end">
-            <div class="footer-bottom-links">
-              <a href="#">Política de Privacidade</a>
-              <span class="separator">|</span>
-              <a href="#">Termos de Uso</a>
-              <span class="separator">|</span>
-              <a href="#">Acessibilidade</a>
-            </div>
-          </div>
-        </div>
       </div>
-  
-    </div>
-  
-    <!-- Back to Top Button -->
-    <a href="#" class="back-to-top-btn" id="backToTop">
+
+  </div>
+
+  <!-- Back to Top -->
+  <a href="#" class="pf-back-to-top" id="pfBackToTop">
       <i class="fas fa-chevron-up"></i>
-    </a>
-  
-  </footer>
-  
-  <style>
-    /* --------------------------------------------------
-       WAVE
-       -------------------------------------------------- */
-    .footer-wave {
+  </a>
+
+</footer>
+
+<style>
+  /* ================================================================
+     VARIÁVEIS — herdadas do site principal
+     ================================================================ */
+  :root {
+      --pf-deep:        #001a33;
+      --pf-dark:        #003366;
+      --pf-blue:        #0056b3;
+      --pf-gold:        #ffd700;
+      --pf-gold-dim:    #ffed4a;
+      --pf-white:       #ffffff;
+      --pf-white-70:    rgba(255,255,255,0.70);
+      --pf-white-10:    rgba(255,255,255,0.10);
+      --pf-white-05:    rgba(255,255,255,0.05);
+      --pf-gold-glow:   rgba(255,215,0,0.35);
+      --pf-transition:  all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+
+  /* ================================================================
+     FOOTER WRAPPER
+     ================================================================ */
+  .portal-footer {
+      background: linear-gradient(135deg, var(--pf-deep) 0%, #001a33 50%, #000d1a 100%);
+      color: var(--pf-white);
+      padding: 3rem 0 0;
+      position: relative;
+      overflow: hidden;
+      margin-top: 5rem;
+  }
+
+  /* Barra dourada no topo */
+  .portal-footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--pf-gold) 0%, var(--pf-gold-dim) 50%, var(--pf-gold) 100%);
+  }
+
+  /* Radial glows decorativos */
+  .portal-footer::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+          radial-gradient(circle at 15% 80%, rgba(255,215,0,0.07) 0%, transparent 45%),
+          radial-gradient(circle at 85% 20%, rgba(0,102,204,0.08) 0%, transparent 45%);
+      pointer-events: none;
+      z-index: 0;
+  }
+
+  /* ================================================================
+     WAVE
+     ================================================================ */
+  .portal-footer-wave {
       position: relative;
       width: 100%;
       overflow: hidden;
       line-height: 0;
-    }
-  
-    .footer-wave svg {
-      position: relative;
+  }
+
+  .portal-footer-wave svg {
       display: block;
       width: calc(100% + 1.3px);
       height: 80px;
-    }
-  
-    .footer-wave .shape-fill {
-      fill: #1a1a2e;
-    }
-  
-    /* --------------------------------------------------
-       FOOTER PRINCIPAL
-       -------------------------------------------------- */
-    .portal-footer {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      color: #fff;
-      padding: 3rem 0 1rem;
-      margin-top: 5rem;
-    }
-  
-    .footer-logo-img {
-      height: 80px;
+  }
+
+  .portal-footer-wave .pf-shape {
+      fill: var(--pf-deep);
+  }
+
+  /* ================================================================
+     BLOCOS
+     ================================================================ */
+  .pf-block {
+      position: relative;
+      z-index: 2;
+  }
+
+  /* ================================================================
+     LOGO + MARCA
+     ================================================================ */
+  .pf-logo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+  }
+
+  .pf-logo-img {
+      height: 70px;
       width: auto;
-      filter: brightness(0) invert(1);
-    }
-  
-    .footer-brand h4 {
-      color: #fff;
-      font-weight: 600;
-    }
-  
-    .footer-title {
-      color: #fff;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-    }
-  
-    /* --------------------------------------------------
-       LINKS
-       -------------------------------------------------- */
-    .footer-links li {
-      margin-bottom: 0.7rem;
-    }
-  
-    .footer-links a {
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      transition: all 0.3s;
-      display: inline-block;
-    }
-  
-    .footer-links a:hover {
-      color: #fff;
-      padding-left: 5px;
-    }
-  
-    .footer-links a i {
-      width: 20px;
-    }
-  
-    /* --------------------------------------------------
-       CONTACTOS
-       -------------------------------------------------- */
-    .footer-contact li {
-      color: rgba(255, 255, 255, 0.8);
-      margin-bottom: 0.8rem;
+      filter: brightness(0) invert(1) drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      transition: var(--pf-transition);
+  }
+
+  .pf-logo-img:hover {
+      filter: brightness(0) invert(1) drop-shadow(0 6px 14px rgba(255,215,0,0.4));
+      transform: scale(1.05);
+  }
+
+  .pf-brand-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--pf-gold), var(--pf-gold-dim));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.4rem;
+  }
+
+  .pf-brand-sub {
+      font-size: 0.85rem;
+      color: var(--pf-white-70);
       line-height: 1.6;
-    }
-  
-    .footer-contact i {
-      color: #ffd700;
-      width: 20px;
-    }
-  
-    /* --------------------------------------------------
-       REDES SOCIAIS
-       -------------------------------------------------- */
-    .social-link {
-      width: 40px;
-      height: 40px;
+      margin: 0;
+  }
+
+  /* ================================================================
+     REDES SOCIAIS
+     ================================================================ */
+  .pf-social-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--pf-gold);
+      margin-bottom: 0.8rem;
+      position: relative;
+      display: inline-block;
+  }
+
+  .pf-social-title::after {
+      content: '';
+      position: absolute;
+      bottom: -5px; left: 0;
+      width: 30px; height: 2px;
+      background: var(--pf-gold);
+      border-radius: 2px;
+  }
+
+  .pf-social-links {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+  }
+
+  .pf-social-link {
+      position: relative;
+      width: 42px; height: 42px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--pf-white-10);
+      border: 1px solid rgba(255,255,255,0.18);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--pf-white);
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      transition: var(--pf-transition);
+  }
+
+  .pf-social-link:hover {
+      background: var(--pf-gold);
+      color: var(--pf-dark);
+      border-color: var(--pf-gold);
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 10px 25px var(--pf-gold-glow);
+  }
+
+  .pf-tooltip {
+      position: absolute;
+      bottom: -34px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--pf-dark);
+      color: var(--pf-white);
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0; visibility: hidden;
+      transition: var(--pf-transition);
+      border: 1px solid rgba(255,255,255,0.1);
+      pointer-events: none;
+  }
+
+  .pf-social-link:hover .pf-tooltip {
+      opacity: 1;
+      visibility: visible;
+      bottom: -30px;
+  }
+
+  /* ================================================================
+     TÍTULOS DOS BLOCOS
+     ================================================================ */
+  .pf-block-title {
+      color: var(--pf-gold);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.6rem;
+      position: relative;
+      display: inline-block;
+  }
+
+  .pf-block-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 36px; height: 2.5px;
+      background: var(--pf-gold);
+      border-radius: 2px;
+      transition: var(--pf-transition);
+  }
+
+  .pf-block:hover .pf-block-title::after {
+      width: 56px;
+  }
+
+  /* ================================================================
+     LINKS
+     ================================================================ */
+  .pf-links li {
+      margin-bottom: 0.55rem;
+      transition: var(--pf-transition);
+  }
+
+  .pf-links li:hover {
+      transform: translateX(8px);
+  }
+
+  .pf-links a {
+      color: var(--pf-white-70);
+      text-decoration: none;
+      font-size: 0.88rem;
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: #fff;
+      gap: 8px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      transition: var(--pf-transition);
+  }
+
+  .pf-links a i {
+      width: 16px;
+      font-size: 0.78rem;
+      color: var(--pf-gold);
+      opacity: 0.65;
+      transition: var(--pf-transition);
+      flex-shrink: 0;
+  }
+
+  .pf-links a:hover {
+      color: var(--pf-white);
+      background: var(--pf-white-05);
+      padding-left: 10px;
+  }
+
+  .pf-links a:hover i {
+      opacity: 1;
+  }
+
+  /* ================================================================
+     CONTACTOS
+     ================================================================ */
+  .pf-contact li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 1rem;
+      padding: 8px 10px;
+      border-radius: 10px;
+      transition: var(--pf-transition);
+  }
+
+  .pf-contact li:hover {
+      background: var(--pf-white-05);
+      transform: translateX(4px);
+  }
+
+  .pf-contact-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pf-gold), var(--pf-gold-dim));
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px var(--pf-gold-glow);
+  }
+
+  .pf-contact-icon i {
+      color: var(--pf-dark);
+      font-size: 0.85rem;
+  }
+
+  .pf-contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+  }
+
+  .pf-contact-info strong {
+      font-size: 0.78rem;
+      color: var(--pf-gold);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+  }
+
+  .pf-contact-info span {
+      font-size: 0.87rem;
+      color: var(--pf-white-70);
+      line-height: 1.4;
+  }
+
+  /* ================================================================
+     LINHA DE EMERGÊNCIA
+     ================================================================ */
+  .pf-emergency {
+      background: rgba(220, 53, 69, 0.12);
+      border: 1px solid rgba(220, 53, 69, 0.35);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin-top: 0.5rem;
+      backdrop-filter: blur(8px);
+      transition: var(--pf-transition);
+  }
+
+  .pf-emergency:hover {
+      background: rgba(220, 53, 69, 0.18);
+      border-color: rgba(220, 53, 69, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(220, 53, 69, 0.2);
+  }
+
+  .pf-emergency-inner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+  }
+
+  .pf-emergency-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(220, 53, 69, 0.25);
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid rgba(220, 53, 69, 0.5);
+      flex-shrink: 0;
+  }
+
+  .pf-emergency-icon i {
+      color: #ff6b7a;
+      font-size: 1.2rem;
+  }
+
+  .pf-emergency-inner > div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+  }
+
+  .pf-emergency-inner small {
+      font-size: 0.75rem;
+      color: var(--pf-white-70);
+  }
+
+  .pf-emergency-inner strong {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--pf-white);
+      line-height: 1;
+  }
+
+  /* ================================================================
+     FOOTER BOTTOM
+     ================================================================ */
+  .pf-bottom {
+      border-top: 1px solid rgba(255,255,255,0.10);
+      padding: 1.8rem 0;
+      margin-top: 3rem;
+      position: relative;
+      z-index: 2;
+  }
+
+  .pf-bottom p {
+      font-size: 0.875rem;
+      color: var(--pf-white-70);
+      margin: 0;
+  }
+
+  .pf-bottom p strong {
+      color: var(--pf-gold);
+  }
+
+  .pf-bottom p small {
+      color: rgba(255,255,255,0.45);
+      font-size: 0.78rem;
+  }
+
+  .pf-bottom-links {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+  }
+
+  .pf-bottom-links a {
+      color: var(--pf-white-70);
       text-decoration: none;
-      transition: all 0.3s;
-    }
-  
-    .social-link:hover {
-      background: #0056b3;
-      transform: translateY(-3px);
-      color: #fff;
-    }
-  
-    /* --------------------------------------------------
-       CAIXA DE EMERGÊNCIA
-       -------------------------------------------------- */
-    .emergency-box {
-      background: rgba(220, 53, 69, 0.1);
-      border: 1px solid rgba(220, 53, 69, 0.3);
-      border-radius: 8px;
-      padding: 1rem;
-    }
-  
-    .emergency-box strong {
-      font-size: 1.5rem;
-      color: #fff;
-    }
-  
-    /* --------------------------------------------------
-       FOOTER BOTTOM
-       -------------------------------------------------- */
-    .footer-bottom {
-      color: rgba(255, 255, 255, 0.6);
-    }
-  
-    .footer-bottom-links a {
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-  
-    .footer-bottom-links a:hover {
-      color: #fff;
-    }
-  
-    .footer-bottom-links .separator {
-      margin: 0 0.5rem;
-      color: rgba(255, 255, 255, 0.3);
-    }
-  
-    /* --------------------------------------------------
-       BACK TO TOP
-       -------------------------------------------------- */
-    .back-to-top-btn {
+      transition: var(--pf-transition);
+  }
+
+  .pf-bottom-links a:hover {
+      color: var(--pf-gold);
+  }
+
+  .pf-bottom-links span {
+      color: rgba(255,255,255,0.25);
+  }
+
+  /* ================================================================
+     BACK TO TOP
+     ================================================================ */
+  .pf-back-to-top {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      background: #0056b3;
-      color: #fff;
+      bottom: 32px; right: 32px;
+      width: 50px; height: 50px;
+      background: linear-gradient(135deg, var(--pf-gold), var(--pf-gold-dim));
+      color: var(--pf-dark);
       border-radius: 50%;
       display: none;
-      align-items: center;
-      justify-content: center;
+      align-items: center; justify-content: center;
       text-decoration: none;
-      box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
-      transition: all 0.3s;
+      box-shadow: 0 6px 18px var(--pf-gold-glow);
+      transition: var(--pf-transition);
       z-index: 999;
-    }
-  
-    .back-to-top-btn:hover {
-      background: #003d82;
+      border: 2px solid transparent;
+      font-size: 1rem;
+  }
+
+  .pf-back-to-top:hover {
       transform: translateY(-5px);
-      color: #fff;
-    }
-  
-    .back-to-top-btn.show {
+      box-shadow: 0 12px 28px rgba(255,215,0,0.5);
+      border-color: var(--pf-white);
+      color: var(--pf-dark);
+  }
+
+  .pf-back-to-top.show {
       display: flex;
-    }
-  
-    /* --------------------------------------------------
-       RESPONSIVIDADE
-       -------------------------------------------------- */
-    @media (max-width: 768px) {
-      .footer-logo-section {
-        text-align: center !important;
-      }
-  
-      .social-links {
-        justify-content: center;
-      }
-    }
-  </style>
-  
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const backToTopBtn = document.getElementById('backToTop');
-  
-      if (backToTopBtn) {
-        window.addEventListener('scroll', function () {
-          if (window.pageYOffset > 300) {
-            backToTopBtn.classList.add('show');
-          } else {
-            backToTopBtn.classList.remove('show');
-          }
-        });
-  
-        backToTopBtn.addEventListener('click', function (e) {
+  }
+
+  /* ================================================================
+     RESPONSIVIDADE
+     ================================================================ */
+  @media (max-width: 992px) {
+      .pf-logo-section { align-items: center; text-align: center; }
+      .pf-social-links { justify-content: center; }
+      .pf-brand-sub    { text-align: center; }
+  }
+
+  @media (max-width: 768px) {
+      .portal-footer { padding-top: 2rem; }
+      .pf-block { text-align: center; }
+      .pf-block-title::after { left: 50%; transform: translateX(-50%); }
+      .pf-links a { justify-content: center; }
+      .pf-contact li { justify-content: center; }
+      .pf-social-links { justify-content: center; }
+      .pf-bottom-links { justify-content: center; margin-top: 0.6rem; }
+      .pf-back-to-top { bottom: 20px; right: 20px; width: 44px; height: 44px; }
+  }
+
+  @media (max-width: 576px) {
+      .pf-bottom-links { flex-direction: column; gap: 0.3rem; }
+      .pf-bottom-links span { display: none; }
+      .pf-emergency-inner strong { font-size: 1.5rem; }
+  }
+</style>
+
+<script>
+  (function () {
+      const btn = document.getElementById('pfBackToTop');
+      if (!btn) return;
+
+      window.addEventListener('scroll', function () {
+          btn.classList.toggle('show', window.pageYOffset > 300);
+      }, { passive: true });
+
+      btn.addEventListener('click', function (e) {
           e.preventDefault();
           window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      }
-    });
-  </script>
-  
+      });
+  })();
+</script>
